@@ -5,15 +5,17 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Compositional Bandit Experiment">
-    <meta name="author" content="Eric Schulz">
+    <meta name="author" content="Akshay Jagadish, Eric Schulz">
     <meta charset="utf-8">
     <title>Decision making experiment</title>
+
     <script src='https://cdn.firebase.com/js/client/1.1.1/firebase.js'></script>
     <script src="https://d3js.org/d3.v3.min.js" charset="utf-8"></script>
     <script src="https://code.jquery.com/jquery-1.11.1.min.js"></script> 
     <script src="https://code.jquery.com/ui/1.10.4/jquery-ui.min.js"></script> 
     <link href="https://code.jquery.com/ui/1.10.4/themes/ui-lightness/jquery-ui.css" rel="stylesheet" type="text/css">
     <link href="js/bootstrap.css" rel="stylesheet" type="text/css">
+
  </head>
 	 
 	<div class="container" >
@@ -21,16 +23,16 @@
 	   <!--First page contains Welcome-->   
 	   <div id="page1" style="display:block">
 	     <h3><font FACE="bookman">Decision making experiment</font></h3>
-	     <p> This study is part of a research project conducted by Eric Schulz, Nicholas Franklin, Jane Wang and Samuel Gershman. </p>
-	     <p> If you have any questions, please contact: <strong>ericschulz@fas.harvard.edu</strong></p>
+	     <p> This study is part of a research project conducted by Akshay Jagadish, Tankred Saanum, Marcel Binz, Jane Wang and Eric Schulz. </p>
+	     <p> If you have any questions, please contact: <strong>akshay.jagadish@tue.mpg.de</strong></p>
 	     <button type="button" name="button"; onclick="clickStart('page1','page2')"; >Continue</button>
 	   </div>
 
-		<!--Second page contains Concent form-->
+		<!--Second page contains Conscent form-->
 	   <div id="page2" style="display:none">
 	   		<br> 
-		   	<h4><center>Statement of Informed Consent</center></h4>
-		   	<p><center>Please consider this information carefully before deciding whether to participate in this research.</center></p>
+		   	<h4 class="center">Statement of Informed Consent</h4>
+		   	<p class="center">Please consider this information carefully before deciding whether to participate in this research.</p>
 		    <p><b>Purpose of the research:</b> To examine the way people make decisions and learn about the relationships between stimuli, actions and rewards. </p>
 		    <p><b>What you will do in this research:</b> Stimuli (images) will be presented on the computer and you will be asked to choose between different actions after which you may receive feedback to earn monetary reward. You may also be asked to fill out short questionnaires. </p>
 		    <p><b>Time required: </b> Participation will take up to 30 minutes to complete.</p>
@@ -44,7 +46,7 @@
 			<br><br>
 	    </div>
 
-	    <!--Third page contains Overview-->
+	    <!--Third page contains MTurks details-->
 		<div id="page3" style="display:none">
 		   <br>
 		   <b> Please enter your Mechanical Turk Worker ID (required for bonus payment):</b><br>
@@ -53,7 +55,7 @@
 		</div>
 
 
-		<!--Third page contains Overview-->
+		<!--Fourth page contains Overview-->
 		<div id="page4" style="display:none">
 		   <br>
 		     <p><b>Overview:</b></p>
@@ -69,7 +71,8 @@
 		   <button type="button" name="button"; onclick="clickStart('page4','page5')"; >Go to next page</button>
 		</div>
 
-	 	<!--Fourth page contains description on how so sample options-->
+
+	 	<!--Fifth page contains description on how so sample options-->
 		<div id="page5" style="display:none">
 			 <br>
 			  <p><b>Find the good options:</b></p>
@@ -83,11 +86,12 @@
 				    <li>You will be paid $0.01 for every 100 points you gained during the experiment.</li>
 				 </ul>
 			<br>
-			<img src="arms.png" width="600" ><br><br>
+			<img src="figs/arms.png" width="600" ><br><br>
 			<button type="button" name="button"; onclick="clickStart('page5','pagefeat')"; >Go to next page</button>
 		</div>
 
-				<!--Fifth page contains keyboard layout-->
+
+		<!--Feat page contains info that symbols are useful-->
 		<div id="pagefeat" style="display:none">
 			<br>
 				<p><b>Symbols can help you!</b></p>
@@ -97,13 +101,13 @@
 					    <li>There might be different symbols for different rounds. Please pay attention and try to figure out what the symbols might indicate.</li>
 					</ul>
 				<br>
-				<img src="symbols.png" width="600" ><br><br>
+				<img src="figs/symbols.png" width="600" ><br><br>
 				<button type="button" name="button"; onclick="clickStart('pagefeat','page6')"; >Go to next page</button>  
 			<br>
 		</div>
 
 
-		<!--Fifth page contains keyboard layout-->
+		<!--Sixth page contains keyboard layout-->
 		<div id="page6" style="display:none">
 			<br>
 				<p><b>Keyboard finger position:</b></p>
@@ -113,12 +117,12 @@
 					    <li>Please use your left index finger to select <b>F</b>, and your right index finger to select <b>J</b>, and so forth.</li>
 					</ul>
 				<br>
-				<img src="fingerposition.png" width="600" ><br><br>
+				<img src="figs/fingerposition.png" width="600" ><br><br>
 				<button type="button" name="button"; onclick="clickStart('page6','page7')"; >Go to next page</button>  
 			<br>
 		</div>
 
-		<!--Sixth page contains comprehension check-->
+		<!--Seventh page contains comprehension check-->
 		<div id="page7" style="display:none">
 		    <fieldset>
 			    <legend>Please answer a few questions about this study before proceeding</legend>
@@ -138,13 +142,13 @@
 			    </fieldset>
 			    <fieldset style="float:left;width:400px;margin:5px">
 			         What are the different symbols for?<br>
-			        <input type="radio" name="q3"               >  
+			        <input type="radio" name="q3">  
 			         Nothing.<br>
-			        <input type="radio" name="q3"               > 
+			        <input type="radio" name="q3"> 
 			         They mark particularly good rounds.<br>
-			        <input type="radio" name="q3" id="icheck3"                > 
+			        <input type="radio" name="q3" id="icheck3"> 
 			         They can help you to perform better on a round.<br>
-			        <input type="radio" name="q3" > 
+			        <input type="radio" name="q3"> 
 			         They mark how well you did on the previous round.<br>
 			    </fieldset>
 		    </fieldset>
@@ -153,7 +157,7 @@
 		    <button type="button" name="button"; onclick="instructioncheck()"; >Check answers</button>  
 		</div>
 
-		<!--Seventh page contains task-->
+		<!--Eighth page contains task-->
 		<div id="page8" style="display:none">
 			<h1> <font size="4">Please choose an option to gain points.</font> </h1>
 			<div id="explainshow" style="display:block">
@@ -186,7 +190,7 @@
 			</center>   
 		</div>
 
-	   	<!--Eighth page contains demographics-->
+	   	<!--Ninth page contains demographics-->
 		<div id="page9" style="display:none">
 			<h1> <font size="4">Please tell us something about yourself.</font> </h1>
 			<fieldset>
@@ -212,7 +216,7 @@
 			</div>
 		</div>
 
-		<!--Ninth page contains results and code word-->
+		<!--Tenth page contains results and code word-->
 		<div id="page10" style="display:none">
 		   <h1><font size="4">Your performance and reward</font></h1>
 		   <div id="result"></div><br>

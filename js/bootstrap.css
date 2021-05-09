@@ -5646,6 +5646,9 @@ button.close {
 .modal-footer:after {
   clear: both;
 }
+.center { text-align: center;
+
+}
 .center-block {
   display: block;
   margin-right: auto;
