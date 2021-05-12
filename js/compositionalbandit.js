@@ -10,8 +10,8 @@
 
 //data storage ref
 var myDataRef = new Firebase('https://exampleoffirebase.firebaseio.com/'),
-    ntrials = 10,//number of trials
-    nblocks=30,//number of blocks
+    ntrials=10,//number of trials
+    nblocks=60,//number of blocks
     trial=0,//trial counter
     block=0,//block counter
     out=0,//outcome
@@ -30,121 +30,87 @@ var myDataRef = new Firebase('https://exampleoffirebase.firebaseio.com/'),
     x=[],//underlying position
     y=[],//underlying outcome
     timeInMs=0,//reaction time
-    cond=permute(['curriculum', 'linonly', 'peronly', 'compositional', 'fixed'])[0];
+    cond=permute(['loocompositional'])[0];// 'loocompositional','noncompositional'])[0];
+    linstruc = ['pos','neg']
+    perstruc = ['even','uneven']
+    compositionalstruc = ['poseven','posuneven', 'negeven', 'neguneven']
+    
 
 var condition=[];
-if (cond=='curriculum')
-{ 
-  for (i = 0; i < 9; i++) 
-  { 
-    condition=condition.concat(permute(['pos','neg'])[0]);
-    condition=condition.concat(permute(['even','uneven'])[0]);
-    condition=condition.concat(permute(['poseven','posuneven', 'negeven', 'neguneven'])[0]);    
-  }
-}
-if (cond=='linonly')
-{ 
-  for (i = 0; i < 9; i++) 
-  { 
-    condition=condition.concat(permute(['pos','neg'])[0]);
-    condition=condition.concat(permute(['pos','neg'])[0]);
-    condition=condition.concat(permute(['poseven','posuneven', 'negeven', 'neguneven'])[0]);    
-  }
-}
-if (cond=='peronly')
-{ 
-  for (i = 0; i < 9; i++) 
-  { 
-    condition=condition.concat(permute(['even','uneven'])[0]);
-    condition=condition.concat(permute(['even','uneven'])[0]);
-    condition=condition.concat(permute(['poseven','posuneven', 'negeven', 'neguneven'])[0]);    
-  }
-}
 if (cond=='compositional')
 { 
-  for (i = 0; i < 9; i++) 
+  var nrounds=nblocks/3
+  for (i = 0; i < nrounds; i++) 
   { 
-    condition=condition.concat(permute(['poseven','posuneven', 'negeven', 'neguneven'])[0]);
-    condition=condition.concat(permute(['poseven','posuneven', 'negeven', 'neguneven'])[0]);
-    condition=condition.concat(permute(['poseven','posuneven', 'negeven', 'neguneven'])[0]);    
+    var lin = permute(linstruc)[0];
+    var per = permute(perstruc)[0];
+    condition = makeCompositionBlocks(condition, lin, per)  
   }
 }
-if (cond=='fixed')
-{ 
-  var linstruc=permute(['pos','neg'])[0];
-  var perstruc=permute(['even','uneven'])[0];
-  for (i = 0; i < 9; i++) 
+if (cond=='noncompositional')
+{ var nrounds=blocks
+  for (i = 0; i < nrounds; i++) 
   { 
-    condition=condition.concat(permute([linstruc, perstruc]));
-    condition=condition.concat(permute(['poseven','posuneven', 'negeven', 'neguneven'])[0]);    
+    condition = condition.concat(permute(compositionalstruc)[0]);
+    // condition=condition.concat(permute(compositionalstruc)[0]);
+    // condition=condition.concat(permute(compositionalstruc)[0]);    
   }
+}
+if (cond=='loocompositional')
+{ var nreps=5
+  for (j=0; j<2; j++)
+  {
+    var lin = linstruc[j];
+    for (k=0; k<2; k++)
+      { 
+      for (i = 0; i < nreps; i++) 
+      { 
+        var per = perstruc[k];
+        condition = makeCompositionBlocks(condition, lin, per) 
+      }
+    }    
+  }
+  var loo_condition = condition.slice(nreps*3*3, condition.length)
+  condition = condition.slice(0, nreps*3*3)// randomize the order of 15 combinations
+  condition = condition.concat(loo_condition.slice(0, 2))
 }
 
+//////// Generate blocks
+function makeCompositionBlocks(condition, lin, per)
+{ 
+  linper=lin+per
+  condition=condition.concat(lin);
+  condition=condition.concat(per);
+  condition=condition.concat(linper); 
+  return condition
+}
 
 var features;
 var featureorder=Math.floor(Math.random() * 2);
 
-if (cond=='curriculum')
-{
-	if (featureorder==0)
-	{
-	  features=['square','triangle', 'both', 'square','triangle', 'both','square','triangle','both',
-	  			'square','triangle', 'both', 'square','triangle', 'both','square','triangle','both',
-	  			'square','triangle', 'both', 'square','triangle', 'both','square','triangle','both',
-	  			'square','triangle', 'both'];
-	}
-
-	if (featureorder==1)
-	{
-	  features=['triangle','square', 'both', 'triangle','square', 'both','triangle','square','both',
-	  			'triangle','square', 'both', 'triangle','square', 'both','triangle','square','both',
-	  			'triangle','square', 'both', 'triangle','square', 'both','triangle','square','both',
-	  			'triangle','square', 'both'];
-	}
-}
-
-if (cond=='linonly')
-{
-	if (featureorder==0)
-	{
-	  features=['square','square', 'both', 'square','square', 'both','square','square','both',
-	  			'square','square', 'both', 'square','square', 'both','square','square','both',
-	  			'square','square', 'both', 'square','square', 'both','square','square','both',
-	  			'square','square', 'both'];
-	}
-
-	if (featureorder==1)
-	{
-	  features=['triangle','triangle', 'both', 'triangle','triangle', 'both','triangle','triangle','both',
-	  			'triangle','triangle', 'both', 'triangle','triangle', 'both','triangle','triangle','both',
-	  			'triangle','triangle', 'both', 'triangle','triangle', 'both','triangle','triangle','both',
-	  			'triangle','triangle', 'both'];
-	}
-}
-
-if (cond=='peronly')
-{
-	if (featureorder==0)
-	{
-	  features=['square','square', 'both', 'square','square', 'both','square','square','both',
-	  			'square','square', 'both', 'square','square', 'both','square','square','both',
-	  			'square','square', 'both', 'square','square', 'both','square','square','both',
-	  			'square','square', 'both'];
-	}
-
-	if (featureorder==1)
-	{
-	  features=['triangle','triangle', 'both', 'triangle','triangle', 'both','triangle','triangle','both',
-	  			'triangle','triangle', 'both', 'triangle','triangle', 'both','triangle','triangle','both',
-	  			'triangle','triangle', 'both', 'triangle','triangle', 'both','triangle','triangle','both',
-	  			'triangle','triangle', 'both'];
-	}
-}
-
 if (cond=='compositional')
 {
 	if (featureorder==0)
 	{
+	  features=['square','triangle', 'both', 'square','triangle', 'both','square','triangle','both',
+	  			'square','triangle', 'both', 'square','triangle', 'both','square','triangle','both',
+	  			'square','triangle', 'both', 'square','triangle', 'both','square','triangle','both',
+	  			'square','triangle', 'both'];
+	}
+
+	if (featureorder==1)
+	{
+	  features=['triangle','square', 'both', 'triangle','square', 'both','triangle','square','both',
+	  			'triangle','square', 'both', 'triangle','square', 'both','triangle','square','both',
+	  			'triangle','square', 'both', 'triangle','square', 'both','triangle','square','both',
+	  			'triangle','square', 'both'];
+	}
+}
+
+if (cond=='noncompositional')
+{
+	if (featureorder==0)
+	{
 	  features=['both','both', 'both', 'both','both', 'both','both','both','both',
 	  			'both','both', 'both', 'both','both', 'both','both','both','both',
 	  			'both','both', 'both', 'both','both', 'both','both','both','both',
@@ -159,7 +125,8 @@ if (cond=='compositional')
 	  			'both','both', 'both'];
 	}
 }
-if (cond=='fixed')
+
+if (cond=='loocompositional')
 {
 	if (featureorder==0)
 	{
@@ -177,7 +144,6 @@ if (cond=='fixed')
 	  			'triangle','square', 'both'];
 	}
 }
-
 
 var gpn=[];
 
@@ -333,7 +299,9 @@ function gettingstarted()
 }
 
 function instructioncheck()
-{
+{   
+    //begintrial();
+    //clickStart('page7', 'page8');
     //check if correct answers are provided
     if (document.getElementById('icheck1').checked) {var ch1=1}
     if (document.getElementById('icheck2').checked) {var  ch2 = 1}
@@ -541,7 +509,10 @@ function nexttrial()
   else if (trial+1==ntrials & block+1<nblocks)
   {
     //tell them that this block is over
-    alert("Round " +(block+1)+" out of 30 is over. Please press return to continue with the next round.")
+    if ((block+1)%3==0)
+      {
+        alert("Round " +(block+1)/3+" out of "+nblocks/3+" is over. Please press return to continue with the next round.")
+      }
     //start next block
     nextblock();
   }else
