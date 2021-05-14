@@ -10,8 +10,9 @@
 
 //data storage ref
 var myDataRef = new Firebase('https://exampleoffirebase.firebaseio.com/'),
-  ntrials = 1,//number of trials
+  ntrials = 6,//number of trials
   nblocks = 60,//number of blocks
+  narms = 6, // number of arms
   trial = 0,//trial counter
   block = 0,//block counter
   out = 0,//outcome
@@ -126,8 +127,14 @@ if (cond == 'fixed') {
   gpn = gpn1;
 }
 
-
-
+function load_rewards(fdata){
+  for (i = 0; i < narms; i++) {
+    //x positions
+    x[i] = fdata[i].x;
+    //y outcomes
+    y[i] = fdata[i].y;
+}
+}
 
 
 var letter = '<input type="image" src="letters/',//the letter
@@ -136,26 +143,19 @@ var letter = '<input type="image" src="letters/',//the letter
   jsonstring = "envs/" + condition[block] + gpn[block] + ".json";//get the string of uploaded json
 
 var jqxhr = $.getJSON(jsonstring, function (data) {
-  fdata = data;//data
-  for (i = 0; i < 8; i++) {
-    //x positions
-    x[i] = fdata[i].x;
-    //y outcomes
-    y[i] = fdata[i].y;
-  }
-});
+  load_rewards(data)});
 //borders for selections
-var borders = ['border="1">', 'border="1">', 'border="1">', 'border="1">', 'border="1">', 'border="1">', 'border="1">', 'border="1">'];
+var borders = ['border="1">', 'border="1">', 'border="1">', 'border="1">', 'border="1">', 'border="1">'];//, 'border="1">', 'border="1">'];
 
 //leter boxes and their borders
-var b1 = letter + 'A' + pspecs + borders[0],
-  b2 = letter + 'S' + pspecs + borders[1],
-  b3 = letter + 'D' + pspecs + borders[2],
-  b4 = letter + 'F' + pspecs + borders[3],
-  b5 = letter + 'J' + pspecs + borders[4],
-  b6 = letter + 'K' + pspecs + borders[5],
-  b7 = letter + 'L' + pspecs + borders[6],
-  b8 = letter + ';' + pspecs + borders[7];
+//var b1 = letter + 'A' + pspecs + borders[0],
+var b2 = letter + 'S' + pspecs + borders[0],
+  b3 = letter + 'D' + pspecs + borders[1],
+  b4 = letter + 'F' + pspecs + borders[2],
+  b5 = letter + 'J' + pspecs + borders[3],
+  b6 = letter + 'K' + pspecs + borders[4],
+  b7 = letter + 'L' + pspecs + borders[5];
+  //b8 = letter + ';' + pspecs + borders[7];
 
 //generating lists to collect the outcomes
 for (var i = 0; i < nblocks; i++) {
@@ -283,70 +283,70 @@ function begintrial() {
   //get the pressed key
   $(document).keypress(function (e) {
     //if the key equals A
-    if (e.which == 97 & returnpressed == 0) {
-      //indicate that something has been pressed          
-      returnpressed = 1;
-      //get the time that has passed
-      timeInMs = Date.now() - timeInMs;
-      //call the function for that position
-      myfunc(0);
-    }
+    // if (e.which == 97 & returnpressed == 0) {
+    //   //indicate that something has been pressed          
+    //   returnpressed = 1;
+    //   //get the time that has passed
+    //   timeInMs = Date.now() - timeInMs;
+    //   //call the function for that position
+    //   myfunc(0);
+    // }
     //same spiel if key equals S      
     if (e.which == 115 & returnpressed == 0) {
       returnpressed = 1;
       timeInMs = Date.now() - timeInMs;
-      myfunc(1);
+      myfunc(0);
     }
     //same spiel if key equals D      
     if (e.which == 100 & returnpressed == 0) {
       returnpressed = 1;
       timeInMs = Date.now() - timeInMs;
-      myfunc(2);
+      myfunc(1);
     }
     //same spiel if key equals F       
     if (e.which == 102 & returnpressed == 0) {
       returnpressed = 1;
       timeInMs = Date.now() - timeInMs;
-      myfunc(3);
+      myfunc(2);
     }
     //same spiel if key equals J
     if (e.which == 106 & returnpressed == 0) {
       returnpressed = 1;
       timeInMs = Date.now() - timeInMs;
-      myfunc(4);
+      myfunc(3);
     }
     //same spiel if key equals K      
     if (e.which == 107 & returnpressed == 0) {
       returnpressed = 1;
       timeInMs = Date.now() - timeInMs;
-      myfunc(5);
+      myfunc(4);
     }
     //same spiel if key equals L      
     if (e.which == 108 & returnpressed == 0) {
       returnpressed = 1;
       timeInMs = Date.now() - timeInMs;
-      myfunc(6);
+      myfunc(5);
     }
-    //same spiel if key equals ;
-    if (e.which == 59 & returnpressed == 0) {
-      returnpressed = 1;
-      timeInMs = Date.now() - timeInMs;
-      myfunc(7);
-    }
+    // //same spiel if key equals ;
+    // if (e.which == 59 & returnpressed == 0) {
+    //   returnpressed = 1;
+    //   timeInMs = Date.now() - timeInMs;
+    //   myfunc(7);
+    // }
   }
   );
 }
 
 //function to draw the letter boxes into the HTML
 function drawletters() {
-  change('arm1', b1);
+  // change('arm1', b1);
   change('arm2', b2);
   change('arm3', b3);
   change('arm4', b4);
   change('arm5', b5);
   change('arm6', b6);
   change('arm7', b7);
-  change('arm8', b8);
+  //change('arm8', b8);
 }
 
 //do this once at start
@@ -368,9 +368,10 @@ drawfeature();
 //funmction that exectutes the bandit
 function myfunc(inp) {
   //loop through all possible locations
-  for (i = 0; i < 8; i++) {
+  for (i = 0; i < narms; i++) {
     //if the chosen location matches possible location
     if (inp == i) {
+      console.log(inp)
       //return output for that location plus normally distributed noise
       out = y[i] + myNorm() * 0.3;
       //collect corresponding location, it's only important for R to JS differences
@@ -384,14 +385,14 @@ function myfunc(inp) {
   //mark the selected option
   borders[inp] = 'border="4">';
   //update letter boxes
-  b1 = letter + 'A' + pspecs + borders[0];
-  b2 = letter + 'S' + pspecs + borders[1];
-  b3 = letter + 'D' + pspecs + borders[2];
-  b4 = letter + 'F' + pspecs + borders[3];
-  b5 = letter + 'J' + pspecs + borders[4];
-  b6 = letter + 'K' + pspecs + borders[5];
-  b7 = letter + 'L' + pspecs + borders[6];
-  b8 = letter + ';' + pspecs + borders[7];
+  //b1 = letter + 'A' + pspecs + borders[0];
+  b2 = letter + 'S' + pspecs + borders[0];
+  b3 = letter + 'D' + pspecs + borders[1];
+  b4 = letter + 'F' + pspecs + borders[2];
+  b5 = letter + 'J' + pspecs + borders[3];
+  b6 = letter + 'K' + pspecs + borders[4];
+  b7 = letter + 'L' + pspecs + borders[5];
+  //b8 = letter + ';' + pspecs + borders[7];
   //draw the option with their letters, now the chosen one has a thicker frame
   drawletters();
   //show rounded value
@@ -409,14 +410,14 @@ function nexttrial() {
     //set the borders back to normal
     borders = ['border="1">', 'border="1">', 'border="1">', 'border="1">', 'border="1">', 'border="1">', 'border="1">', 'border="1">'];
     //change the letters again
-    b1 = letter + 'A' + pspecs + borders[0];
-    b2 = letter + 'S' + pspecs + borders[1];
-    b3 = letter + 'D' + pspecs + borders[2];
-    b4 = letter + 'F' + pspecs + borders[3];
-    b5 = letter + 'J' + pspecs + borders[4];
-    b6 = letter + 'K' + pspecs + borders[5];
-    b7 = letter + 'L' + pspecs + borders[6];
-    b8 = letter + ';' + pspecs + borders[7];
+    //b1 = letter + 'A' + pspecs + borders[0];
+    b2 = letter + 'S' + pspecs + borders[0];
+    b3 = letter + 'D' + pspecs + borders[1];
+    b4 = letter + 'F' + pspecs + borders[2];
+    b5 = letter + 'J' + pspecs + borders[3];
+    b6 = letter + 'K' + pspecs + borders[4];
+    b7 = letter + 'L' + pspecs + borders[5];
+    //b8 = letter + ';' + pspecs + borders[7];
     //draw options and their letters
     drawletters();
     //begin new trial
@@ -460,14 +461,14 @@ function nextblock() {
   //borders back to normal
   borders = ['border="1">', 'border="1">', 'border="1">', 'border="1">', 'border="1">', 'border="1">', 'border="1">', 'border="1">'];
   //new letters and boxes
-  b1 = letter + 'A' + pspecs + borders[0];
-  b2 = letter + 'S' + pspecs + borders[1];
-  b3 = letter + 'D' + pspecs + borders[2];
-  b4 = letter + 'F' + pspecs + borders[3];
-  b5 = letter + 'J' + pspecs + borders[4];
-  b6 = letter + 'K' + pspecs + borders[5];
-  b7 = letter + 'L' + pspecs + borders[6];
-  b8 = letter + ';' + pspecs + borders[7];
+  // b1 = letter + 'A' + pspecs + borders[0];
+  b2 = letter + 'S' + pspecs + borders[0];
+  b3 = letter + 'D' + pspecs + borders[1];
+  b4 = letter + 'F' + pspecs + borders[2];
+  b5 = letter + 'J' + pspecs + borders[3];
+  b6 = letter + 'K' + pspecs + borders[4];
+  b7 = letter + 'L' + pspecs + borders[5];
+  //b8 = letter + ';' + pspecs + borders[7];
   //draw options
   drawletters();
   //begin a new trial
@@ -479,14 +480,7 @@ function nextblock() {
   trial = 0;
   //get json of that environment
   jsonstring = "envs/" + condition[block] + gpn[block] + ".json";
-  jqxhr = $.getJSON(jsonstring, function (data) {
-    //load new function
-    fdata = data;
-    for (i = 0; i < 8; i++) {
-      x[i] = fdata[i].x;
-      y[i] = fdata[i].y;
-    }
-  });
+  jqxhr = $.getJSON(jsonstring, function (data) {load_rewards(data)});
   //total score back to 0
   totalscore = 0;
   //insert total score
