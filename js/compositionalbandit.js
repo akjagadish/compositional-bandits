@@ -10,7 +10,7 @@
 
 //data storage ref
 var myDataRef = new Firebase('https://exampleoffirebase.firebaseio.com/'),
-  ntrials = 10,//number of trials
+  ntrials = 1,//number of trials
   nblocks = 60,//number of blocks
   trial = 0,//trial counter
   block = 0,//block counter
@@ -30,7 +30,7 @@ var myDataRef = new Firebase('https://exampleoffirebase.firebaseio.com/'),
   x = [],//underlying position
   y = [],//underlying outcome
   timeInMs = 0,//reaction time
-  cond = permute(['loocompositional'])[0];// 'loocompositional','noncompositional'])[0];
+  cond = permute(['compositional'])[0];// 'compositional','noncompositional'])[0];
   linstruc = ['pos', 'neg']
   perstruc = ['even', 'uneven']
   compositionalstruc = ['poseven', 'posuneven', 'negeven', 'neguneven']
@@ -46,16 +46,18 @@ if (cond == 'compositional') {
   }
 }
 if (cond == 'noncompositional') {
-  var nrounds = blocks
+  var nrounds = nblocks / 3
   for (i = 0; i < nrounds; i++) {
     condition = condition.concat(permute(compositionalstruc)[0]);
-    // condition=condition.concat(permute(compositionalstruc)[0]);
-    // condition=condition.concat(permute(compositionalstruc)[0]);    
+    condition=condition.concat(permute(compositionalstruc)[0]);
+    condition=condition.concat(permute(compositionalstruc)[0]);    
   }
 }
 if (cond == 'loocompositional') {
   const nreps = 5
-  const loo = nfuns - 1
+  const neval = 2 
+  const ntrain = nreps * (nfuns - 1) 
+  var nrounds = ntrain + neval
   for (j = 0; j < linstruc.length; j++) {
     var lin = linstruc[j];
     for (k = 0; k < perstruc.length; k++) {
@@ -65,14 +67,14 @@ if (cond == 'loocompositional') {
       }
     }
   }
-  var loo_condition = condition.slice(nreps * loo * 3, condition.length)
-  condition = condition.slice(0, nreps * loo * 3)// randomize the order of 15 combinations
-  condition = condition.concat(loo_condition.slice(0, 2))
+  var loo_condition = condition.slice(ntrain*3, condition.length)
+  condition = condition.slice(0, ntrain)// randomize the order of 15 combinations
+  condition = condition.concat(loo_condition.slice(0, neval*3))
 }
 
 //////// Generate blocks
 function makeCompositionBlocks(condition, lin, per) {
-  linper = lin + per
+  var linper = lin + per
   condition = condition.concat(lin);
   condition = condition.concat(per);
   condition = condition.concat(linper);
@@ -82,53 +84,29 @@ function makeCompositionBlocks(condition, lin, per) {
 var features;
 var featureorder = Math.floor(Math.random() * 2);
 
-if (cond == 'compositional') {
+if (cond == 'compositional' || cond == 'loocompositional') {
   if (featureorder == 0) {
-    features = ['square', 'triangle', 'both', 'square', 'triangle', 'both', 'square', 'triangle', 'both',
-      'square', 'triangle', 'both', 'square', 'triangle', 'both', 'square', 'triangle', 'both',
-      'square', 'triangle', 'both', 'square', 'triangle', 'both', 'square', 'triangle', 'both',
-      'square', 'triangle', 'both'];
+    round_features = ['square', 'triangle', 'both'] 
   }
-
   if (featureorder == 1) {
-    features = ['triangle', 'square', 'both', 'triangle', 'square', 'both', 'triangle', 'square', 'both',
-      'triangle', 'square', 'both', 'triangle', 'square', 'both', 'triangle', 'square', 'both',
-      'triangle', 'square', 'both', 'triangle', 'square', 'both', 'triangle', 'square', 'both',
-      'triangle', 'square', 'both'];
+    round_features = ['triangle', 'square', 'both'] 
   }
 }
 
 if (cond == 'noncompositional') {
-  if (featureorder == 0) {
-    features = ['both', 'both', 'both', 'both', 'both', 'both', 'both', 'both', 'both',
-      'both', 'both', 'both', 'both', 'both', 'both', 'both', 'both', 'both',
-      'both', 'both', 'both', 'both', 'both', 'both', 'both', 'both', 'both',
-      'both', 'both', 'both'];
-  }
-
-  if (featureorder == 1) {
-    features = ['both', 'both', 'both', 'both', 'both', 'both', 'both', 'both', 'both',
-      'both', 'both', 'both', 'both', 'both', 'both', 'both', 'both', 'both',
-      'both', 'both', 'both', 'both', 'both', 'both', 'both', 'both', 'both',
-      'both', 'both', 'both'];
-  }
+    round_features = ['both', 'both', 'both'];
 }
 
-if (cond == 'loocompositional') {
-  if (featureorder == 0) {
-    features = ['square', 'triangle', 'both', 'square', 'triangle', 'both', 'square', 'triangle', 'both',
-      'square', 'triangle', 'both', 'square', 'triangle', 'both', 'square', 'triangle', 'both',
-      'square', 'triangle', 'both', 'square', 'triangle', 'both', 'square', 'triangle', 'both',
-      'square', 'triangle', 'both'];
-  }
+// if (cond == 'loocompositional') {
+//   if (featureorder == 0) {
+//     round_features = ['square', 'triangle', 'both'];
+//   }
 
-  if (featureorder == 1) {
-    features = ['triangle', 'square', 'both', 'triangle', 'square', 'both', 'triangle', 'square', 'both',
-      'triangle', 'square', 'both', 'triangle', 'square', 'both', 'triangle', 'square', 'both',
-      'triangle', 'square', 'both', 'triangle', 'square', 'both', 'triangle', 'square', 'both',
-      'triangle', 'square', 'both'];
-  }
-}
+//   if (featureorder == 1) {
+//     round_features = ['triangle', 'square', 'both'];
+//   }
+// }
+features = Array(nrounds).fill(round_features)
 
 var gpn = [];
 
@@ -269,8 +247,8 @@ function gettingstarted() {
 }
 
 function instructioncheck() {
-  //begintrial();
-  //clickStart('page7', 'page8');
+  // begintrial();
+  // clickStart('page7', 'page8');
   //check if correct answers are provided
   if (document.getElementById('icheck1').checked) { var ch1 = 1 }
   if (document.getElementById('icheck2').checked) { var ch2 = 1 }
@@ -376,9 +354,10 @@ drawletters();
 
 
 function drawfeature() {
-  if (features[block] == 'both') { var spec = '.png"  width="240" height="120"' };
-  if (features[block] != 'both') { var spec = '.png"  width="120" height="120"' };
-  var f = letter + features[block] + spec + borders[0];
+  var round = Math.floor((block+1)/3)
+  if (features[round][block % 3] == 'both') { var spec = '.png"  width="240" height="120"' };
+  if (features[round][block % 3] != 'both') { var spec = '.png"  width="120" height="120"' };
+  var f = letter + features[round][block % 3] + spec + borders[0];
   change('feature', f);
 }
 
