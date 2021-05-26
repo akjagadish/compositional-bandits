@@ -9,9 +9,9 @@
 ////////////////////////////////////////////////////////////////////////
 
 //data storage ref
-var myDataRef = new Firebase('https://exampleoffirebase.firebaseio.com/'),
-  ntrials = 6,//number of trials
-  nblocks = 60,//number of blocks
+var myDataRef = [], //new Firebase('https://exampleoffirebase.firebaseio.com/'),
+  ntrials = 2,//number of trials
+  nblocks = 3,//number of blocks
   narms = 6, // number of arms
   trial = 0,//trial counter
   block = 0,//block counter
@@ -282,59 +282,58 @@ function begintrial() {
   timeInMs = Date.now()
   //get the pressed key
   $(document).keypress(function (e) {
-    //if the key equals A
-    // if (e.which == 97 & returnpressed == 0) {
-    //   //indicate that something has been pressed          
-    //   returnpressed = 1;
-    //   //get the time that has passed
-    //   timeInMs = Date.now() - timeInMs;
-    //   //call the function for that position
-    //   myfunc(0);
-    // }
-    //same spiel if key equals S      
-    if (e.which == 115 & returnpressed == 0) {
-      returnpressed = 1;
-      timeInMs = Date.now() - timeInMs;
-      myfunc(0);
-    }
-    //same spiel if key equals D      
-    if (e.which == 100 & returnpressed == 0) {
-      returnpressed = 1;
-      timeInMs = Date.now() - timeInMs;
-      myfunc(1);
-    }
-    //same spiel if key equals F       
-    if (e.which == 102 & returnpressed == 0) {
-      returnpressed = 1;
-      timeInMs = Date.now() - timeInMs;
-      myfunc(2);
-    }
-    //same spiel if key equals J
-    if (e.which == 106 & returnpressed == 0) {
-      returnpressed = 1;
-      timeInMs = Date.now() - timeInMs;
-      myfunc(3);
-    }
-    //same spiel if key equals K      
-    if (e.which == 107 & returnpressed == 0) {
-      returnpressed = 1;
-      timeInMs = Date.now() - timeInMs;
-      myfunc(4);
-    }
-    //same spiel if key equals L      
-    if (e.which == 108 & returnpressed == 0) {
-      returnpressed = 1;
-      timeInMs = Date.now() - timeInMs;
-      myfunc(5);
-    }
-    // //same spiel if key equals ;
-    // if (e.which == 59 & returnpressed == 0) {
-    //   returnpressed = 1;
-    //   timeInMs = Date.now() - timeInMs;
-    //   myfunc(7);
-    // }
+  //if the key equals A
+  // if (e.which == 97 & returnpressed == 0) {
+  //   //indicate that something has been pressed          
+  //   returnpressed = 1;
+  //   //get the time that has passed
+  //   timeInMs = Date.now() - timeInMs;
+  //   //call the function for that position
+  //   myfunc(0);
+  // }
+  //same spiel if key equals S      
+  if (e.which == 115 & returnpressed == 0) {
+    returnpressed = 1;
+    timeInMs = Date.now() - timeInMs;
+    myfunc(0);
   }
-  );
+  //same spiel if key equals D      
+  if (e.which == 100 & returnpressed == 0) {
+    returnpressed = 1;
+    timeInMs = Date.now() - timeInMs;
+    myfunc(1);
+  }
+  //same spiel if key equals F       
+  if (e.which == 102 & returnpressed == 0) {
+    returnpressed = 1;
+    timeInMs = Date.now() - timeInMs;
+    myfunc(2);
+  }
+  //same spiel if key equals J
+  if (e.which == 106 & returnpressed == 0) {
+    returnpressed = 1;
+    timeInMs = Date.now() - timeInMs;
+    myfunc(3);
+  }
+  //same spiel if key equals K      
+  if (e.which == 107 & returnpressed == 0) {
+    returnpressed = 1;
+    timeInMs = Date.now() - timeInMs;
+    myfunc(4);
+  }
+  //same spiel if key equals L      
+  if (e.which == 108 & returnpressed == 0) {
+    returnpressed = 1;
+    timeInMs = Date.now() - timeInMs;
+    myfunc(5);
+  }
+  // //same spiel if key equals ;
+  // if (e.which == 59 & returnpressed == 0) {
+  //   returnpressed = 1;
+  //   timeInMs = Date.now() - timeInMs;
+  //   myfunc(7);
+  // }
+} ); 
 }
 
 //function to draw the letter boxes into the HTML
@@ -354,8 +353,9 @@ drawletters();
 
 
 function drawfeature() {
-  var round = Math.floor((block+1)/3)
+  var round = Math.floor((block)/3)
   if (features[round][block % 3] == 'both') { var spec = '.png"  width="240" height="120"' };
+  console.log(features[round][block % 3])
   if (features[round][block % 3] != 'both') { var spec = '.png"  width="120" height="120"' };
   var f = letter + features[round][block % 3] + spec + borders[0];
   change('feature', f);
@@ -373,7 +373,7 @@ function myfunc(inp) {
     if (inp == i) {
       console.log(inp)
       //return output for that location plus normally distributed noise
-      out = y[i] + myNorm() * 0.3;
+      out = y[i] + myNorm() * 0.1;
       //collect corresponding location, it's only important for R to JS differences
       xcollect[block][trial] = x[i];
     }
@@ -515,6 +515,11 @@ function setrecontact(x) {
   return (recontact)
 }
 
+function saveData(filedata){
+  var filename = "./data/" + turkid + ".json"; //subjectID + "data_3" + "_attention" + attention + ".txt";
+  $.post("save_data.php", {postresult: filedata + "\n", postfile: filename })
+}
+
 function mysubmit() {
   //add final numcollect
   numcollect = numcollect.concat(gpn);
@@ -531,11 +536,12 @@ function mysubmit() {
   change('money', presentmoney);
   var experiment = "compbandits1";
   //save all created values
-  myDataRef.push({
-    xcollect: xcollect, ycollect: ycollect, timecollect: timecollect,
-    condition: condition, numcollect: numcollect, money: money, age: age, gender: gender,
-    experiment: experiment, instcounter: instcounter, turkid: turkid, money: money
-  });
+  myDataRef = {
+    "xcollect": xcollect, "ycollect": ycollect}; //, timecollect: timecollect,
+   // condition: condition, numcollect: numcollect, money: money, age: age, gender: gender,
+   // experiment: experiment, instcounter: instcounter, turkid: turkid, money: money
+   // };
+  saveData(JSON.stringify(myDataRef))
 }
 ////////////////////////////////////////////////////////////////////////
 //The END
