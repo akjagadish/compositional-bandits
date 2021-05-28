@@ -11,7 +11,7 @@
 //data storage ref
 var myDataRef = [], //new Firebase('https://exampleoffirebase.firebaseio.com/'),
   ntrials = 2,//number of trials
-  nblocks = 3,//number of blocks
+  nblocks = 10,//number of blocks
   narms = 6, // number of arms
   trial = 0,//trial counter
   block = 0,//block counter
@@ -31,11 +31,12 @@ var myDataRef = [], //new Firebase('https://exampleoffirebase.firebaseio.com/'),
   x = [],//underlying position
   y = [],//underlying outcome
   timeInMs = 0,//reaction time
-  cond = permute(['compositional'])[0];// 'compositional','noncompositional'])[0];
-  linstruc = ['pos', 'neg']
-  perstruc = ['even', 'uneven']
-  compositionalstruc = ['poseven', 'posuneven', 'negeven', 'neguneven']
-  nfuns = linstruc.length + perstruc.length
+  cond = permute(['compositional'])[0],// 'compositional','noncompositional'])[0];
+  linstruc = ['pos', 'neg'],
+  perstruc = ['even', 'uneven'],
+  compositionalstruc = ['poseven', 'posuneven', 'negeven', 'neguneven'],
+  nfuns = linstruc.length + perstruc.length,
+  fullurl = document.location.href
 
 var condition = [];
 if (cond == 'compositional') {
@@ -114,7 +115,7 @@ var gpn = [];
 for (var i = 1; i <= 100; i++) {
   gpn.push(i);
 }
-gpn = permute(gpn).slice(0, 30);
+gpn = permute(gpn).slice(0, nblocks);
 if (cond == 'fixed') {
   var gpn1 = [];
   var fix1 = randomNum(1, 100)
@@ -236,15 +237,35 @@ function myNorm() {
 ////////////////////////////////////////////////////////////////////////
 //Instruction Check
 ////////////////////////////////////////////////////////////////////////
-var turkid = 0;
-function gettingstarted() {
-  turkid = document.getElementById("mturk").value;
-  if (turkid == "WorkerID") {
-    alert("Please provide your Mechanical Turk Worker ID. We will need your ID for paying the bonus.");
+// var turkid = 0;
+// function gettingstarted() {
+//   turkid = document.getElementById("mturk").value;
+//   if (turkid == "WorkerID") {
+//     alert("Please provide your Mechanical Turk Worker ID. We will need your ID for paying the bonus.");
+//   } else {
+//     clickStart("page3", "page4");
+//   }
+// }
+
+
+// extract URL parameters (FROM: https://s3.amazonaws.com/mturk-public/externalHIT_v1.js)
+function turkGetParam(name) {
+  var regexS = "[\?&]" + name + "=([^&#]*)";
+  var regex = new RegExp(regexS);
+  if (typeof fullurl == "undefined"){ 
+    console.log("fullurl, who?")
+    return Math.floor(Math.random() * 10000);     
   } else {
-    clickStart("page3", "page4");
+     var tmpURL = fullurl;
+     var results = regex.exec(tmpURL);
+     if (results == null) {
+         return Math.floor(Math.random() * 10000);
+     } else {
+         return results[1];
   }
+ }
 }
+var turkid = turkGetParam('workerId');  
 
 function instructioncheck() {
   // begintrial();
@@ -282,58 +303,59 @@ function begintrial() {
   timeInMs = Date.now()
   //get the pressed key
   $(document).keypress(function (e) {
-  //if the key equals A
-  // if (e.which == 97 & returnpressed == 0) {
-  //   //indicate that something has been pressed          
-  //   returnpressed = 1;
-  //   //get the time that has passed
-  //   timeInMs = Date.now() - timeInMs;
-  //   //call the function for that position
-  //   myfunc(0);
-  // }
-  //same spiel if key equals S      
-  if (e.which == 115 & returnpressed == 0) {
-    returnpressed = 1;
-    timeInMs = Date.now() - timeInMs;
-    myfunc(0);
-  }
-  //same spiel if key equals D      
-  if (e.which == 100 & returnpressed == 0) {
-    returnpressed = 1;
-    timeInMs = Date.now() - timeInMs;
-    myfunc(1);
-  }
-  //same spiel if key equals F       
-  if (e.which == 102 & returnpressed == 0) {
-    returnpressed = 1;
-    timeInMs = Date.now() - timeInMs;
-    myfunc(2);
-  }
-  //same spiel if key equals J
-  if (e.which == 106 & returnpressed == 0) {
-    returnpressed = 1;
-    timeInMs = Date.now() - timeInMs;
-    myfunc(3);
-  }
-  //same spiel if key equals K      
-  if (e.which == 107 & returnpressed == 0) {
-    returnpressed = 1;
-    timeInMs = Date.now() - timeInMs;
-    myfunc(4);
-  }
-  //same spiel if key equals L      
-  if (e.which == 108 & returnpressed == 0) {
-    returnpressed = 1;
-    timeInMs = Date.now() - timeInMs;
-    myfunc(5);
-  }
-  // //same spiel if key equals ;
-  // if (e.which == 59 & returnpressed == 0) {
-  //   returnpressed = 1;
-  //   timeInMs = Date.now() - timeInMs;
-  //   myfunc(7);
-  // }
-} ); 
+    //if the key equals A
+    // if (e.which == 97 & returnpressed == 0) {
+    //   //indicate that something has been pressed          
+    //   returnpressed = 1;
+    //   //get the time that has passed
+    //   timeInMs = Date.now() - timeInMs;
+    //   //call the function for that position
+    //   myfunc(0);
+    // }
+    //same spiel if key equals S      
+    if (e.which == 115 & returnpressed == 0) {
+      returnpressed = 1;
+      timeInMs = Date.now() - timeInMs;
+      myfunc(0);
+    }
+    //same spiel if key equals D      
+    if (e.which == 100 & returnpressed == 0) {
+      returnpressed = 1;
+      timeInMs = Date.now() - timeInMs;
+      myfunc(1);
+    }
+    //same spiel if key equals F       
+    if (e.which == 102 & returnpressed == 0) {
+      returnpressed = 1;
+      timeInMs = Date.now() - timeInMs;
+      myfunc(2);
+    }
+    //same spiel if key equals J
+    if (e.which == 106 & returnpressed == 0) {
+      returnpressed = 1;
+      timeInMs = Date.now() - timeInMs;
+      myfunc(3);
+    }
+    //same spiel if key equals K      
+    if (e.which == 107 & returnpressed == 0) {
+      returnpressed = 1;
+      timeInMs = Date.now() - timeInMs;
+      myfunc(4);
+    }
+    //same spiel if key equals L      
+    if (e.which == 108 & returnpressed == 0) {
+      returnpressed = 1;
+      timeInMs = Date.now() - timeInMs;
+      myfunc(5);
+    }
+    // //same spiel if key equals ;
+    // if (e.which == 59 & returnpressed == 0) {
+    //   returnpressed = 1;
+    //   timeInMs = Date.now() - timeInMs;
+    //   myfunc(7);
+    // }
+  } 
+  ); 
 }
 
 //function to draw the letter boxes into the HTML
@@ -516,7 +538,7 @@ function setrecontact(x) {
 }
 
 function saveData(filedata){
-  var filename = "./data/" + turkid + ".json"; //subjectID + "data_3" + "_attention" + attention + ".txt";
+  var filename = "./data/" + turkid + ".json";  
   $.post("save_data.php", {postresult: filedata + "\n", postfile: filename })
 }
 
@@ -535,12 +557,12 @@ function mysubmit() {
   change('result', presenttotal);
   change('money', presentmoney);
   var experiment = "compbandits1";
-  //save all created values
+  //create dictionary with keys values
   myDataRef = {
-    "xcollect": xcollect, "ycollect": ycollect}; //, timecollect: timecollect,
-   // condition: condition, numcollect: numcollect, money: money, age: age, gender: gender,
-   // experiment: experiment, instcounter: instcounter, turkid: turkid, money: money
-   // };
+    "actions": xcollect, "rewards": ycollect, "times": timecollect, "condition": condition, 
+    "numcollect": numcollect, "money": money, "age": age, "gender": gender,
+    "experiment": experiment, "instcounter": instcounter, "turkid": turkid };
+  // save data as JSON
   saveData(JSON.stringify(myDataRef))
 }
 ////////////////////////////////////////////////////////////////////////
