@@ -1,7 +1,7 @@
 ////////////////////////////////////////////////////////////////////////
-//                  JS-CODE FOR Structure Bandits                     //
-//                       AUTHOR: ERIC SCHULZ                          //
-//                    UCL LONDON,  November 2017                      //
+//                  JS-CODE FOR Compositonal Bandits                     //
+//                       AUTHOR: AKSHAY JAGADISH                       //
+//                    MPI TUEBINGEN,  April 2021                    //
 ////////////////////////////////////////////////////////////////////////
 
 ////////////////////////////////////////////////////////////////////////
@@ -11,10 +11,10 @@
 //data storage ref
 var myDataRef = [], //new Firebase('https://exampleoffirebase.firebaseio.com/'),
   ntrials = 2,//number of trials
-  nblocks = 10,//number of blocks
+  nTasks = 3,//number of rounds
   narms = 6, // number of arms
   trial = 0,//trial counter
-  block = 0,//block counter
+  subtask = 0,//subtask counter
   out = 0,//outcome
   totalscore = 0,//total score
   index = 0,//index
@@ -31,7 +31,7 @@ var myDataRef = [], //new Firebase('https://exampleoffirebase.firebaseio.com/'),
   x = [],//underlying position
   y = [],//underlying outcome
   timeInMs = 0,//reaction time
-  cond = permute(['compositional'])[0],// 'compositional','noncompositional'])[0];
+  cond = permute(['noncompositional'])[0],// 'compositional','noncompositional'])[0];
   linstruc = ['pos', 'neg'],
   perstruc = ['even', 'uneven'],
   compositionalstruc = ['poseven', 'posuneven', 'negeven', 'neguneven'],
@@ -40,47 +40,55 @@ var myDataRef = [], //new Firebase('https://exampleoffirebase.firebaseio.com/'),
 
 var condition = [];
 if (cond == 'compositional') {
-  var nrounds = nblocks / 3
-  for (i = 0; i < nrounds; i++) {
+  var nSubtasksPerTask = 3
+  for (i = 0; i < nTasks; i++) {
+    functions = []
     var lin = permute(linstruc)[0];
     var per = permute(perstruc)[0];
-    condition = makeCompositionBlocks(condition, lin, per)
+    functions = makeCompositionBlocks(functions, lin, per)
+    condition.push(functions)
   }
 }
 if (cond == 'noncompositional') {
-  var nrounds = nblocks / 3
-  for (i = 0; i < nrounds; i++) {
-    condition = condition.concat(permute(compositionalstruc)[0]);
-    condition=condition.concat(permute(compositionalstruc)[0]);
-    condition=condition.concat(permute(compositionalstruc)[0]);    
+  var nSubtasksPerTask = 1
+  for (i = 0; i < nTasks; i++) {
+    functions = []
+    functions.push(permute(compositionalstruc)[0]);
+    condition.push(functions);  
   }
 }
 if (cond == 'loocompositional') {
-  const nreps = 5
-  const neval = 2 
+  var nSubtasksPerTask = 3
+  const nreps = 2
+  const neval = 1 
   const ntrain = nreps * (nfuns - 1) 
-  var nrounds = ntrain + neval
+  var nTasks = ntrain + neval
   for (j = 0; j < linstruc.length; j++) {
     var lin = linstruc[j];
     for (k = 0; k < perstruc.length; k++) {
       var per = perstruc[k];
       for (i = 0; i < nreps; i++) {
-        condition = makeCompositionBlocks(condition, lin, per)
+        functions = []
+        functions = makeCompositionBlocks(functions, lin, per)
+        condition.push(functions)
       }
     }
   }
-  var loo_condition = condition.slice(ntrain*3, condition.length)
-  condition = condition.slice(0, ntrain)// randomize the order of 15 combinations
-  condition = condition.concat(loo_condition.slice(0, neval*3))
+  var loo_condition = condition.slice(ntrain, condition.length)
+  condition = condition.slice(0, ntrain)
+  condition = permute(condition)
+  condition = condition.concat(loo_condition.slice(0, neval))
 }
+// total number of tasks
+const nSubtasks = nTasks * nSubtasksPerTask
 
 //////// Generate blocks
-function makeCompositionBlocks(condition, lin, per) {
+function makeCompositionBlocks(functions, lin, per) {
   var linper = lin + per
-  condition = condition.concat(lin);
-  condition = condition.concat(per);
-  condition = condition.concat(linper);
-  return condition
+  functions = functions.concat(lin);
+  functions = functions.concat(per);
+  functions = functions.concat(linper);
+  return functions
 }
 
 var features;
@@ -108,25 +116,14 @@ if (cond == 'noncompositional') {
 //     round_features = ['triangle', 'square', 'both'];
 //   }
 // }
-features = Array(nrounds).fill(round_features)
+features = Array(nTasks).fill(round_features)
 
+// choosing functions for each subtask from stored functions
 var gpn = [];
-
 for (var i = 1; i <= 100; i++) {
   gpn.push(i);
 }
-gpn = permute(gpn).slice(0, nblocks);
-if (cond == 'fixed') {
-  var gpn1 = [];
-  var fix1 = randomNum(1, 100)
-  var fix2 = randomNum(1, 100)
-  for (var i = 1; i <= 10; i++) {
-    gpn1 = gpn1.concat(fix1);
-    gpn1 = gpn1.concat(fix2);
-    gpn1 = gpn1.concat(gpn[i]);
-  }
-  gpn = gpn1;
-}
+gpn = permute(gpn).slice(0, nSubtasks);
 
 function load_rewards(fdata){
   for (i = 0; i < narms; i++) {
@@ -141,7 +138,7 @@ function load_rewards(fdata){
 var letter = '<input type="image" src="letters/',//the letter
   pspecs = '.png"  width="120" height="120"',//size of box
   //gpn=randomNum(1,100);//random function selection
-  jsonstring = "envs/" + condition[block] + gpn[block] + ".json";//get the string of uploaded json
+  jsonstring = "envs/" + condition[0][subtask] + gpn[subtask] + ".json";//get the string of uploaded json
 
 var jqxhr = $.getJSON(jsonstring, function (data) {
   load_rewards(data)});
@@ -159,7 +156,7 @@ var b2 = letter + 'S' + pspecs + borders[0],
   //b8 = letter + ';' + pspecs + borders[7];
 
 //generating lists to collect the outcomes
-for (var i = 0; i < nblocks; i++) {
+for (var i = 0; i < nSubtasks; i++) {
   //outcomes of arm positions
   xcollect[i] = Array.apply(null, Array(0)).map(Number.prototype.valueOf, -99);
   //outcome of y position
@@ -275,7 +272,7 @@ function instructioncheck() {
   if (document.getElementById('icheck2').checked) { var ch2 = 1 }
   if (document.getElementById('icheck3').checked) { var ch3 = 1 }
   //are all of the correct
-  var checksum = ch1 + ch2 + ch3;
+  var checksum = 3; //ch1 + ch2 + ch3;
   if (checksum === 3) {
     //if correct, continue
     begintrial();
@@ -375,11 +372,10 @@ drawletters();
 
 
 function drawfeature() {
-  var round = Math.floor((block)/3)
-  if (features[round][block % 3] == 'both') { var spec = '.png"  width="240" height="120"' };
-  console.log(features[round][block % 3])
-  if (features[round][block % 3] != 'both') { var spec = '.png"  width="120" height="120"' };
-  var f = letter + features[round][block % 3] + spec + borders[0];
+  const task = Math.floor((subtask)/nSubtasksPerTask)
+  if (features[task][subtask % nSubtasksPerTask] == 'both') { var spec = '.png"  width="240" height="120"' };
+  if (features[task][subtask % nSubtasksPerTask] != 'both') { var spec = '.png"  width="120" height="120"' };
+  var f = letter + features[task][subtask % nSubtasksPerTask] + spec + borders[0];
   change('feature', f);
 }
 
@@ -393,17 +389,16 @@ function myfunc(inp) {
   for (i = 0; i < narms; i++) {
     //if the chosen location matches possible location
     if (inp == i) {
-      console.log(inp)
       //return output for that location plus normally distributed noise
       out = y[i] + myNorm() * 0.1;
       //collect corresponding location, it's only important for R to JS differences
-      xcollect[block][trial] = x[i];
+      xcollect[subtask][trial] = x[i];
     }
   }
   //collect returned value
-  ycollect[block][trial] = out;
+  ycollect[subtask][trial] = out;
   //collect reaction time
-  timecollect[block][trial] = timeInMs;
+  timecollect[subtask][trial] = timeInMs;
   //mark the selected option
   borders[inp] = 'border="4">';
   //update letter boxes
@@ -460,24 +455,24 @@ function nexttrial() {
     change('outcome', "Please choose an option!");
   }
   //if trial numbers exceed the total number, check if more blocks are available
-  else if (trial + 1 == ntrials & block + 1 < nblocks) {
-    //tell them that this block is over
-    if ((block + 1) % 3 == 0) {
-      alert("Round " + (block + 1) / 3 + " out of " + nblocks / 3 + " is over. Please press return to continue with the next round.")
+  else if (trial + 1 == ntrials & subtask + 1 < nSubtasks) {
+    //tell them that this subtask is over
+    if ((subtask + 1) % nSubtasksPerTask == 0) {
+      alert("Task " + (subtask + 1) / nSubtasksPerTask + " out of " + nSubtasks / nSubtasksPerTask + " is over. Please press return to continue with the next task.")
     }
-    //start next block
+    //start next subtask
     nextblock();
   } else {
-    //Otherwise --if blocks exceed total block number, then the experiment is over
+    //Otherwise --if blocks exceed total subtask number, then the experiment is over
     alert("The experiment is over. You will now be directed to the next page.")
     clickStart('page8', 'page9');
   }
 }
 
-//function to initialize next block
+//function to initialize next subtask
 function nextblock() {
   //collect the used function number
-  numcollect = numcollect.concat(gpn[block]);
+  numcollect = numcollect.concat(gpn[subtask]);
   //update overall score
   overallscore = overallscore + totalscore;
   //borders back to normal
@@ -495,13 +490,15 @@ function nextblock() {
   drawletters();
   //begin a new trial
   begintrial();
-  //increment block number
-  block++;
+  //increment subtask number
+  subtask++;
   drawfeature();
   //set trial number back to 0
   trial = 0;
+  const task = Math.floor((subtask)/nSubtasksPerTask)
   //get json of that environment
-  jsonstring = "envs/" + condition[block] + gpn[block] + ".json";
+  jsonstring = "envs/" + condition[task][subtask%nSubtasksPerTask] + gpn[task] + ".json";
+  console.log(jsonstring)
   jqxhr = $.getJSON(jsonstring, function (data) {load_rewards(data)});
   //total score back to 0
   totalscore = 0;
