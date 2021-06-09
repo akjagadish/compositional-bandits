@@ -10,8 +10,8 @@
 
 //data storage ref
 var myDataRef = [], //new Firebase('https://exampleoffirebase.firebaseio.com/'),
-  nReps = 4, // number of repeats (of tasks)
-  ntrials = 3,//number of trials
+  nReps = 1, // number of repeats (of tasks)
+  ntrials = 2,//number of trials
   //nTasks = 3,// number of Tasks
   narms = 6, // number of arms
   trial = 0,//trial counter
@@ -473,9 +473,10 @@ function nexttrial() {
   }
   //if trial numbers exceed the total number, check if more blocks are available
   else if (trial + 1 == ntrials & subtask + 1 < nSubtasks) {
+    totalscore = totalscore + out;
     //tell them that this subtask is over
     if ((subtask + 1) % nSubtasksPerTask == 0) {
-      alert("Task " + (subtask + 1) / nSubtasksPerTask + " out of " + nTasks + " is over. Please press return to continue with the next task.")
+      alert("You scored " + toFixed(totalscore, 1) + " in this task. Task " + (task+1) + " out of " + nTasks + " is over. Please press return to continue with the next task.")
     }
     //start next subtask
     nextblock();
@@ -512,13 +513,18 @@ function nextblock() {
   drawfeature();
   //set trial number back to 0
   trial = 0;
-  const task = Math.floor((subtask)/nSubtasksPerTask)
+  if ((subtask) % nSubtasksPerTask == 0) {
+    //total score back to 0
+    totalscore = 0;
+    task++;
+    } else {
+      totalscore = totalscore + out; 
+  }
   //get json of that environment
   jsonstring = "envs/" + condition[task][subtask%nSubtasksPerTask] + gpn[task] + ".json";
-  console.log(jsonstring)
   jqxhr = $.getJSON(jsonstring, function (data) {load_rewards(data)});
-  //total score back to 0
-  totalscore = 0;
+  // //total score back to 0
+  // totalscore = 0;
   //insert total score
   var inserts = 'Total Score: ' + toFixed(totalscore, 1);
   //put on screen
