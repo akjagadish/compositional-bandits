@@ -10,11 +10,13 @@
 
 //data storage ref
 var myDataRef = [], //new Firebase('https://exampleoffirebase.firebaseio.com/'),
-  ntrials = 2,//number of trials
-  nTasks = 3,//number of rounds
+  nReps = 4, // number of repeats (of tasks)
+  ntrials = 3,//number of trials
+  //nTasks = 3,// number of Tasks
   narms = 6, // number of arms
   trial = 0,//trial counter
   subtask = 0,//subtask counter
+  task = 0, // task counter
   out = 0,//outcome
   totalscore = 0,//total score
   index = 0,//index
@@ -31,54 +33,78 @@ var myDataRef = [], //new Firebase('https://exampleoffirebase.firebaseio.com/'),
   x = [],//underlying position
   y = [],//underlying outcome
   timeInMs = 0,//reaction time
-  cond = permute(['noncompositional'])[0],// 'compositional','noncompositional'])[0];
+  cond = permute(['compositional'])[0],// 'compositional','noncompositional'])[0];
   linstruc = ['pos', 'neg'],
   perstruc = ['even', 'uneven'],
   compositionalstruc = ['poseven', 'posuneven', 'negeven', 'neguneven'],
   nfuns = linstruc.length + perstruc.length,
   fullurl = document.location.href
 
+
 var condition = [];
 if (cond == 'compositional') {
   var nSubtasksPerTask = 3
-  for (i = 0; i < nTasks; i++) {
-    functions = []
-    var lin = permute(linstruc)[0];
-    var per = permute(perstruc)[0];
-    functions = makeCompositionBlocks(functions, lin, per)
-    condition.push(functions)
-  }
+  const nTrain = nReps * nfuns
+  const nEval = 1 * nfuns
+  var nTasks = nTrain + nEval
+  // generate condition
+  for (i = 0; i < (nReps+1); i++) {
+    for (j = 0; j < linstruc.length; j++) {
+      var lin = linstruc[j];
+      for (k = 0; k < perstruc.length; k++) {
+        var per = perstruc[k];
+        functions = []
+        functions = makeCompositionBlocks(functions, lin, per)
+        condition.push(functions)
+      }
+    }
+  } 
+  // concat eval tasks
+  var eval_condition = permute(condition.slice(nTrain, nTasks))
+  condition = permute(condition.slice(0, nTrain))
+  condition = condition.concat(eval_condition)
 }
+
 if (cond == 'noncompositional') {
   var nSubtasksPerTask = 1
-  for (i = 0; i < nTasks; i++) {
-    functions = []
-    functions.push(permute(compositionalstruc)[0]);
-    condition.push(functions);  
+  const nTrain = nReps * nfuns 
+  const nEval = 1 * nfuns
+  var nTasks = nTrain + nEval
+  for (i=0; i<(nReps+1); i++) {
+    for (j=0; j<nfuns; j++){
+      functions = []
+      functions.push(compositionalstruc[j]);
+      condition.push(functions);
+    }
   }
+  // concat eval tasks
+  var eval_condition = permute(condition.slice(nTrain, nTasks))
+  condition = permute(condition.slice(0, nTrain))
+  condition = condition.concat(eval_condition)
 }
+
 if (cond == 'loocompositional') {
   var nSubtasksPerTask = 3
-  const nreps = 2
-  const neval = 1 
-  const ntrain = nreps * (nfuns - 1) 
-  var nTasks = ntrain + neval
+  const nTrain = nReps * (nfuns-1) 
+  const nEval = 1 * 1
+  var nTasks = nTrain + nEval
   for (j = 0; j < linstruc.length; j++) {
     var lin = linstruc[j];
     for (k = 0; k < perstruc.length; k++) {
       var per = perstruc[k];
-      for (i = 0; i < nreps; i++) {
+        for (i = 0; i < nReps; i++) {
         functions = []
         functions = makeCompositionBlocks(functions, lin, per)
         condition.push(functions)
       }
     }
   }
-  var loo_condition = condition.slice(ntrain, condition.length)
-  condition = condition.slice(0, ntrain)
-  condition = permute(condition)
-  condition = condition.concat(loo_condition.slice(0, neval))
+  // concat eval tasks
+  var eval_condition = condition.slice(nTrain, nTasks)
+  condition = permute(condition.slice(0, nTrain))
+  condition = condition.concat(eval_condition)
 }
+
 // total number of tasks
 const nSubtasks = nTasks * nSubtasksPerTask
 
@@ -96,27 +122,18 @@ var featureorder = Math.floor(Math.random() * 2);
 
 if (cond == 'compositional' || cond == 'loocompositional') {
   if (featureorder == 0) {
-    round_features = ['square', 'triangle', 'both'] 
+    task_features = ['square', 'triangle', 'both'] 
   }
   if (featureorder == 1) {
-    round_features = ['triangle', 'square', 'both'] 
+    task_features = ['triangle', 'square', 'both'] 
   }
 }
 
 if (cond == 'noncompositional') {
-    round_features = ['both', 'both', 'both'];
+  task_features = ['both', 'both', 'both'];
 }
 
-// if (cond == 'loocompositional') {
-//   if (featureorder == 0) {
-//     round_features = ['square', 'triangle', 'both'];
-//   }
-
-//   if (featureorder == 1) {
-//     round_features = ['triangle', 'square', 'both'];
-//   }
-// }
-features = Array(nTasks).fill(round_features)
+features = Array(nTasks).fill(task_features)
 
 // choosing functions for each subtask from stored functions
 var gpn = [];
@@ -458,7 +475,7 @@ function nexttrial() {
   else if (trial + 1 == ntrials & subtask + 1 < nSubtasks) {
     //tell them that this subtask is over
     if ((subtask + 1) % nSubtasksPerTask == 0) {
-      alert("Task " + (subtask + 1) / nSubtasksPerTask + " out of " + nSubtasks / nSubtasksPerTask + " is over. Please press return to continue with the next task.")
+      alert("Task " + (subtask + 1) / nSubtasksPerTask + " out of " + nTasks + " is over. Please press return to continue with the next task.")
     }
     //start next subtask
     nextblock();
