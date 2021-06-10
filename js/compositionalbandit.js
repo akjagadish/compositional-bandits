@@ -122,15 +122,15 @@ var featureorder = Math.floor(Math.random() * 2);
 
 if (cond == 'compositional' || cond == 'loocompositional') {
   if (featureorder == 0) {
-    task_features = ['square', 'triangle', 'both'] 
+    task_features = ['contextG/', 'contextR/', 'contextRG/'] 
   }
   if (featureorder == 1) {
-    task_features = ['triangle', 'square', 'both'] 
+    task_features = ['contextR/', 'contextG/', 'contextRG/'] 
   }
 }
 
 if (cond == 'noncompositional') {
-  task_features = ['both', 'both', 'both'];
+  task_features = ['contextRG', 'contextRG', 'contextRG'];
 }
 
 features = Array(nTasks).fill(task_features)
@@ -151,8 +151,7 @@ function load_rewards(fdata){
 }
 }
 
-
-var letter = '<input type="image" src="letters/',//the letter
+var letters = '<input type="image" src="letters/',//the letter
   pspecs = '.png"  width="120" height="120"',//size of box
   //gpn=randomNum(1,100);//random function selection
   jsonstring = "envs/" + condition[0][subtask] + gpn[subtask] + ".json";//get the string of uploaded json
@@ -161,7 +160,7 @@ var jqxhr = $.getJSON(jsonstring, function (data) {
   load_rewards(data)});
 //borders for selections
 var borders = ['border="1">', 'border="1">', 'border="1">', 'border="1">', 'border="1">', 'border="1">'];//, 'border="1">', 'border="1">'];
-
+letter = letters + features[task][subtask % nSubtasksPerTask]
 //leter boxes and their borders
 //var b1 = letter + 'A' + pspecs + borders[0],
 var b2 = letter + 'S' + pspecs + borders[0],
@@ -389,15 +388,16 @@ drawletters();
 
 
 function drawfeature() {
-  const task = Math.floor((subtask)/nSubtasksPerTask)
+  // const task = Math.floor((subtask)/nSubtasksPerTask)
   if (features[task][subtask % nSubtasksPerTask] == 'both') { var spec = '.png"  width="240" height="120"' };
   if (features[task][subtask % nSubtasksPerTask] != 'both') { var spec = '.png"  width="120" height="120"' };
   var f = letter + features[task][subtask % nSubtasksPerTask] + spec + borders[0];
   change('feature', f);
+  letter = letters + features[task][subtask % nSubtasksPerTask]
 }
 
 //do this once at start
-drawfeature();
+//drawfeature();
 
 
 //funmction that exectutes the bandit
@@ -495,6 +495,9 @@ function nextblock() {
   overallscore = overallscore + totalscore;
   //borders back to normal
   borders = ['border="1">', 'border="1">', 'border="1">', 'border="1">', 'border="1">', 'border="1">', 'border="1">', 'border="1">'];
+  //increment subtask number
+  subtask++;
+  letter = letters + features[task][subtask % nSubtasksPerTask]
   //new letters and boxes
   // b1 = letter + 'A' + pspecs + borders[0];
   b2 = letter + 'S' + pspecs + borders[0];
@@ -508,9 +511,8 @@ function nextblock() {
   drawletters();
   //begin a new trial
   begintrial();
-  //increment subtask number
-  subtask++;
-  drawfeature();
+  
+  //drawfeature();
   //set trial number back to 0
   trial = 0;
   if ((subtask) % nSubtasksPerTask == 0) {
