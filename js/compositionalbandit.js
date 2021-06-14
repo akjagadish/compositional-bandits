@@ -19,14 +19,17 @@ var myDataRef = [], //new Firebase('https://exampleoffirebase.firebaseio.com/'),
   task = 0, // task counter
   out = 0,//outcome
   totalscore = 0,//total score
+  percentrew = 0,//percent reward
   index = 0,//index
   age = 0,//age of participant
   gender = 0,//gender of particpant
   recontact = false,//do they want to be recontacted
   instcounter = 0,//instruction counter
   overallscore = 0,//overall score
+  overallpercentreward = 0, // overall percent reward
   xcollect = [],//collecting the selected position
   ycollect = [],//collecting the returned output
+  regretcollect = [],//collecting the regret
   timecollect = [],//collection the timestamps
   numcollect = [],//collecting the chosen functions
   fdata,//for loading gp samples
@@ -152,7 +155,7 @@ function load_rewards(fdata){
 }
 
 var letters = '<input type="image" src="letters/',//the letter
-  pspecs = '.png"  width="120" height="120"',//size of box
+  pspecs = '.png"  width="115" height="115"',//size of box
   //gpn=randomNum(1,100);//random function selection
   jsonstring = "envs/" + condition[0][subtask] + gpn[subtask] + ".json";//get the string of uploaded json
 
@@ -179,6 +182,8 @@ for (var i = 0; i < nSubtasks; i++) {
   ycollect[i] = Array.apply(null, Array(0)).map(Number.prototype.valueOf, -99);
   //timestamp collection
   timecollect[i] = Array.apply(null, Array(0)).map(Number.prototype.valueOf, -99);
+  //regrets from each trial
+  regretcollect[i] = Array.apply(null, Array(0)).map(Number.prototype.valueOf, -99);
 }
 
 
@@ -387,14 +392,14 @@ function drawletters() {
 drawletters();
 
 
-function drawfeature() {
-  // const task = Math.floor((subtask)/nSubtasksPerTask)
-  if (features[task][subtask % nSubtasksPerTask] == 'both') { var spec = '.png"  width="240" height="120"' };
-  if (features[task][subtask % nSubtasksPerTask] != 'both') { var spec = '.png"  width="120" height="120"' };
-  var f = letter + features[task][subtask % nSubtasksPerTask] + spec + borders[0];
-  change('feature', f);
-  letter = letters + features[task][subtask % nSubtasksPerTask]
-}
+// function drawfeature() {
+//   // const task = Math.floor((subtask)/nSubtasksPerTask)
+//   if (features[task][subtask % nSubtasksPerTask] == 'both') { var spec = '.png"  width="230" height="115"' };
+//   if (features[task][subtask % nSubtasksPerTask] != 'both') { var spec = '.png"  width="115" height="115"' };
+//   var f = letter + features[task][subtask % nSubtasksPerTask] + spec + borders[0];
+//   change('feature', f);
+//   letter = letters + features[task][subtask % nSubtasksPerTask]
+// }
 
 //do this once at start
 //drawfeature();
@@ -410,6 +415,10 @@ function myfunc(inp) {
       out = y[i] + myNorm() * 0.1;
       //collect corresponding location, it's only important for R to JS differences
       xcollect[subtask][trial] = x[i];
+      //collect regrets
+      regretcollect[subtask][trial] = Math.max(...y) - y[i];
+      //percent rewards
+      percentrew = percentrew + y[i]/Math.max(...y);
     }
   }
   //collect returned value
@@ -474,9 +483,12 @@ function nexttrial() {
   //if trial numbers exceed the total number, check if more blocks are available
   else if (trial + 1 == ntrials & subtask + 1 < nSubtasks) {
     totalscore = totalscore + out;
+    //compute percent regret
+    overallpercentreward = (percentrew/(ntrials*nSubtasksPerTask))*100
     //tell them that this subtask is over
     if ((subtask + 1) % nSubtasksPerTask == 0) {
-      alert("You scored " + toFixed(totalscore, 1) + " in this task. Task " + (task+1) + " out of " + nTasks + " is over. Please press return to continue with the next task.")
+      //"You scored " + toFixed(totalscore, 1) + " in this task.
+      alert("Task " + (task+1) + " out of " + nTasks + " is over. You achieved " + toFixed(overallpercentreward, 0) + " % of best total score. Please press return to continue with the next task.")
     }
     //start next subtask
     nextblock();
@@ -491,8 +503,6 @@ function nexttrial() {
 function nextblock() {
   //collect the used function number
   numcollect = numcollect.concat(gpn[subtask]);
-  //update overall score
-  overallscore = overallscore + totalscore;
   //borders back to normal
   borders = ['border="1">', 'border="1">', 'border="1">', 'border="1">', 'border="1">', 'border="1">', 'border="1">', 'border="1">'];
   //increment subtask number
@@ -506,7 +516,7 @@ function nextblock() {
   b5 = letter + 'J' + pspecs + borders[3];
   b6 = letter + 'K' + pspecs + borders[4];
   b7 = letter + 'L' + pspecs + borders[5];
-  //b8 = letter + ';' + pspecs + borders[7];
+  // b8 = letter + ';' + pspecs + borders[7];
   //draw options
   drawletters();
   //begin a new trial
@@ -516,6 +526,10 @@ function nextblock() {
   //set trial number back to 0
   trial = 0;
   if ((subtask) % nSubtasksPerTask == 0) {
+    //update overall score
+    overallscore = overallscore + totalscore;
+    // percent reward set back to 0 
+    percentrew = 0;
     //total score back to 0
     totalscore = 0;
     task++;
@@ -525,7 +539,7 @@ function nextblock() {
   //get json of that environment
   jsonstring = "envs/" + condition[task][subtask%nSubtasksPerTask] + gpn[task] + ".json";
   jqxhr = $.getJSON(jsonstring, function (data) {load_rewards(data)});
-  // //total score back to 0
+  // total score back to 0
   // totalscore = 0;
   //insert total score
   var inserts = 'Total Score: ' + toFixed(totalscore, 1);
