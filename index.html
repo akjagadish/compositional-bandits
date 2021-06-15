@@ -77,12 +77,12 @@
 			 <br>
 			  <p><b>Find the good options:</b></p>
 				 <ul>
-				    <li>This study consists of 30 rounds in total. On each round, you will have 10 consecutive chances to choose from the provided options.</li>
-				    <li>On every round, your goal is to earn as many points as possible by finding the most valuable option.</li>
-				    <li>After each round, the game resets and the point-values for each choice may change for the next round.</li> 
+				    <li>This study consists of 20 tasks in total. On each task, you will have 5 consecutive chances to choose from the provided options.</li>
+				    <li>On every task, your goal is to earn as many points as possible by finding the most valuable option.</li>
+				    <li>After each task, the game resets and the point-values for each choice may change for the next task.</li> 
 				    <li>You can choose an option by pressing the corresponding key on your keyboard (see screenshot below).</li>
 				    <li>You will get feedback on every trial about the number of points you have gained by choosing from the selected option.</li>
-				    <li>You can make the same choice as many times as you like on each round but you might not earn the same number of points!</li>
+				    <li>You can make the same choice as many times as you like on each task but you might not earn the same number of points!</li>
 				    <li>You will be paid $0.01 for every 100 points you gained during the experiment.</li>
 				 </ul>
 			<br>
@@ -96,9 +96,9 @@
 			<br>
 				<p><b>Symbols can help you!</b></p>
 					 <ul>
-					    <li>Every round will be marked by a symbol. For example, in the screenshot below, the round is marked by a blue triangle.</li>
+					    <li>Every task will be marked by a symbol. For example, in the screenshot below, the task is marked by a blue triangle.</li>
 					    <li>These symbols can help you to gain more points. </li>
-					    <li>There might be different symbols for different rounds. Please pay attention and try to figure out what the symbols might indicate.</li>
+					    <li>There might be different symbols for different tasks. Please pay attention and try to figure out what the symbols might indicate.</li>
 					</ul>
 				<br>
 				<img src="figs/symbols.png" width="600" ><br><br>
@@ -130,14 +130,14 @@
 			        What is your task in this study?<br>
 			        <input type="radio" name="q1"  > Find the best option.<br>
 			        <input type="radio" name="q1" id="icheck1" > Gain as many points as possible.<br>
-			        <input type="radio" name="q1" > Produce 30 outputs.<br>
+			        <input type="radio" name="q1" > Produce 20 outputs.<br>
 			        <input type="radio" name="q1" > I do not know.<br>
 			    </fieldset>
 			    <fieldset style="float:left;width:400px;margin:5px">
-			        How many rounds will there be in total?<br>
+			        How many tasks will there be in total?<br>
 			        <input type="radio" name="q2"> 10 <br>
 			        <input type="radio" name="q2"> 12 <br>
-			        <input type="radio" name="q2"  id="icheck2">30<br>
+			        <input type="radio" name="q2" id="icheck2"> 20 <br>
 			        <input type="radio" name="q2"> 50 <br>
 			    </fieldset>
 			    <fieldset style="float:left;width:400px;margin:5px">
@@ -145,11 +145,11 @@
 			        <input type="radio" name="q3">  
 			         Nothing.<br>
 			        <input type="radio" name="q3"> 
-			         They mark particularly good rounds.<br>
+			         They mark particularly good tasks.<br>
 			        <input type="radio" name="q3" id="icheck3"> 
-			         They can help you to perform better on a round.<br>
+			         They can help you to perform better on a task.<br>
 			        <input type="radio" name="q3"> 
-			         They mark how well you did on the previous round.<br>
+			         They mark how well you did on the previous task.<br>
 			    </fieldset>
 		    </fieldset>
 		    <br><br><br><br>
@@ -160,35 +160,47 @@
 		<!--Eighth page contains task-->
 		<div id="page8" style="display:none">
 			<h1> <font size="4">Please choose an option to gain points.</font> </h1>
-			<div id="explainshow" style="display:block">
+			<div id="explainshow" style="display:none">
 				<p> <b>Summarized Instructions:</b></p>
-				<p><b>I.</b> Below, there are 8 different options marked by different letters. When you press the letter/symbol of a particular option on your keyboard, the number of points you earn for that options will be revealed and will be displayed below for 2 seconds. </p>
+				<p><b>I.</b> Below, there are 6 different options marked by different letters. When you press the letter/symbol of a particular option on your keyboard, the number of points you earn for that options will be revealed and will be displayed below for 2 seconds. </p>
 				<p><b>II.</b> Options can be repeatedly chosen, although there may be small variations in the points earned.</p>
 				<p><b>III.</b> Every option can lead to different points. Your task is to earn as many points as possible by selecting valuable options. </p>
 				<p><b>IV.</b> On top of the options, you can see how many clicks you have left and the amount of points you have earned so far.</p>
-				<p><b>V.</b> Every round comes with a symbol. Knowing what the symbols indicate can help you to gain more points.</p>				
+				<p><b>V.</b> Every task comes with a symbol. Knowing what the symbols indicate can help you to gain more points.</p>				
 				<button type="button" name="button"; onclick="clickStart('explainshow','explainhide')"; >Hide guidelines</button>
 			</div>
-			<div id="explainhide" style="display:none">
+			<div id="explainhide" style="display:block">
 				<button type="button" name="button"; onclick="clickStart('explainhide','explainshow')"; >Show guidelines</button>
 			</div>
-			<center>
-				<b><h3><div id="remain">Number of trials left: 10</div></h3></b>
-				<b><h3><div id="score">Total Score: 0.0</div></h3></b></b>
-				<div id="feature"></div></b></b>
-				<div id='arm1' style="display: inline"></div>
-				<div id='arm2' style="display: inline"></div>
-				<div id='arm3' style="display: inline"></div>
-				<div id='arm4' style="display: inline"></div>
-				<div id='arm5' style="display: inline"></div>
-				<div id='arm6' style="display: inline"></div>
-				<div id='arm7' style="display: inline"></div>
-				<div id='arm8' style="display: inline"></div><br>        
-				<div id="next" style="display:block">
-				<b><h3><div id="outcome">Please choose an option!</div></h3></b>
-				</div>
-			</center>   
+			<div id="begintask" style="display:block">
+				<center>
+					<b><h3><div id="remain">Number of trials left: 5</div></h3></b>
+					<b><h3><div id="score">Total Score: 0.0</div></h3></b></b>
+					<div id="feature"></div></b></b>
+					<div id='arm1' style="display: inline"></div>
+					<div id='arm2' style="display: inline"></div>
+					<div id='arm3' style="display: inline"></div>
+					<div id='arm4' style="display: inline"></div>
+					<div id='arm5' style="display: inline"></div>
+					<div id='arm6' style="display: inline"></div>
+					<div id='arm7' style="display: inline"></div>
+					<div id='arm8' style="display: inline"></div><br>        
+					<div id="next" style="display: block">
+					<b><h3><div id="outcome">Please choose an option!</div></h3></b>
+					</div>
+				</center>   
+			</div>
 		</div>
+
+		<div id="showperformance" style="display:none">
+			<center>
+				<b><h4><div id="numtasks"> Task 0 out of 20 now complete.</div></h4></b>
+				<b><h4><div id="percentreward"> You achieved 0% of maximum total score in the last task.</div></h4></b>
+				<b><h5><div>Please click on "Next Task" to continue.</div></h5></b>
+				<button type="button" name="button"; onclick="clickStart('showperformance','page8')"; >Next Task</button>
+			</center>
+		</div>
+
 
 	   	<!--Ninth page contains demographics-->
 		<div id="page9" style="display:none">

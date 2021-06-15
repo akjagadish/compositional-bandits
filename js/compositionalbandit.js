@@ -487,8 +487,17 @@ function nexttrial() {
     overallpercentreward = (percentrew/(ntrials*nSubtasksPerTask))*100
     //tell them that this subtask is over
     if ((subtask + 1) % nSubtasksPerTask == 0) {
+      // ALERT METHOD
       //"You scored " + toFixed(totalscore, 1) + " in this task.
-      alert("Task " + (task+1) + " out of " + nTasks + " is over. You achieved " + toFixed(overallpercentreward, 0) + " % of best total score. Please press return to continue with the next task.")
+      //alert("Task " + (task+1) + " out of " + nTasks + " is over. You achieved " + toFixed(overallpercentreward, 0) + 
+      //" % of best total score. Please press return to continue with the next task.")
+      // SUBPAGE METHOD
+      const taskcomplete  = "Task " + (task+1) + " out of " + nTasks + " now complete." 
+      const rewardtext =  "You achieved " +toFixed(overallpercentreward, 0) + "% of maximum total score in the last task.";
+      clickStart('page8', 'showperformance');
+      //show total score and num of tasks completed on screen
+      change('percentreward', rewardtext);
+      change('numtasks', taskcomplete);
     }
     //start next subtask
     nextblock();
