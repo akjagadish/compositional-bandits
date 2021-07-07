@@ -110,6 +110,7 @@ if (cond == 'loocompositional') {
 
 // total number of tasks
 const nSubtasks = nTasks * nSubtasksPerTask
+change('casino_id', nSubtasksPerTask)
 
 //////// Generate blocks
 function makeCompositionBlocks(functions, lin, per) {
@@ -133,7 +134,7 @@ if (cond == 'compositional' || cond == 'loocompositional') {
 }
 
 if (cond == 'noncompositional') {
-  task_features = ['contextRG', 'contextRG', 'contextRG'];
+  task_features = ['contextRG/', 'contextRG/', 'contextRG/'];
 }
 
 features = Array(nTasks).fill(task_features)
@@ -196,6 +197,19 @@ function clickStart(hide, show) {
   document.getElementById(hide).style.display = 'none';
   document.getElementById(show).style.display = 'block';
   window.scrollTo(0, 0);
+}
+
+// 
+function ConditionSwitch(hide) {
+  document.getElementById(hide).style.display = 'none';
+  if (cond == 'compositional' || cond == 'loocompositional'){
+    document.getElementById('page7a').style.display = 'block';
+  } 
+  if (cond == 'noncompositional'){
+    document.getElementById('page7b').style.display = 'block';
+  }
+  window.scrollTo(0, 0);
+  
 }
 
 //changes inner HTML of div with ID=x to y
@@ -286,18 +300,17 @@ function turkGetParam(name) {
 var turkid = turkGetParam('workerId');  
 
 function instructioncheck() {
-  // begintrial();
-  // clickStart('page7', 'page8');
   //check if correct answers are provided
   if (document.getElementById('icheck1').checked) { var ch1 = 1 }
   if (document.getElementById('icheck2').checked) { var ch2 = 1 }
   if (document.getElementById('icheck3').checked) { var ch3 = 1 }
+  if (document.getElementById('icheck4').checked) { var ch4 = 1 }
   //are all of the correct
-  var checksum = 3; //ch1 + ch2 + ch3;
-  if (checksum === 3) {
+  var checksum = ch1 + ch2 + ch3 + ch4;
+  if (checksum === 4) {
     //if correct, continue
     begintrial();
-    clickStart('page7', 'page8');
+    clickStart('page9', 'page10');
     //alert
     alert('Great, you have answered all of the questions correctly. The study will now start.');
   } else {
@@ -305,7 +318,7 @@ function instructioncheck() {
     //if one or more answers are wrong, raise alert box
     alert('You have answered some of the questions wrong. Please try again.');
     //go back to instructions
-    clickStart('page7', 'page4');
+    clickStart('page9', 'page2');
   }
 }
 
@@ -441,7 +454,7 @@ function myfunc(inp) {
   //show rounded value
   var outshow = toFixed(out, 1);
   //display on screen
-  change('outcome', "Outcome: " + outshow);
+  change('outcome', "You just got " + outshow + " coins");
   //set a time out, after 2 seconds start the next trial
   setTimeout(function () { nexttrial(); }, 2000);
 }
@@ -468,7 +481,7 @@ function nexttrial() {
     //track total score
     totalscore = totalscore + out;
     //to be inserted total score
-    var inserts = 'Total Score: ' + toFixed(totalscore, 1);
+    var inserts = 'Total Coins Earned: ' + toFixed(totalscore, 1);
     //show total score on screen
     change('score', inserts);
     //increment trial number
@@ -492,9 +505,9 @@ function nexttrial() {
       //alert("Task " + (task+1) + " out of " + nTasks + " is over. You achieved " + toFixed(overallpercentreward, 0) + 
       //" % of best total score. Please press return to continue with the next task.")
       // SUBPAGE METHOD
-      const taskcomplete  = "Task " + (task+1) + " out of " + nTasks + " now complete." 
-      const rewardtext =  "You achieved " +toFixed(overallpercentreward, 0) + "% of maximum total score in the last task.";
-      clickStart('page8', 'showperformance');
+      const taskcomplete  = "Casino " + (task+1) + " out of " + nTasks + " visited." 
+      const rewardtext =  "You earned " +toFixed(overallpercentreward, 0) + "% of the maximum possible coins in the last casino.";
+      clickStart('page10', 'showperformance');
       //show total score and num of tasks completed on screen
       change('percentreward', rewardtext);
       change('numtasks', taskcomplete);
@@ -504,7 +517,7 @@ function nexttrial() {
   } else {
     //Otherwise --if blocks exceed total subtask number, then the experiment is over
     alert("The experiment is over. You will now be directed to the next page.")
-    clickStart('page8', 'page9');
+    clickStart('page10', 'page11');
   }
 }
 
@@ -551,7 +564,7 @@ function nextblock() {
   // total score back to 0
   // totalscore = 0;
   //insert total score
-  var inserts = 'Total Score: ' + toFixed(totalscore, 1);
+  var inserts = 'Total Coins Earned: ' + toFixed(totalscore, 1);
   //put on screen
   change('score', inserts);
   //number of trials left
