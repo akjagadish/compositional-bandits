@@ -344,37 +344,37 @@ function begintrial() {
     //   myfunc(0);
     // }
     //same spiel if key equals S      
-    if (e.which == 115 & returnpressed == 0) {
+    if ((e.which == 115 || e.which == 83) & returnpressed == 0) {
       returnpressed = 1;
       timeInMs = Date.now() - timeInMs;
       myfunc(0);
     }
     //same spiel if key equals D      
-    if (e.which == 100 & returnpressed == 0) {
+    if ((e.which == 100 || e.which == 68) & returnpressed == 0) {
       returnpressed = 1;
       timeInMs = Date.now() - timeInMs;
       myfunc(1);
     }
     //same spiel if key equals F       
-    if (e.which == 102 & returnpressed == 0) {
+    if ((e.which == 102 || e.which == 70) & returnpressed == 0) {
       returnpressed = 1;
       timeInMs = Date.now() - timeInMs;
       myfunc(2);
     }
     //same spiel if key equals J
-    if (e.which == 106 & returnpressed == 0) {
+    if ((e.which == 106 || e.which == 74) & returnpressed == 0) {
       returnpressed = 1;
       timeInMs = Date.now() - timeInMs;
       myfunc(3);
     }
     //same spiel if key equals K      
-    if (e.which == 107 & returnpressed == 0) {
+    if ((e.which == 107 || e.which == 75) & returnpressed == 0) {
       returnpressed = 1;
       timeInMs = Date.now() - timeInMs;
       myfunc(4);
     }
     //same spiel if key equals L      
-    if (e.which == 108 & returnpressed == 0) {
+    if ((e.which == 108 || e.which == 76) & returnpressed == 0) {
       returnpressed = 1;
       timeInMs = Date.now() - timeInMs;
       myfunc(5);
