@@ -17,273 +17,300 @@
     <link href="js/bootstrap.css" rel="stylesheet" type="text/css">
 
  </head>
-	 
+
+<body>
 <div class='container' style="width: 95%; height: 95%">
-	<div id="page1a" style="display:block;">
-		<br>
-		<div id="consentform" style="display:block; width: 80%" >
-		<h3>Consent form for participation in this online experiment</h3>
-
-		<p> Computational Principles of Intelligence Lab </p>
-		<p> Designed by: Akshay Jagadish<br>
-				Email: <b>cpilab@tuebingen.mpg.de</b>
-		<h4> Consent to Participate in the Learning Study </h4>
-		<p> This is a psychology experiment conducted by Eric Schulz, group leader of the Computational Principles of Intelligence Lab at the Max Planck Institute for Biological Cybernetics, and the members of his lab. <br> To consent to participate, you MUST meet the following criteria to participate in the experiment:</p>
+	<div id="page1" style="display:block;">
+			<h1>Welcome to our online study on decision making</h1>
 			
-		<b> 18 years of age or older. <br></b>
-		<b> A fluent speaker of English. <br></b>
-		<b> Have not previously participated in this experiment. <br></b>
-
-		<p><br>This study is designed to look at how people learn to make decisions to accomplish their goals. In this task, you will be asked to make choices, play games, and answer questions related to those games. <br>The study will take about <b>30 minutes</b> and will pay <b>$XX.00</b>.</p>
-
-		<p>Your participation in this research is voluntary. You may refrain from answering any questions that make you uncomfortable and may withdraw your participation at any time without penalty by exiting this task <!--br-->and alerting the experimenter either via MTurk or via the e-mail address below (please be sure to provide your MTurk ID). <br> You may choose not to complete certain parts of the task or answer certain questions. You may contact us at the address provided below if you have additional questions or concerns. </p>
-
-		<p>Other than monetary compensation, participating in this study will provide no direct benefits to you. But we hope that this research will benefit society at large <!--br-->by contributing towards establishing a scientific foundation for improving people’s learning abilities.</p>
+			This study is part of a research project conducted
+			by the <a href="http://cpilab.org/" target="_blank">Computational Principles of Intelligence Group</a>
+			at the Max Planck Institute for Biological Cybernetics in Tuebingen, Germany.<br><br>
 			
-		<p>Your online username may be connected to your responses, but we will not be asking for any additional personally-identifying information, and we will handle responses as confidentially as possible. <br> We cannot, however, guarantee the confidentiality of information transmitted over the Internet. We will be keeping de-identified data collected as part of this experiment indefinitely. <br>Data used in scientific publications will remain completely anonymous.</p>
-
-		<p>If you have any questions about the study, feel free to contact our lab. We can be reached at <b>cpilab@tuebingen.mpg.de</b>. </p>
-
-		<ul>
-				<li><b>By selecting the “I consent to participate” option below, I acknowledge the participation criteria, that I have read this consent form, and that I agree to take part in the research.</b> </li>
-		</ul>
-		<br>
-		<button type="button" name="button" id="buttonConsentForm" onclick="clickStart('page1a','page1b');">I consent to participate</button><br><br>
-		<br>
-		<p>If you do not want to consent, you cannot participate in the experiment and should close the window now. </p><br>
-		
-		<div id="imageloader" style="display:none"></div> 
-
-		</div>
-	</div>    
-	<!--data protection form -->
-	<div id="page1b" style="display:none">
+			<!-- images of town + Institute here-->
+			<span>
+			  <img src="./figs/tuebingen.jpg" height="300px">
+			  <img src="./figs/mpi.jpg" height="300px">
+			  <figcaption>By Rabe! - Own work, CC BY-SA 3.0, https://commons.wikimedia.org/w/index.php?curid=33554043</figcaption>
+			</span>
+			<br>
+			Your job will be to play an easy and fun game that we call <b>Bandit City!</b><br>
 			
-		<div id="DataProtection" style = "display:block; width: 80%">
-		<h3>Legal Declaration of Consent under Data Protection Law:</h3>
-		<p><br>We also ask you to consent to have seen and understood our data protection policy, which can be viewed by clicking on the blue text below. Please do not fill it out.</p>
-		<p><br>I have received and took note of the written <a target="_blank" rel="noopener noreferrer" href="https://kyblab.tuebingen.mpg.de/faf/dataprotection.pdf">Data Protection Information Sheet</a> for this study. In doing so, I had sufficient time and opportunity to ask questions about data protection and reconsider my participation in the study. </p>
-		
-		<p>I am aware that:</p>
-		<ul>
-				<li>the processing and use of the collected data occur in a pseudonymized form within the scope of the legally prescribed provisions.
-					As a general rule, the storage occurs in the form of questionnaires, as well as on electronic data media, for 10 years
-					or longer, if this is required by the purpose of the study.</li>
-				<li>by providing further personal data in pseudonymized form, collected personal data may be used for the preparation of anonymized
-					scientific research work and may also be published and used in an anonymized form in medical journals, scientific publications
-					and publicly accessible scientific databases, so that a direct assignment to my person cannot be established.</li>
-				<li>the information obtained during this study may also be sent in an anonymized form to cooperation partners within the
-					scope of the European General Data Protection Regulation for scientific purposes and to cooperation partners outside of the
-					European Union, i.e. to countries with a lower data protection level (this also applies to the USA).</li>
-				<li>the data collected within the scope of the study can also be used and processed in the future inside of the Institute.</li>
-		</ul> 
-		<p>I was informed about my rights, that at any time:</p>
-		<ul>
-				<li>I can withdraw this declaration of consent.</li>
-				<li>I can request information about my stored data and request the correction or blocking of data.</li>
-				<li>by cancellation of my participation in the study, I can request that my personal data collected until that time are immediately deleted or anonymized.</li>
-				<li>I can request that my data are handed out to me or to third parties (if technically feasible).</li>
-		</ul>
+			To be eligible to participate, you MUST meet the following criteria:
+			<ul>
+			<li>18 years of age or older.</li>
+			<li>Fluent speaker of English.</li>
+			<li>Have not previously participated in this experiment.</li>
+			</ul>
+			<br>
+			<b>Please use a device with a keyboard.
+			Please do not accept this HIT if you are using a touch screen! It will not work!</b>
+			
+			<h2>Details</h2>
+			<h3>How much time will it take and how much can you earn?</h3>
+			The study will take <b>20-30 minutes</b>.<br>
+			You will be paid $2.00 USD for participation plus a bonus of up to $6.00 USD depending on your performance.<br>
+			Hence, the <b>expected payment is something around $6.00 to $7.00</b>.
+	  
+			<h3>Confidentiality</h3>
+			Your participation in this study will remain confidential.
+			Your MTurk worker ID will NOT be shared with anyone outside the research team.
+	  
+			<h3>Participation and withdrawal</h3>
+			Your participation in this study is completely voluntary and you may refuse to participate<br>
+			or you may choose to withdraw at any time.<br>
+			However, you will only be paid for the participation upon completion<br>
+			and if you enter the correct completion code to Mturk (provided at the end of the study).
+	  
+			<h3>How to contact the researchers</h3>
+			If you have questions or concerns about your participation or payment
+			or want to request a summary of research findings,
+			please email the <a href="mailto:cpilab@tuebingen.mpg.de">researcher</a>
+			or the <a href="mailto:eric.schulz@tuebingen.mpg.de">principal investigator</a> (Dr. Eric Schulz).
+	  
+			
+			<h2>Data protection</h2>
+			Your data will be anonymized and only used in the manner described in our data protection sheet,
+			available <a href="https://kyblab.tuebingen.mpg.de/roulecity/data_protection.pdf" target="_blank">here</a> 
+			(please do not fill out this sheet!).
+			The following text box summarizes the main points. Please read it carefully and provide consent below:<br>
+			<br>
+			
+			<textarea rows="10" cols="150" readonly>
+The processing and use of the collected data occurs in a pseudoanonymized form within the scope of the legally prescribed provisions.
+As a general rule, the storage occurs in the form of answered questionnaires, as well as electronic data, for a duration of 10 years or longer, if this is required by the purpose of the study.
 
-		<p>I herewith declare that:</p>
-		<ul>
-				<li>I have been adequately informed about the collection and processing of my data and rights.</li>
-				<li>I consent to the collection and processing of personal data within the scope of the study and its pseudonymized disclosure so that
-					only the persons conducting the study can establish a link between the data and my person.</li>
-		</ul>
-		<p>By selecting the consent option below, I agree to participate in online studies or experiments using learning, and I consent to the use of my data described in the Data Protection Information Sheet and confirm having received a copy of the Data Protection Sheet.</p>
-		<p>Note: If you do not consent to participate in this study or have your data used as outlined in the Data Protection Information Sheet, then this experiment will now close and you will not proceed any further. No information about you will be retained. </p>
+By providing of further personal data in pseudoanonymized form, collected personal data may be used for the preparation of anonymized
+scientific research work and may also be published and used in an anonymized form in medical journals and scientific publications, so that a direct assignment to my person cannot be established.
+
+The information obtained during the course of this study may also be sent in an anonymized form to cooperation partners within the scope of
+the European General Data Protection Regulation for scientific purposes and to cooperation partners outside of the European Union, i.e. to countries with a lower data protection level (this also applies to the USA).
+
+The data collected within the scope of the study can also be used and processed in the future inside of the Max Planck Institute.
+
+I was informed about my rights, that at any time:
+
+I can withdraw this declaration of consent.
+
+I can request information about my stored data and request the correction or blocking of data.
+
+By cancellation of my participation in the study,
+I can request that any personal data of mine collected until that point are immediately deleted or anonymized.
+
+I can request that my personal data are handed out to me or to third parties (if technically feasible).
+
+I herewith declare that:
+
+I have been adequately informed about the collection and processing of my personal data and rights.
+
+I consent to the collection and processing of personal data within the scope of the study and its pseudoanonymized disclosure,
+so that only the persons conducting the study can establish a link between the data and my person.
+
+Agreement:
+
+I agree to participate in this experiment.
+
+I consent to the use of my data described in the Data Protection Information Sheet
+and confirm having received a copy of the Data Protection Sheet.
+
+I consent to data transfer from the MPI for Biological Cybernetics encrypted database to the project-related collaborators:
+inside of the Max Planck Society and affiliated research institutes, or at partnering institutions like the University of Tuebingen.
+			</textarea>      
+			
+			<br>
+			<br>
+			By selecting the consent option below,
+			you acknowledge that you fulfill all of the participation criteria
+			and you agree to your data being used as described.
+			<br>
+			<br>
+	
+			<button type="button" name="button" id="buttonConsentForm" onclick="clickStart('page1','page2');">I consent to participate</button><br><br>
+
+    </div>  
+
+	<!--Introduce Bandit City-->
+	<div id="page2" style="display:none">
 		<br>
-		</div>
-				
-		<button type="button" id="buttonDataForm" onclick="clickStart('page1b','page2');">I consent</button><br>
+			<p><b>Welcome!</b></p>
+			<ul>
+			<li>Today, you are going be a gambler visiting the fictional town of Bandit City (BC).</li>
+			<li>BC is the place to be if you wish to immerse yourself in the world of gambling.</li>
+			<li>Like any major gambling city, BC has several casinos lined up next to one another.</li>
+			<li>As an experienced gambler, you like to visit all the casinos whenever you are in town and make some money.</li>
+			</ul>
+		<br>			   
+		<button type="button" name="button"; onclick="clickStart('page2','page3')"; >Go to next page</button>
+	</div>
+
+	<!--Tasks-->
+	<div id="page3" style="display:none">
 		<br>
-		<p>If you do not want to consent, you cannot participate in the experiment and should close the window now.</p><br>
+			<p><b>Local News!</b></p>
+			<ul>
+			<li>To promote local businesses, casinos in BC recently decided to buy a new type of slot machines from their local manufactures.</li>
+			<li>So all casinos now have two new slot machines, one each from Green Geeks and Blue Lagoons.</li>
+			<li>Let us take a look at these new machines.</li>
+			</ul>
+		<br>			   
+		<button type="button" name="button"; onclick="clickStart('page3','page4a')"; >Go to next page</button>
+	</div>
 
-	</div>    
+	<!--MAB-->
+	<div id="page4a" style="display:none">
+		<br>
+			<p><b>Slot Machine 2.0</b></p>
+			<ul>
+			<li> Each slot machine has several options that you can choose from to earn BC coins. </li>
+			<li> Each option maps on to different keys on your keyboard. </li>
+			<li> You can choose an option by pressing the corresponding key on your keyboard. </li>
+			<li> Color of the keys indicate the company it was made by. </li> 
+			It could be green, made by Green Geeks:
+			<br><img src="figs/Green_arms.png" width="600" ><br>
+			Or blue, made by Blue Lagoons:
+			<br><img src="figs/Blue_arms.png" width="600" ><br>
+			<li> When you have made a choice, the key you pressed becomes bold and the amount of BC coins you won will appear on the screen. </li>
+			</ul>		
+		<br>			   
+		<button type="button" name="button"; onclick="clickStart('page4a','page4b')"; >Go to next page</button>
+	</div>
 
-<!--Introduce Bandit City-->
-<div id="page2" style="display:none">
-	<br>
-		<p><b>Welcome!</b></p>
-		<ul>
-		<li>Today, you are going be a gambler visiting the fictional town of Bandit City (BC).</li>
-		<li>BC is the place to be if you wish to immerse yourself in the world of gambling.</li>
-		<li>Like any major gambling city, BC has several casinos lined up next to one another.</li>
-		<li>As an experienced gambler, you like to visit all the casinos whenever you are in town and make some money.</li>
-		</ul>
-	<br>			   
-	<button type="button" name="button"; onclick="clickStart('page2','page3')"; >Go to next page</button>
-</div>
+	<!--MAB-->
+	<div id="page4b" style="display:none">
+		<br>
+			<p><b>Slot Machines 2.0</b></p>
+			<ul>
+			<li> The number of BC coins you can get is different for the different keys of the slot machine. </li>
+			<li> You have 5 chances to try and find the most rewarding option. </li>
+			<li> The earlier you find the most rewarding option for a given machine, the more BC coins you can earn from it. </li>
+			<li> Since you feel quite motivated, you will play all the different types of slot machines in a casino before moving to the next casino. </li>
+			<li> You will exchange all the BC coins you earned across casinos for real money at the end of your adventure. </li>
+			</ul>
+		<br>			   
+		<button type="button" name="button"; onclick="clickStart('page4b','page5a')"; >Go to next page</button>
+	</div>
+	<!--sMAB-->
+	<div id="page5a" style="display:none">
+		<br>
+			<p><b>Shhh...</b></p>
+			<ul>
+			<li> During his visit to BC last weekend, a friend of yours had an "Aha" moment! </li>
+			<li> As he went from casino to casino, he noticed that slot machines from the same company behaved somewhat similarly. </li>
+			<li> He realized that the coins he could get by pressing the different options on a slot machine followed a certain pattern. </li>
+			<li> It was as if the companies preset the coins one could earn from each option to these patterns before delivering it. </li>
+			</ul>
+		<br>			   
+		<button type="button" name="button"; onclick="clickStart('page5a','page5b')"; >Go to next page</button>
+	</div>
 
+	<!--sMAB-->
+	<div id="page5b" style="display:none">
+		<br>
+			<p><b>Hmm...but what trends?</b></p>
+			<ul>
+			<li> He noted that all machines made by a company is preset to one of the two trends: </li>
+			<h5> 1. Rising/Falling Trend </h5>
+			<li> For machine from one company, he could get more and more (Left) or less and less (Right) BC coins as he went from key S (left-most) to key L (right-most) as shown below. </li>
+			<br><img src="figs/LinPos1.png" width="280" > <img src="figs/LinNeg1.png" width="280" ><br> 
+			<li> Note that machines from this company could be rising in one casino and falling in the other but across casinos, all their machines (i.e. same colored) will belong only to the rising/falling trend. </li>
+			<h5> 2. Alternating Trend </h5>
+			<li> For machines from the another company, he saw that every other option was highly rewarding so either keys (S, F, K) or (D, J, L) were more rewarding as shown below. </li>
+			<br><img src="figs/PerEven1.png" width="280" > <img src="figs/PerOdd2.png" width="280" > <br>
+			<li> Again, whether a machine of this company is preset to (S, F, K) or (D, J, L) to be highly rewarding could change between casinos but all machines from this company belonged only to the alternating trend.</li>	
+			<!-- <br><img src="figs/LinNeg1.png" width="300" ><br> -->
+			<!-- <li> Let us assume hypothetically that machines from Blue Lagoons followed Rising/Falling Trend </li>
+			<li> Then, the coins you caan get for the different options on blue machines can be either rising or falling and you can only know which of the two by playing against it.  </li>
+			-->
+			</ul>
+		<br>			   
+		<button type="button" name="button"; onclick="clickStart('page5b','page5c')"; >Go to next page</button>
+	</div>
 
-<!--Tasks-->
-<div id="page3" style="display:none">
-	<br>
-		<p><b>Local News!</b></p>
-		<ul>
-		<li>To promote local businesses, casinos in BC recently decided to buy a new type of slot machines from their local manufactures.</li>
-		<li>So all casinos now have two new slot machines, one each from Green Geeks and Blue Lagoons.</li>
-		<li>Let us take a look at this new machine.</li>
-		</ul>
-	<br>			   
-	<button type="button" name="button"; onclick="clickStart('page3','page4a')"; >Go to next page</button>
-</div>
+	<div id="page5c" style="display:none">
+		<br>
+			<p><b>Trends are not fixed?</b></p>
+			<ul>
+			<h5> The degree of rise and fall are not the same in every casino. </h5>
+			<li> For example, you can see two different rising trends below. </li>
+			<br><img src="figs/LinPos1.png" width="280" > <img src="figs/LinPos2.png" width="280" ><br> 
+			<li> For example, you can see two different falling trends below. </li>
+			<br><img src="figs/LinNeg1.png" width="280" > <img src="figs/LinNeg2.png" width="280" ><br> 
+			<!-- <li> Let us assume hypothetically that machines from Blue Lagoons now followed Alternate Trend </li>
+			<li> Then, blue machines can have keys (S, F, K) as highly rewarding or  keys (J, K, L) and again, you can only know which of the two by playing against it.  </li> -->
+			</ul>
+		<br>			   
+		<button type="button" name="button"; onclick="clickStart('page5c','page5d')"; >Go to next page</button>
+	</div>
 
-<!--MAB-->
-<div id="page4a" style="display:none">
-	<br>
-		<p><b>Slot Machine 2.0</b></p>
-		<ul>
-		<li> Each slot machine has several options that you can choose from to earn BC coins. </li>
-		<li> Each option maps on to different keys on your keyboard. </li>
-		<li> You can choose an option by pressing the corresponding key on your keyboard. </li>
-		<li> Color of the keys indicate the company it was made by. </li> 
-		It could be green, made by Green Geeks:
-		<br><img src="figs/Green_arms.png" width="600" ><br>
-		Or blue, made by Blue Lagoons:
-		<br><img src="figs/Blue_arms.png" width="600" ><br>
-		<li> When you have made a choice, the key you pressed becomes bold and the amount of BC coins you won will appear on the screen. </li>
-		</ul>		
-	<br>			   
-	<button type="button" name="button"; onclick="clickStart('page4a','page4b')"; >Go to next page</button>
-</div>
+	<div id="page5d" style="display:none">
+		<br>
+			<p><b>Patterns are not fixed?</b></p>
+			<ul>
+			<h5> Same goes for alternating functions, they might not be as highly rewarding in every casino.</h5>
+			<li> For example, you can see two different (D, J, L) alternating trend below. </li>
+			<br><img src="figs/PerOdd2.png" width="280" > <img src="figs/PerOdd1.png" width="280" ><br>
+			<li> For example, you can see two different (S, F, K) alternating trend below. </li>
+			<br><img src="figs/PerEven1.png" width="280" > <img src="figs/PerEven2.png" width="280" ><br>
+			<!-- <li> Let us assume hypothetically that machines from Blue Lagoons now followed Alternate Trend </li>
+			<li> Then, blue machines can have keys (S, F, K) as highly rewarding or  keys (J, K, L) and again, you can only know which of the two by playing against it.  </li> -->
+			</ul>
+		<br>			   
+		<button type="button" name="button"; onclick="clickStart('page5d','page6')"; >Go to next page</button>
+	</div>
 
-<!--MAB-->
-<div id="page4b" style="display:none">
-	<br>
-		<p><b>Slot Machines 2.0</b></p>
-		<ul>
-		<li> The number of BC coins you can get is different for the different keys of the slot machine. </li>
-		<li> You have 5 chances to try and find the most rewarding option. </li>
-		<li> The earlier you find the most rewarding option for a given machine, the more BC coins you can earn from it. </li>
-		<li> Since you feel quite motivated, you will play all the different types of slot machines in a casino before moving to the next. </li>
-		<li> You will exchange all the BC coins you earned across casinos for real money at the end of your adventure. </li>
-		</ul>
-	<br>			   
-	<button type="button" name="button"; onclick="clickStart('page4b','page5a')"; >Go to next page</button>
-</div>
-<!--sMAB-->
-<div id="page5a" style="display:none">
-	<br>
-		<p><b>Shhh...</b></p>
-		<ul>
-		<li> During his visit to BC last weekend, a friend of yours had an "Aha" moment! </li>
-		<li> As he went from casino to casino, he noticed that slot machines from the same company behaved somewhat similarly. </li>
-		<li> He realized that the coins he could get by pressing the different options on a slot machine followed a certain pattern. </li>
-		<li> It was as if the companies preset the coins one could earn from each option to these patterns before delivering it. </li>
-		</ul>
-	<br>			   
-	<button type="button" name="button"; onclick="clickStart('page5a','page5b')"; >Go to next page</button>
-</div>
+	<!--Task purpose-->
+	<div id="page6" style="display:none">
+		<br>
+			<p><b>Your mission</b></p>
+			<ul>
+			<li> Unfortunately, your buddy went a little out of control that night, what happens in BC stays in BC. </li>
+			<li> Now, he only remembers the trends and does not recollect which trend belongs to which company. </li>
+			<li> Good news is that if you can figure out this, you can end up leaving BC a rich man. </li>
+			<!-- <li> Remember, the trend followed by a slot machine i.e. Linear or Alternate remains same as you go from casino to casino. </li> -->
+			<!-- <li> After you visited all the casinos, you can exchange all the BC coins you have collected for real money. </li> -->
+			</ul>
+		<br>			   
+		<button type="button" name="button"; onclick="ConditionSwitch('page6')"; >Go to next page</button>
+	</div>
 
-<!--sMAB-->
-<div id="page5b" style="display:none">
-	<br>
-		<p><b>Hmm...but what trends?</b></p>
-		<ul>
-		<li> He noted that all machines made by a company is preset to one of the two trends: </li>
-		<h5> 1. Rising/Falling Trend </h5>
-		<li> He figured that in one set of machines, he could get more and more (Left) or less and less (Right) BC coins as he went from key S (left-most) to key L (right-most) as shown below. </li>
-		<br><img src="figs/LinPos1.png" width="280" > <img src="figs/LinNeg1.png" width="280" ><br> 
-		<li> Machine from a company could be rising in one casino and falling in the other but across casinos all machines of this company (i.e. same colored) belonged only to the rising/falling trend. </li>
-		<h5> 2. Alternate Trend </h5>
-		<li> In another set of machines, he saw that every other option was highly rewarding so either keys (S, F, K) or (D, J, L) were more rewarding as shown below. </li>
-		<br><img src="figs/PerEven1.png" width="280" > <img src="figs/PerOdd2.png" width="280" > <br>
-		<li> Again, whether a machine of a particular color is preset to (S, F, K) or (D, J, L) to be highly rewarding could change between casinos but all machines from this company belonged only to the alternate trend.</li>	
-		<!-- <br><img src="figs/LinNeg1.png" width="300" ><br> -->
-		<!-- <li> Let us assume hypothetically that machines from Blue Lagoons followed Rising/Falling Trend </li>
-		<li> Then, the coins you caan get for the different options on blue machines can be either rising or falling and you can only know which of the two by playing against it.  </li>
-		 -->
-		</ul>
-	<br>			   
-	<button type="button" name="button"; onclick="clickStart('page5b','page5c')"; >Go to next page</button>
-</div>
+	<!--Condition based: Compositional-->
+	<div id="page7a" style="display:none">
+		<br>
+			<p><b>Oh wait!</b></p>
+			<ul>			
+			<li> Looks like the casino owners have caught on to us, they noticed that a lot of people were doing well on the new slot machines. </li>
+			<li> They now want to challenge their visitors by making it harder to earn BC coins. </li>
+			<li> So, once you finish playing against the two slot machines, they would connect the machines together and ask you to play against the connected slot machine. </li>
+			<li> The machines were connected such that pressing a button on one would result in pressing the same button on the other. </li>
+			<li> The options for such a connected machine will be half-green and half-blue as shown below. </li>
+			<br><img src="figs/GW_buttons.png" width="600" ><br>
+			<li> The total coins you earn by choosing an option on such a machine is the sum of coins from the two slot machines. </li>
+			<li> Unlike your friend, you will be playing against three slot machines in each casino today. </li>
+			<li> Hope you are up for the challenge! </li>
+			</ul>
+		<br>			   
+		<button type="button" name="button"; onclick="clickStart('page7a','page8')"; >Go to next page</button>
+	</div>
 
-<div id="page5c" style="display:none">
-	<br>
-		<p><b>Trends are not fixed?</b></p>
-		<ul>
-		<h5> The degree of rise and fall are not the same in every casino. </h5>
-		<li> For example, you can see two different rising trends below. </li>
-		<br><img src="figs/LinPos1.png" width="280" > <img src="figs/LinPos2.png" width="280" ><br> 
-		<li> For example, you can see two different falling trends below. </li>
-		<br><img src="figs/LinNeg1.png" width="280" > <img src="figs/LinNeg2.png" width="280" ><br> 
-		<!-- <li> Let us assume hypothetically that machines from Blue Lagoons now followed Alternate Trend </li>
-		<li> Then, blue machines can have keys (S, F, K) as highly rewarding or  keys (J, K, L) and again, you can only know which of the two by playing against it.  </li> -->
-		</ul>
-	<br>			   
-	<button type="button" name="button"; onclick="clickStart('page5c','page5d')"; >Go to next page</button>
-</div>
+	<!--Condition based: Non-Compositional-->
+	<div id="page7b" style="display:none">
+		<br>
+			<p><b>Oh wait!</b></p>
+			<li> Looks like the casino owners have caught on to us, they noticed that a lot of people were doing well on the new slot machines. </li>
+			<li> They now want to challenge their visitors by making it harder to earn BC coins. </li>
+			<li> So, they connected the machines together and asked people to play against the connected slot machine instead. </li>
+			<li> The machines were connected such that pressing a button on one would result in pressing the same button on the other. </li>
+			<li> The options for such a connected machine will be half-green and half-blue as shown below. </li>
+			<br><img src="figs/GW_buttons.png" width="600" ><br>
+			<li> The total coins you earn by choosing an option on such a machine is the sum of coins from the two slot machines. </li>
+			<li> Unlike your friend, you will be playing only one machine in each casino today. </li>
+			<li> Hope you are up for the challenge!</li>
+			</ul>
+		<br>			   
+		<button type="button" name="button"; onclick="clickStart('page7b','page8')"; >Go to next page</button>
+	</div>
 
-<div id="page5d" style="display:none">
-	<br>
-		<p><b>Patterns are not fixed?</b></p>
-		<ul>
-		<h5> Same goes for alternate functions, they might not be as highly rewarding in every casino.</h5>
-		<li> For example, you can see two different (D, J, L) alternate trend below. </li>
-		<br><img src="figs/PerOdd2.png" width="280" > <img src="figs/PerOdd1.png" width="280" ><br>
-		<li> For example, you can see two different (S, F, K) alternate trend below. </li>
-		<br><img src="figs/PerEven1.png" width="280" > <img src="figs/PerEven2.png" width="280" ><br>
-		<!-- <li> Let us assume hypothetically that machines from Blue Lagoons now followed Alternate Trend </li>
-		<li> Then, blue machines can have keys (S, F, K) as highly rewarding or  keys (J, K, L) and again, you can only know which of the two by playing against it.  </li> -->
-		</ul>
-	<br>			   
-	<button type="button" name="button"; onclick="clickStart('page5d','page6')"; >Go to next page</button>
-</div>
-
-<!--Task purpose-->
-<div id="page6" style="display:none">
-	<br>
-		<p><b>Your mission</b></p>
-		<ul>
-		<li> Unfortunately, your buddy went a little out of control that night, what happens in BC stays in BC. </li>
-		<li> Now, he only remembers the trends and does not recollect which trend belongs to which company. </li>
-		<li> Good news is that if you can figure out this, you can end up leaving BC a rich man. </li>
-		<!-- <li> Remember, the trend followed by a slot machine i.e. Linear or Alternate remains same as you go from casino to casino. </li> -->
-		<!-- <li> After you visited all the casinos, you can exchange all the BC coins you have collected for real money. </li> -->
-		</ul>
-	<br>			   
-	<button type="button" name="button"; onclick="ConditionSwitch('page6')"; >Go to next page</button>
-</div>
-
-<!--Condition based: Compositional-->
-<div id="page7a" style="display:none">
-	<br>
-		<p><b>Oh wait!</b></p>
-		<ul>			
-		<li> Looks like the casino owners have caught on to us, they noticed that a lot of people were doing well on the new slot machines. </li>
-		<li> They now want to challenge their visitors by making it harder to earn BC coins. </li>
-		<li> So, once you finish playing against the two slot machines, they would connect the machines together and ask you to play against the connected slot machine. </li>
-		<li> The machines were connected such that pressing a button on one would result in pressing the same button on the other. </li>
-		<li> The options for such a connected machine will be half-green and half-blue as shown below. </li>
-		<br><img src="figs/GW_buttons.png" width="600" ><br>
-		<li> The total coins you earn by choosing an option on such a machine is the sum of coins from the two slot machines for the choosen button. </li>
-		<li> Unlike your friend, you will be playing against three slot machines in each casino today. </li>
-		<li> Hope you are up for the challenge! </li>
-		</ul>
-	<br>			   
-	<button type="button" name="button"; onclick="clickStart('page7a','page8')"; >Go to next page</button>
-</div>
-<!--Condition based: Non-Compositional-->
-<div id="page7b" style="display:none">
-	<br>
-		<p><b>Oh wait!</b></p>
-		<li> Looks like the casino owners have caught on to us, they noticed that a lot of people were doing well on the new slot machines. </li>
-		<li> They now want to challenge their visitors by making it harder to earn BC coins. </li>
-		<li> So, they connected the machines together and asked people to play against the connected slot machine instead. </li>
-		<li> The machines were connected such that pressing a button on one would result in pressing the same button on the other. </li>
-		<li> The options for such a connected machine will be half-green and half-blue as shown below. </li>
-		<br><img src="figs/GW_buttons.png" width="600" ><br>
-		<li> The total coins you earn by choosing an option on such a machine is the sum of coins from the two slot machines for the choosen button. </li>
-		<li> Unlike your friend, you will be playing only one machine in each casino today. </li>
-		<li> Hope you are up for the challenge!</li>
-		</ul>
-	<br>			   
-	<button type="button" name="button"; onclick="clickStart('page7b','page8')"; >Go to next page</button>
-</div>
-
-<!--Sixth page contains keyboard layout-->
+	<!--Sixth page contains keyboard layout-->
 	<div id="page8" style="display:none">
 		<br>
 			<p><b>Keyboard finger position:</b></p>
@@ -325,7 +352,7 @@
 				<input type="radio" name="q3"> 
 					Falling trend for sure.<br>
 				<input type="radio" name="q3"> 
-					Either rising, falling or alternate, one needs to figure out which.<br>
+					Either rising, falling or alternating, one needs to figure out which.<br>
 			</fieldset>
 			<fieldset style="float:left;width:400px;margin:5px">
 				What does pressing an option that is half-green and half-blue mean?<br>
@@ -344,7 +371,7 @@
 		<button type="button" name="button"; onclick="instructioncheck()"; >Check answers</button>  
 	</div>
 
-	<!--Eighth page contains task-->
+	<!--task-->
 	<div id="page10" style="display:none">
 		<h1> <font size="4">Please choose an option to gain BC coins.</font> </h1>
 		<div id="explainshow" style="display:none">
@@ -388,8 +415,7 @@
 		</center>
 	</div>
 
-
-	<!--Ninth page contains demographics-->
+	<!--demographics-->
 	<div id="page11" style="display:none">
 		<h1> <font size="4">Please tell us something about yourself.</font> </h1>
 		<fieldset>
@@ -417,15 +443,19 @@
 	
 		<!--Tenth page contains results and code word-->
 	</div>
-		<div id="page12" style="display:none">
-			<h1><font size="4">Your performance and reward</font></h1>
-			<div id="result"></div><br>
-			<div id="money"></div><br>
-			<p>Thank you very much for participating in our study.</p>
-			<p>Your Mechanical Turk Password is:<br> <b>compbandits</b></p><br>
-			<p>In case you have any questions, please contact us via our MTurk account or write an email to<br> <b>akshay.jagadish@tue.mpg.de</b></p>
-		</div>
+
+	<!-- renumeration -->
+	<div id="page12" style="display:none">
+		<h1><font size="4">Your performance and reward</font></h1>
+		<div id="result"></div><br>
+		<div id="money"></div><br>
+		<p>Thank you very much for participating in our study.</p>
+		<p>Your Mechanical Turk Password is:<br> <b>compbandits</b></p><br>
+		<p>In case you have any questions, please contact us via our MTurk account or write an email to<br> <b>akshay.jagadish@tue.mpg.de</b></p>
 	</div>
-    <script src="js/compositionalbandit.js" charset="utf-8"></script>
-    </body>
+</div>
+
+<script src="js/compositionalbandit.js" charset="utf-8"></script>
+</body>
+
 </html>
