@@ -361,8 +361,15 @@ h6,
   font-family: inherit;
   font-weight: 500;
   line-height: 1.1;
+  /* color: #007; */
   color: inherit;
+
 }
+textarea {
+  font: 400 13.3333px monospace;
+}
+
+
 h1 small,
 h2 small,
 h3 small,
