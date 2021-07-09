@@ -37,11 +37,11 @@
 			Your job will be to play an easy and fun game that we call <b>Bandit City!</b><br>
 			
 			To be eligible to participate, you MUST meet the following criteria:
-			<ul>
-			<li>18 years of age or older.</li>
-			<li>Fluent speaker of English.</li>
+			<ol>
+			<li>Be 18 years of age or older.</li>
+			<li>be Fluent speaker of English.</li>
 			<li>Have not previously participated in this experiment.</li>
-			</ul>
+			</ol>
 			<br>
 			<b>Please use a device with a keyboard.
 			Please do not accept this HIT if you are using a touch screen! It will not work!</b>
@@ -152,7 +152,8 @@ inside of the Max Planck Society and affiliated research institutes, or at partn
 			<li>So all casinos now have two new slot machines, one each from Green Geeks and Blue Lagoons.</li>
 			<li>Let us take a look at these new machines.</li>
 			</ul>
-		<br>			   
+		<br>
+		<button type="button" name="button"; onclick="clickStart('page3','page2')"; > Back </button>			   
 		<button type="button" name="button"; onclick="clickStart('page3','page4a')"; >Go to next page</button>
 	</div>
 
@@ -171,7 +172,8 @@ inside of the Max Planck Society and affiliated research institutes, or at partn
 			<br><img src="figs/Blue_arms.png" width="600" ><br>
 			<li> When you have made a choice, the key you pressed becomes bold and the amount of BC coins you won will appear on the screen. </li>
 			</ul>		
-		<br>			   
+		<br>
+		<button type="button" name="button"; onclick="clickStart('page4a','page3')"; > Back </button>			   
 		<button type="button" name="button"; onclick="clickStart('page4a','page4b')"; >Go to next page</button>
 	</div>
 
@@ -183,12 +185,14 @@ inside of the Max Planck Society and affiliated research institutes, or at partn
 			<li> The number of BC coins you can get is different for the different keys of the slot machine. </li>
 			<li> You have 5 chances to try and find the most rewarding option. </li>
 			<li> The earlier you find the most rewarding option for a given machine, the more BC coins you can earn from it. </li>
-			<li> Since you feel quite motivated, you will play all the different types of slot machines in a casino before moving to the next casino. </li>
+			<li> Since you feel motivated, you will play all the different types of slot machines in a casino before moving to the next casino. </li>
 			<li> You will exchange all the BC coins you earned across casinos for real money at the end of your adventure. </li>
 			</ul>
-		<br>			   
+		<br>
+		<button type="button" name="button"; onclick="clickStart('page4b','page4a')"; > Back </button>			   
 		<button type="button" name="button"; onclick="clickStart('page4b','page5a')"; >Go to next page</button>
 	</div>
+
 	<!--sMAB-->
 	<div id="page5a" style="display:none">
 		<br>
@@ -197,13 +201,13 @@ inside of the Max Planck Society and affiliated research institutes, or at partn
 			<li> During his visit to BC last weekend, a friend of yours had an "Aha" moment! </li>
 			<li> As he went from casino to casino, he noticed that slot machines from the same company behaved somewhat similarly. </li>
 			<li> He realized that the coins he could get by pressing the different options on a slot machine followed a certain pattern. </li>
-			<li> It was as if the companies preset the coins one could earn from each option to these patterns before delivering it. </li>
+			<li> It was as if the companies preset the coins one could earn from each option to these trends before delivering it. </li>
 			</ul>
-		<br>			   
+		<br>
+		<button type="button" name="button"; onclick="clickStart('page5a','page4b')"; > Back </button>			   
 		<button type="button" name="button"; onclick="clickStart('page5a','page5b')"; >Go to next page</button>
 	</div>
 
-	<!--sMAB-->
 	<div id="page5b" style="display:none">
 		<br>
 			<p><b>Hmm...but what trends?</b></p>
@@ -211,18 +215,21 @@ inside of the Max Planck Society and affiliated research institutes, or at partn
 			<li> He noted that all machines made by a company is preset to one of the two trends: </li>
 			<h5> 1. Rising/Falling Trend </h5>
 			<li> For machine from one company, he could get more and more (Left) or less and less (Right) BC coins as he went from key S (left-most) to key L (right-most) as shown below. </li>
-			<br><img src="figs/LinPos1.png" width="280" > <img src="figs/LinNeg1.png" width="280" ><br> 
-			<li> Note that machines from this company could be rising in one casino and falling in the other but across casinos, all their machines (i.e. same colored) will belong only to the rising/falling trend. </li>
+			<br> <img src="figs/LinNeg_LinPos.png" width="600" style="vertical-align: bottom" >
+			<!-- <br><img src="figs/LinPos1.png" width="280" style="vertical-align: bottom" > <img src="figs/LinNeg1.png" width="280" style="vertical-align: bottom" ><br>  -->
+			<li> Note that machines from this company could be rising in one casino and falling in the other but across casinos, all their machines (i.e. machines with the same color) will belong only to the rising/falling trend. </li>
 			<h5> 2. Alternating Trend </h5>
 			<li> For machines from the another company, he saw that every other option was highly rewarding so either keys (S, F, K) or (D, J, L) were more rewarding as shown below. </li>
-			<br><img src="figs/PerEven1.png" width="280" > <img src="figs/PerOdd2.png" width="280" > <br>
+			<br> <img src="figs/PerOdd_PerEven.png" width="600" style="vertical-align: bottom" >
+			<!-- <br><img src="figs/PerEven1.png" width="280" style="vertical-align: bottom" > <img src="figs/PerOdd2.png" width="280" style="vertical-align: bottom" > <br> -->
 			<li> Again, whether a machine of this company is preset to (S, F, K) or (D, J, L) to be highly rewarding could change between casinos but all machines from this company belonged only to the alternating trend.</li>	
 			<!-- <br><img src="figs/LinNeg1.png" width="300" ><br> -->
 			<!-- <li> Let us assume hypothetically that machines from Blue Lagoons followed Rising/Falling Trend </li>
 			<li> Then, the coins you caan get for the different options on blue machines can be either rising or falling and you can only know which of the two by playing against it.  </li>
 			-->
 			</ul>
-		<br>			   
+		<br>
+		<button type="button" name="button"; onclick="clickStart('page5b','page5a')"; > Back </button>			   
 		<button type="button" name="button"; onclick="clickStart('page5b','page5c')"; >Go to next page</button>
 	</div>
 
@@ -232,29 +239,35 @@ inside of the Max Planck Society and affiliated research institutes, or at partn
 			<ul>
 			<h5> The degree of rise and fall are not the same in every casino. </h5>
 			<li> For example, you can see two different rising trends below. </li>
-			<br><img src="figs/LinPos1.png" width="280" > <img src="figs/LinPos2.png" width="280" ><br> 
+			<br> <img src="figs/LinPos12.png" width="600" style="vertical-align: bottom" >
+			<!-- <br><img src="figs/LinPos1.png" width="280" style="vertical-align: bottom" > <img src="figs/LinPos2.png" width="280" style="vertical-align: bottom" ><br>  -->
 			<li> For example, you can see two different falling trends below. </li>
-			<br><img src="figs/LinNeg1.png" width="280" > <img src="figs/LinNeg2.png" width="280" ><br> 
+			<br> <img src="figs/LinNeg1n2.png" width="600" style="vertical-align: bottom" >
+			<!-- <br><img src="figs/LinNeg1.png" width="280" style="vertical-align: bottom"  > <img src="figs/LinNeg2.png" width="280" style="vertical-align: bottom"  ><br>  -->
 			<!-- <li> Let us assume hypothetically that machines from Blue Lagoons now followed Alternate Trend </li>
 			<li> Then, blue machines can have keys (S, F, K) as highly rewarding or  keys (J, K, L) and again, you can only know which of the two by playing against it.  </li> -->
 			</ul>
-		<br>			   
+		<br>
+		<button type="button" name="button"; onclick="clickStart('page5c','page5b')"; > Back </button>			   
 		<button type="button" name="button"; onclick="clickStart('page5c','page5d')"; >Go to next page</button>
 	</div>
 
 	<div id="page5d" style="display:none">
 		<br>
-			<p><b>Patterns are not fixed?</b></p>
+			<p><b>Trends are not fixed?</b></p>
 			<ul>
-			<h5> Same goes for alternating functions, they might not be as highly rewarding in every casino.</h5>
+			<h5> Same goes for alternating trends, they might not be as highly rewarding in every casino.</h5>
 			<li> For example, you can see two different (D, J, L) alternating trend below. </li>
-			<br><img src="figs/PerOdd2.png" width="280" > <img src="figs/PerOdd1.png" width="280" ><br>
+			<br> <img src="figs/PerOdd12.png" width="600" style="vertical-align: bottom" >
+			<!-- <br><img src="figs/PerOdd2.png" width="280" style="vertical-align: bottom" > <img src="figs/PerOdd1.png" width="280" style="vertical-align: bottom" ><br> -->
 			<li> For example, you can see two different (S, F, K) alternating trend below. </li>
-			<br><img src="figs/PerEven1.png" width="280" > <img src="figs/PerEven2.png" width="280" ><br>
+			<br> <img src="figs/PerEven12.png" width="600" style="vertical-align: bottom" >
+			<!-- <br><img src="figs/PerEven1.png" width="280" style="vertical-align: bottom" > <img src="figs/PerEven2.png" width="280" style="vertical-align: bottom" ><br> -->
 			<!-- <li> Let us assume hypothetically that machines from Blue Lagoons now followed Alternate Trend </li>
 			<li> Then, blue machines can have keys (S, F, K) as highly rewarding or  keys (J, K, L) and again, you can only know which of the two by playing against it.  </li> -->
 			</ul>
-		<br>			   
+		<br>
+		<button type="button" name="button"; onclick="clickStart('page5d','page5c')"; > Back </button>			   
 		<button type="button" name="button"; onclick="clickStart('page5d','page6')"; >Go to next page</button>
 	</div>
 
@@ -265,11 +278,12 @@ inside of the Max Planck Society and affiliated research institutes, or at partn
 			<ul>
 			<li> Unfortunately, your buddy went a little out of control that night, what happens in BC stays in BC. </li>
 			<li> Now, he only remembers the trends and does not recollect which trend belongs to which company. </li>
-			<li> Good news is that if you can figure out this, you can end up leaving BC a rich man. </li>
+			<li> Good news is that if you can figure out this, you can end up leaving BC a rich person. </li>
 			<!-- <li> Remember, the trend followed by a slot machine i.e. Linear or Alternate remains same as you go from casino to casino. </li> -->
 			<!-- <li> After you visited all the casinos, you can exchange all the BC coins you have collected for real money. </li> -->
 			</ul>
-		<br>			   
+		<br>
+		<button type="button" name="button"; onclick="clickStart('page6','page5d')"; > Back </button>			   
 		<button type="button" name="button"; onclick="ConditionSwitch('page6')"; >Go to next page</button>
 	</div>
 
@@ -288,7 +302,8 @@ inside of the Max Planck Society and affiliated research institutes, or at partn
 			<li> Unlike your friend, you will be playing against three slot machines in each casino today. </li>
 			<li> Hope you are up for the challenge! </li>
 			</ul>
-		<br>			   
+		<br>
+		<button type="button" name="button"; onclick="clickStart('page7a','page6')"; > Back </button>
 		<button type="button" name="button"; onclick="clickStart('page7a','page8')"; >Go to next page</button>
 	</div>
 
@@ -306,11 +321,12 @@ inside of the Max Planck Society and affiliated research institutes, or at partn
 			<li> Unlike your friend, you will be playing only one machine in each casino today. </li>
 			<li> Hope you are up for the challenge!</li>
 			</ul>
-		<br>			   
+		<br>			
+		<button type="button" name="button"; onclick="clickStart('page7b','page6')"; > Back </button>
 		<button type="button" name="button"; onclick="clickStart('page7b','page8')"; >Go to next page</button>
 	</div>
 
-	<!--Sixth page contains keyboard layout-->
+	<!--Keyboard layout-->
 	<div id="page8" style="display:none">
 		<br>
 			<p><b>Keyboard finger position:</b></p>
@@ -321,11 +337,12 @@ inside of the Max Planck Society and affiliated research institutes, or at partn
 				</ul>
 			<br>
 			<img src="figs/fingerposition.png" width="600" ><br><br>
+			<button type="button" name="button"; onclick="ConditionSwitch('page8')"; > Back </button>
 			<button type="button" name="button"; onclick="clickStart('page8','page9')"; >Go to next page</button>  
 		<br>
 	</div>
 
-	<!--Seventh page contains comprehension check-->
+	<!--Comprehension check-->
 	<div id="page9" style="display:none">
 		<fieldset>
 			<legend>Please answer a few questions about this study before proceeding</legend>
@@ -338,7 +355,7 @@ inside of the Max Planck Society and affiliated research institutes, or at partn
 			</fieldset>
 			<fieldset style="float:left;width:400px;margin:5px">
 				How many slot machines will you play against in each casino?<br>
-				<input type="radio" name="q2"> Changes every casino. <br>
+				<input type="radio" name="q2"> May change from casino to casino. <br>
 				<input type="radio" name="q2"> 2 <br>
 				<input type="radio" name="q2" id="icheck2"> <span id="casino_id"> 1 </span> <br>
 				<input type="radio" name="q2"> I am not sure. <br>
@@ -357,13 +374,13 @@ inside of the Max Planck Society and affiliated research institutes, or at partn
 			<fieldset style="float:left;width:400px;margin:5px">
 				What does pressing an option that is half-green and half-blue mean?<br>
 				<input type="radio" name="q4">  
-					Simulates pressing the option on either green or blue machine, you do not know which. <br>
+					Choosing the option on either green or blue machine in the casino, you do not know which. <br>
 				<input type="radio" name="q4" id="icheck4"> 
-					Simulates pressing the same option on both machines simultaneously. <br>
+					Choosing the same option on both the machines in the casino simultaneously. <br>
 				<input type="radio" name="q4"> 
-					Indicates a completely new slot machine unrelated to previous slot machines.<br>
+					Choosing the option on a new slot machine unrelated to other slot machines in the casino. <br>
 				<input type="radio" name="q4"> 
-					Indicates an issue with the machine. <br>
+					I do not know. <br>
 			</fieldset>
 		</fieldset>
 		<br><br><br><br>
@@ -405,7 +422,6 @@ inside of the Max Planck Society and affiliated research institutes, or at partn
 			</center>   
 		</div>
 	</div>
-
 	<div id="showperformance" style="display:none">
 		<center>
 			<b><h4><div id="numtasks"> Casino 0 out of 20 now visited.</div></h4></b>
