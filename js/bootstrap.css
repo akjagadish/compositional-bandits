@@ -5,6 +5,9 @@
  */
 
 /*! normalize.css v3.0.0 | MIT License | git.io/normalize */
+/* ul {
+  font: 25px "Helvetica Neue", Helvetica, Arial, sans-serif;
+  } */
 html {
   font-family: sans-serif;
   -webkit-text-size-adjust: 100%;
@@ -118,6 +121,12 @@ textarea {
 }
 button {
   overflow: visible;
+  /* position: relative;
+  margin: auto; */
+  /* margin:auto;
+  display:block; */
+  display: inline-block;
+  /* margin: 0 auto; */
 }
 button,
 select {
