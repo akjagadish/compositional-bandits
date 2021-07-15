@@ -11,7 +11,7 @@
 //data storage ref
 var myDataRef = [], //new Firebase('https://exampleoffirebase.firebaseio.com/'),
   nReps = 1, // number of repeats (of tasks)
-  ntrials = 2,//number of trials
+  ntrials = 1,//number of trials
   //nTasks = 3,// number of Tasks
   narms = 6, // number of arms
   trial = 0,//trial counter
@@ -43,6 +43,7 @@ var myDataRef = [], //new Firebase('https://exampleoffirebase.firebaseio.com/'),
   nfuns = linstruc.length + perstruc.length,
   fullurl = document.location.href
 
+const base_pay = 2.0
 
 var condition = [];
 if (cond == 'compositional') {
@@ -310,7 +311,7 @@ function instructioncheck() {
   if (checksum === 4) {
     //if correct, continue
     begintrial();
-    clickStart('page9', 'page10');
+    clickStart('page8', 'page9');
     //alert
     alert('Great, you have answered all of the questions correctly. The study will now start.');
   } else {
@@ -318,7 +319,7 @@ function instructioncheck() {
     //if one or more answers are wrong, raise alert box
     alert('You have answered some of the questions wrong. Please try again.');
     //go back to instructions
-    clickStart('page9', 'page2');
+    clickStart('page8', 'page2');
   }
 }
 
@@ -505,12 +506,16 @@ function nexttrial() {
       //alert("Task " + (task+1) + " out of " + nTasks + " is over. You achieved " + toFixed(overallpercentreward, 0) + 
       //" % of best total score. Please press return to continue with the next task.")
       // SUBPAGE METHOD
-      const taskcomplete  = "Casino " + (task+1) + " out of " + nTasks + " visited." 
-      const rewardtext =  "You earned " +toFixed(overallpercentreward, 0) + "% of the maximum possible coins in the last casino.";
+      const taskcomplete  = "Casino " + (task+1) + " out of " + nTasks + " now visited!" 
+      const rewardtext =  "You earned " + toFixed(overallpercentreward, 0) + "% of the maximum possible coins in the last casino.";
+      var moneynow = money_earned(base_pay, overallscore+totalscore);
+      const currentmoney = "Total money earned so far $" + toFixed(moneynow, 1);
       clickStart('page10', 'showperformance');
+      
       //show total score and num of tasks completed on screen
       change('percentreward', rewardtext);
       change('numtasks', taskcomplete);
+      change('realmoney', currentmoney);
     }
     //start next subtask
     nextblock();
@@ -600,16 +605,20 @@ function saveData(filedata){
   $.post("save_data.php", {postresult: filedata + "\n", postfile: filename })
 }
 
+function money_earned(base, coins_earned)
+{ money = base + coins_earned*0.001;
+  money = toFixed(money, 2)
+  return (money)
+}
 function mysubmit() {
   //add final numcollect
   numcollect = numcollect.concat(gpn);
   //change page
-  clickStart('page9', 'page10');
+  clickStart('page11', 'page12');
   //claculate number of mined emeralds overall
-  var presenttotal = 'You have gained a total score of ' + toFixed(overallscore, 1) + '.';
+  var presenttotal = 'You won a total of ' + toFixed(overallscore, 1) + 'BC coins.';
   //calculate money earned
-  var money = 2 + overallscore * 0.0001;
-  moneyp = toFixed(money, 2);
+  var moneyp = money_earned(base_pay, overallscore)
   var presentmoney = 'This equals a total payment of $' + moneyp + '. The $2 for your participation will be paid immediately. The rest will be paid within the next few days.';
   //show score and money
   change('result', presenttotal);
