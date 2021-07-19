@@ -11,7 +11,7 @@
 //data storage ref
 var myDataRef = [], //new Firebase('https://exampleoffirebase.firebaseio.com/'),
   nReps = 1, // number of repeats (of tasks)
-  ntrials = 1,//number of trials
+  ntrials = 5,//number of trials
   //nTasks = 3,// number of Tasks
   narms = 6, // number of arms
   trial = 0,//trial counter
@@ -38,8 +38,8 @@ var myDataRef = [], //new Firebase('https://exampleoffirebase.firebaseio.com/'),
   timeInMs = 0,//reaction time
   cond = permute(['compositional'])[0],// 'compositional','noncompositional'])[0];
   linstruc = ['pos', 'neg'],
-  perstruc = ['even', 'uneven'],
-  compositionalstruc = ['poseven', 'posuneven', 'negeven', 'neguneven'],
+  perstruc = ['even', 'odd'],
+  compositionalstruc = ['poseven', 'posodd', 'negeven', 'negodd'],
   nfuns = linstruc.length + perstruc.length,
   fullurl = document.location.href
 
@@ -159,7 +159,7 @@ function load_rewards(fdata){
 var letters = '<input type="image" src="letters/',//the letter
   pspecs = '.png"  width="115" height="115"',//size of box
   //gpn=randomNum(1,100);//random function selection
-  jsonstring = "envs/" + condition[0][subtask] + gpn[subtask] + ".json";//get the string of uploaded json
+  jsonstring = "envs/" + condition[0][2] + "/" + condition[0][subtask%nSubtasksPerTask] + gpn[task] + ".json";//get the string of uploaded json
 
 var jqxhr = $.getJSON(jsonstring, function (data) {
   load_rewards(data)});
@@ -564,7 +564,7 @@ function nextblock() {
       totalscore = totalscore + out; 
   }
   //get json of that environment
-  jsonstring = "envs/" + condition[task][subtask%nSubtasksPerTask] + gpn[task] + ".json";
+  jsonstring = "envs/" + condition[task][2] + "/" + condition[task][subtask%nSubtasksPerTask] + gpn[task] + ".json";
   jqxhr = $.getJSON(jsonstring, function (data) {load_rewards(data)});
   // total score back to 0
   // totalscore = 0;
