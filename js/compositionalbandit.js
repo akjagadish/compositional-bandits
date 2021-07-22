@@ -10,7 +10,7 @@
 
 //data storage ref
 var myDataRef = [], //new Firebase('https://exampleoffirebase.firebaseio.com/'),
-  nReps = 1, // number of repeats (of tasks)
+  nReps = 1, // number of training repeats (of tasks)
   ntrials = 5,//number of trials
   //nTasks = 3,// number of Tasks
   narms = 6, // number of arms
@@ -31,7 +31,7 @@ var myDataRef = [], //new Firebase('https://exampleoffirebase.firebaseio.com/'),
   ycollect = [],//collecting the returned output
   regretcollect = [],//collecting the regret
   timecollect = [],//collection the timestamps
-  numcollect = [],//collecting the chosen functions
+  envscollect = [],//collecting the chosen functions
   fdata,//for loading gp samples
   x = [],//underlying position
   y = [],//underlying outcome
@@ -142,18 +142,16 @@ features = Array(nTasks).fill(task_features)
 
 // choosing functions for each subtask from stored functions
 var gpn = [];
-for (var i = 1; i <= 100; i++) {
+for (var i = 0; i <= 100; i++) {
   gpn.push(i);
 }
 gpn = permute(gpn).slice(0, nSubtasks);
 
 function load_rewards(fdata){
-  for (i = 0; i < narms; i++) {
-    //x positions
-    x[i] = fdata[i].x;
-    //y outcomes
-    y[i] = fdata[i].y;
-}
+  //x positions
+  x = fdata.x;
+  //y outcomes
+  y = fdata.y;
 }
 
 var letters = '<input type="image" src="letters/',//the letter
@@ -529,7 +527,7 @@ function nexttrial() {
 //function to initialize next subtask
 function nextblock() {
   //collect the used function number
-  numcollect = numcollect.concat(gpn[subtask]);
+  envscollect = envscollect.concat(jsonstring);
   //borders back to normal
   borders = ['border="1">', 'border="1">', 'border="1">', 'border="1">', 'border="1">', 'border="1">', 'border="1">', 'border="1">'];
   //increment subtask number
@@ -611,12 +609,10 @@ function money_earned(base, coins_earned)
   return (money)
 }
 function mysubmit() {
-  //add final numcollect
-  numcollect = numcollect.concat(gpn);
-  //change page
-  clickStart('page11', 'page12');
+  //add final envscollected
+  envscollect = envscollect.concat(jsonstring);
   //claculate number of mined emeralds overall
-  var presenttotal = 'You won a total of ' + toFixed(overallscore, 1) + 'BC coins.';
+  var presenttotal = 'You won a total of ' + toFixed(overallscore, 1) + ' BC coins.';
   //calculate money earned
   var moneyp = money_earned(base_pay, overallscore)
   var presentmoney = 'This equals a total payment of $' + moneyp + '. The $2 for your participation will be paid immediately. The rest will be paid within the next few days.';
@@ -627,10 +623,12 @@ function mysubmit() {
   //create dictionary with keys values
   myDataRef = {
     "actions": xcollect, "rewards": ycollect, "times": timecollect, "condition": condition, 
-    "numcollect": numcollect, "money": money, "age": age, "gender": gender,
+    "envs": envscollect, "money": money, "age": age, "gender": gender,
     "experiment": experiment, "instcounter": instcounter, "turkid": turkid };
   // save data as JSON
   saveData(JSON.stringify(myDataRef))
+  //change page
+  clickStart('page11', 'page12');
 }
 ////////////////////////////////////////////////////////////////////////
 //The END
