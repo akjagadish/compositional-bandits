@@ -10,7 +10,7 @@
 
 //data storage ref
 var myDataRef = [], //new Firebase('https://exampleoffirebase.firebaseio.com/'),
-  nReps = 1, // number of training repeats (of tasks)
+  nReps = 4, // number of training repeats (of tasks)
   ntrials = 5,//number of trials
   //nTasks = 3,// number of Tasks
   narms = 6, // number of arms
@@ -36,7 +36,7 @@ var myDataRef = [], //new Firebase('https://exampleoffirebase.firebaseio.com/'),
   x = [],//underlying position
   y = [],//underlying outcome
   timeInMs = 0,//reaction time
-  cond = permute(['compositional'])[0],// 'compositional','noncompositional'])[0];
+  cond = permute(['loocompositional', 'compositional','noncompositional'])[0];
   linstruc = ['pos', 'neg'],
   perstruc = ['even', 'odd'],
   compositionalstruc = ['poseven', 'posodd', 'negeven', 'negodd'],
@@ -157,7 +157,7 @@ function load_rewards(fdata){
 var letters = '<input type="image" src="letters/',//the letter
   pspecs = '.png"  width="115" height="115"',//size of box
   //gpn=randomNum(1,100);//random function selection
-  jsonstring = "envs/" + condition[0][2] + "/" + condition[0][subtask%nSubtasksPerTask] + gpn[task] + ".json";//get the string of uploaded json
+  jsonstring = "envs/" + condition[0][nSubtasksPerTask-1] + "/" + condition[0][subtask%nSubtasksPerTask] + gpn[task] + ".json";//get the string of uploaded json
 
 var jqxhr = $.getJSON(jsonstring, function (data) {
   load_rewards(data)});
@@ -453,7 +453,7 @@ function myfunc(inp) {
   //show rounded value
   var outshow = toFixed(out, 1);
   //display on screen
-  change('outcome', "You just got " + outshow + " coins");
+  change('outcome', "You just got " + outshow + " coins!");
   //set a time out, after 2 seconds start the next trial
   setTimeout(function () { nexttrial(); }, 2000);
 }
@@ -562,7 +562,7 @@ function nextblock() {
       totalscore = totalscore + out; 
   }
   //get json of that environment
-  jsonstring = "envs/" + condition[task][2] + "/" + condition[task][subtask%nSubtasksPerTask] + gpn[task] + ".json";
+  jsonstring = "envs/" + condition[task][nSubtasksPerTask-1] + "/" + condition[task][subtask%nSubtasksPerTask] + gpn[task] + ".json";
   jqxhr = $.getJSON(jsonstring, function (data) {load_rewards(data)});
   // total score back to 0
   // totalscore = 0;
@@ -593,6 +593,11 @@ function setage(x) {
   return (age)
 }
 
+function sethand(x) {
+  hand = x;
+  return (hand)
+}
+
 function setrecontact(x) {
   recontact = x;
   return (recontact)
@@ -604,7 +609,7 @@ function saveData(filedata){
 }
 
 function money_earned(base, coins_earned)
-{ money = base + coins_earned*0.001;
+{ money = base + coins_earned*(0.012/nSubtasksPerTask);
   money = toFixed(money, 2)
   return (money)
 }
@@ -623,8 +628,8 @@ function mysubmit() {
   //create dictionary with keys values
   myDataRef = {
     "actions": xcollect, "rewards": ycollect, "times": timecollect, "condition": condition, 
-    "envs": envscollect, "money": money, "age": age, "gender": gender,
-    "experiment": experiment, "instcounter": instcounter, "turkid": turkid };
+    "envs": envscollect, "money": money, "age": age, "gender": gender, "hand": hand,
+    "experiment": cond, "instcounter": instcounter, "turkid": turkid};
   // save data as JSON
   saveData(JSON.stringify(myDataRef))
   //change page
