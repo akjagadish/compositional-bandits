@@ -39,11 +39,11 @@
 			To be eligible to participate, you <strong> MUST </strong> meet the following criteria:
 			<ol>
 			<li>Be 18 years of age or older.</li>
-			<li>Be fluent speaker of English.</li>
+			<li>Be a fluent speaker of English.</li>
 			<li>Have not previously participated in this experiment.</li>
 			</ol>
 			<b style="color:maroon;">Please use a device with a keyboard.
-			Please do not accept this task if you are using a touch screen! It will not work!</b>
+			Please do not accept this task if you are using a touch screen device, it will not work!</b>
 			
 			<h4>How much time will it take and how much can you earn?</h4>
 			The study will take <b>20-30 minutes</b>.<br>
@@ -310,11 +310,11 @@ inside of the Max Planck Society and affiliated research institutes, or at partn
 			The casino owners recently noticed that a lot of people were doing well on the new slot machines. <br>
 			They now want to challenge their visitors. <br>
 			So, they connected the machines together and asked people to play against the connected slot machine instead. <br>
-			The machines were connected such that pressing a button on one would result in pressing the same button on the other. <br>
+			The machines were connected such that pressing a button on one would result in pressing the  <b>same button</b> on the other. <br>
 			The options for such a connected machine will be <strong style="color: #50BF00;"> half-green </strong> and <strong style="color: #0090DF;"> half-blue </strong> as shown below. <br>
 			<img src="figs/GW_buttons.png" width="600" ><br>
-			The total coins you earn by choosing an option on such a machine is the <b>sum</b> of coins from the two slot machines. <br>
-			Essentially, you will be playing only <strong> one </strong> machine (connected green-blue) in each casino today. <br><br>
+			The total coins you earn by choosing an option on such a machine is the <b>sum</b> of coins from the two slot machines. <br><br>
+			Essentially, you will be playing only <strong> one slot machine </strong> (connected green-blue) in each casino today. <br>
 			Hope you are up for the challenge!<br>
 		<br>			
 		<button type="button" name="button"; onclick="clickStart('page7b','page6')"; > Back </button>
@@ -326,45 +326,51 @@ inside of the Max Planck Society and affiliated research institutes, or at partn
 	<div id="page8" style="display:none">
 		<fieldset>
 			<legend>Please answer a few questions about this study before proceeding</legend>
-			<fieldset style="float:left;width:400px;margin:5px">
-				What is your goal when you visit a casino?<br>
-				<input type="radio" name="q1"  > Try out all options on every slot machine in the casino. <br>
-				<input type="radio" name="q1" id="icheck1" > Gain as many BC coins as possible from each slot machine. <br>
-				<input type="radio" name="q1" > Pick an arbitary option in every try. <br>
-				<input type="radio" name="q1" > I do not know. <br>
+			<p style="font-size:100%;color:maroon;"> You will only be directed to the next page if you manage to answer all of the questions correctly.</p>
+		
+			<fieldset> 
+				 <!-- </fieldset> style="float:left;width:400px;margin:5px"> -->
+				<b>What is your goal when you visit a casino? </b><br>
+				<label for="q1l1" style="font-weight: normal;"><input type="radio" name="q1" id="l1"> Try out all options on every slot machine in the casino. </label><br>
+				<label for="q1l2" style="font-weight: normal;"><input type="radio" name="q1" id="icheck1"> Gain as many BC coins as possible from each slot machine.</label> <br>
+				<label for="q1l3" style="font-weight: normal;"><input type="radio" name="q1" > Pick an arbitary option in every try. </label><br>
+				<label for="q1l4" style="font-weight: normal;"><input type="radio" name="q1" > I do not know. </label> <br><br>
 			</fieldset>
-			<fieldset style="float:left;width:400px;margin:5px">
-				How many slot machines will you play against in each casino? <br>
-				<input type="radio" name="q2"> May change from casino to casino. <br>
-				<input type="radio" name="q2"> 2 <br>
-				<input type="radio" name="q2" id="icheck2"> <span id="casino_id"> 1 </span> <br>
-				<input type="radio" name="q2"> I am not sure. <br>
+			<fieldset> 
+				 <!-- style="float:left;width:400px;margin:5px"> -->
+				<b>How many slot machines will you play against in each casino? </b><br>
+				<label for="q2l1" style="font-weight: normal;"><input type="radio" name="q2"> May change from casino to casino. </label><br>
+				<label for="q2l2" style="font-weight: normal;"><input type="radio" name="q2"> 2 </label><br>
+				<label for="q2l3" style="font-weight: normal;"><input type="radio" name="q2" id="icheck2"> <span id="casino_id"> 1 </span></label><br>
+				<label for="q2l4" style="font-weight: normal;"><input type="radio" name="q2"> I do not know. </label><br><br>
 			</fieldset>
-			<fieldset style="float:left;width:400px;margin:5px">
-				Let us say a machine from GreenGeeks followed a rising pattern in a casino, what pattern will another machine from them follow in the next casino? <br>
-				<input type="radio" name="q3">  
-					Rising pattern again. <br>
-				<input type="radio" name="q3" id="icheck3"> 
-					Either rising or falling, one needs to figure out which. <br>
-				<input type="radio" name="q3"> 
-					Falling pattern for sure. <br>
-				<input type="radio" name="q3"> 
-					Either rising, falling or alternating, one needs to figure out which. <br>
+			<fieldset>
+			<!-- style="float:left;width:400px;margin:5px"> -->
+				<b>Let us say a machine from GreenGeeks followed a rising pattern in a casino, <br>
+				what pattern will another machine from them follow in the next casino?</b> <br>
+				<label for="q3l1" style="font-weight: normal;"><input type="radio" name="q3">  
+					Rising pattern again. </label><br>
+				<label for="q3l2" style="font-weight: normal;"><input type="radio" name="q3" id="icheck3"> 
+					Either rising or falling, one needs to figure out which. </label><br>
+				<label for="q3l3" style="font-weight: normal;"><input type="radio" name="q3"> 
+					Falling pattern for sure. </label><br>
+				<label for="q3l4" style="font-weight: normal;"><input type="radio" name="q3"> 
+					Either rising, falling or alternating, one needs to figure out which. </label> <br><br>
 			</fieldset>
-			<fieldset style="float:left;width:400px;margin:5px">
-				What does pressing an option that is half-green and half-blue mean? <br>
-				<input type="radio" name="q4">  
-					Choosing the option on either green or blue machine in the casino, you do not know which. <br>
-				<input type="radio" name="q4" id="icheck4"> 
-					Choosing the same option on both the machines in the casino simultaneously. <br>
-				<input type="radio" name="q4"> 
-					Choosing the option on a new slot machine unrelated to other slot machines in the casino. <br>
-				<input type="radio" name="q4"> 
-					I do not know. <br>
+			<fieldset>
+			<!-- style="float:left;width:400px;margin:5px" -->
+				<b>What does pressing an option that is half-green and half-blue mean?</b><br>
+				<label for="q4l1" style="font-weight: normal;"><input type="radio" name="q4">  
+					Choosing the option on either green or blue machine in the casino, you do not know which.</label> <br>
+				<label for="q4l2" style="font-weight: normal;"><input type="radio" name="q4" id="icheck4"> 
+					Choosing the same option on both the machines in the casino simultaneously. </label><br>
+				<label for="q4l3" style="font-weight: normal;"><input type="radio" name="q4"> 
+					Choosing the option on a new slot machine unrelated to other slot machines in the casino.</label> <br>
+				<label for="q4l4" style="font-weight: normal;"><input type="radio" name="q4"> 
+					I do not know. </label><br>
 			</fieldset>
 		</fieldset>
-		<br><br><br><br>
-		<p>You will only be directed to the next page if you manage to answer all of the questions correctly.</p>
+		<br>
 		<button type="button" name="button"; onclick="instructioncheck()"; >Check answers</button>  
 	</div>
 
@@ -434,25 +440,28 @@ inside of the Max Planck Society and affiliated research institutes, or at partn
 		<fieldset>
 			<legend>Please tell us something about yourself.</legend>
 
-			<fieldset style="float:left;width:400px;margin:5px">
-				How old are you? <br>
-				<input id="age" type="radio" name="age" onclick="setage(20)" > 18-25 <br>
-				<input id="age" type="radio" name="age" onclick="setage(30)" > 26-35 <br>
-				<input id="age" type="radio" name="age" onclick="setage(40)" > 36-50 <br>
-				<input id="age" type="radio" name="age" onclick="setage(50)" > above 50 <br>
+			<fieldset>
+			<!-- style="float:left;width:400px;margin:5px"> -->
+				<b>How old are you? </b><br>
+				<label for="q5l1" style="font-weight: normal;"><input id="age" type="radio" name="age" onclick="setage(20)" > 18-25 </label> <br>
+				<label for="q5l2" style="font-weight: normal;"><input id="age" type="radio" name="age" onclick="setage(30)" > 26-35 </label> <br>
+				<label for="q5l3" style="font-weight: normal;"><input id="age" type="radio" name="age" onclick="setage(40)" > 36-50 </label><br>
+				<label for="q5l4" style="font-weight: normal;"><input id="age" type="radio" name="age" onclick="setage(50)" > above 50 </label><br>
 			</fieldset>
 
-			<fieldset style="float:left;width:400px;margin:5px">
-				What's your gender? <br>
-				<input id="gender" type="radio" name="gender" onclick="setgender(0)" > Female <br>
-				<input id="gender" type="radio" name="gender" onclick="setgender(1)" > Male <br>
-				<input id="gender" type="radio" name="gender" onclick="setgender(2)" > Diverse <br>
+			<fieldset>
+			<!-- style="float:left;width:400px;margin:5px"> -->
+				<b>What's your gender? </b><br>
+				<label for="q6l1" style="font-weight: normal;"><input id="gender" type="radio" name="gender" onclick="setgender(0)" > Female </label><br>
+				<label for="q6l2" style="font-weight: normal;"><input id="gender" type="radio" name="gender" onclick="setgender(1)" > Male </label><br>
+				<label for="q6l3" style="font-weight: normal;"><input id="gender" type="radio" name="gender" onclick="setgender(2)" > Diverse </label><br>
 			</fieldset>
 
-			<fieldset style="float:left;width:400px;margin:5px">
-				Handedness? <br>
-				<input type="radio" name="handed" value="1" > Right <br>
-				<input type="radio" name="handed" value="2" > Left  <br>
+			<fieldset>
+			 <!-- style="float:left;width:400px;margin:5px"> -->
+				<b>Handedness? </b><br>
+				<label for="q7l1" style="font-weight: normal;"><input type="radio" name="handed" onclick="sethand(0)" > Right </label><br>
+				<label for="q7l2" style="font-weight: normal;"><input type="radio" name="handed" onclick="sethand(1)"> Left  </label><br>
 			</fieldset>
 		</fieldset>
 
