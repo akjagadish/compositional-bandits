@@ -37,8 +37,8 @@ var myDataRef = [], //new Firebase('https://exampleoffirebase.firebaseio.com/'),
   y = [],//underlying outcome
   timeInMs = 0,//reaction time
   cond = permute(['loocompositional', 'compositional','noncompositional'])[0];
-  linstruc = ['pos', 'neg'],
-  perstruc = ['even', 'odd'],
+  linstruc = permute(['pos', 'neg']),
+  perstruc = permute(['even', 'odd']),
   compositionalstruc = ['poseven', 'posodd', 'negeven', 'negodd'],
   nfuns = linstruc.length + perstruc.length,
   fullurl = document.location.href
@@ -683,10 +683,9 @@ function mysubmit() {
   change('money', presentmoney);
   var experiment = "compbandits1";
   //create dictionary with keys values
-  myDataRef = {
-    "actions": xcollect, "rewards": ycollect, "times": timecollect, "condition": condition, 
+  myDataRef = {"actions": xcollect, "rewards": ycollect, "times": timecollect, "condition": condition, 
     "envs": envscollect, "money": money, "age": age, "gender": gender, "hand": hand,
-    "experiment": cond, "instcounter": instcounter, "turkid": turkid};
+    "experiment": cond, "instcounter": instcounter, "turkid": turkid, "eval": eval_condition};
   // save data as JSON
   saveData(JSON.stringify(myDataRef))
   //change page
