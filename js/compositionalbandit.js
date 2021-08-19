@@ -111,7 +111,8 @@ if (cond == 'loocompositional') {
 
 // total number of tasks
 const nSubtasks = nTasks * nSubtasksPerTask
-change('casino_id', nSubtasksPerTask)
+// casino_id
+change('q2icheck2', nSubtasksPerTask)
 
 //////// Generate blocks
 function makeCompositionBlocks(functions, lin, per) {
@@ -216,6 +217,11 @@ function change(x, y) {
   document.getElementById(x).innerHTML = y;
 }
 
+// color text
+function color(id, col) {
+  document.getElementById(id).style.color = col;
+}
+
 //Hides div with id=x
 function hide(x) {
   document.getElementById(x).style.display = 'none';
@@ -297,28 +303,75 @@ function turkGetParam(name) {
  }
 }
 var turkid = turkGetParam('workerId');  
+var elem = document.documentElement;
 
+// View in fullscreen 
+function openFullscreen(start, landing) {
+  if (elem.requestFullscreen) {
+    elem.requestFullscreen();
+  } else if (elem.webkitRequestFullscreen) { /* Safari */
+    elem.webkitRequestFullscreen();
+  } else if (elem.msRequestFullscreen) { /* IE11 */
+    elem.msRequestFullscreen();
+  }
+  clickStart(start, landing);
+}
+
+function colorWrongAnswer(question, col){
+  const rbs = document.querySelectorAll('input[name="'+question+'\"]');
+  for (const rb of rbs) {
+      if (rb.checked) {
+          color(question+rb.id, col) 
+          break;
+      }
+    }
+}
+
+var flag = 0;
 function instructioncheck() {
+
   //check if correct answers are provided
-  if (document.getElementById('icheck1').checked) { var ch1 = 1 }
-  if (document.getElementById('icheck2').checked) { var ch2 = 1 }
-  if (document.getElementById('icheck3').checked) { var ch3 = 1 }
-  if (document.getElementById('icheck4').checked) { var ch4 = 1 }
+  if (document.getElementById('icheck1').checked) { var ch1 = 1; color('q1icheck1', 'green') } 
+  else{colorWrongAnswer("q1", 'red')}
+  if (document.getElementById('icheck2').checked) { var ch2 = 1; color('q2icheck2',  'green') }
+  else{colorWrongAnswer("q2", 'red')}
+  if (document.getElementById('icheck3').checked) { var ch3 = 1; color('q3icheck3', 'green') }
+  else{colorWrongAnswer("q3", 'red')}
+  if (document.getElementById('icheck4').checked) { var ch4 = 1; color('q4icheck4', 'green') }
+  else{colorWrongAnswer("q4", 'red')}
+  
   //are all of the correct
   var checksum = ch1 + ch2 + ch3 + ch4;
-  if (checksum === 4) {
-    //if correct, continue
+
+  // indicate correct answers
+  ++flag; 
+  clickStart('page8', 'page8');
+  change("check", "Continue")
+
+  // page transition 
+  if (checksum === 4 && flag == 2) {
+    //if correct, continue 
     begintrial();
     clickStart('page8', 'page9');
-    //alert
+    // alert
     alert('Great, you have answered all of the questions correctly. The study will now start.');
-  } else {
-    instcounter++;
-    //if one or more answers are wrong, raise alert box
-    alert('You have answered some of the questions wrong. Please try again.');
-    //go back to instructions
-    clickStart('page8', 'page2');
+  } 
+  else { 
+      if (flag == 2) {
+        instcounter++;
+        colorWrongAnswer("q1", '#333333')
+        colorWrongAnswer("q2", '#333333')
+        colorWrongAnswer("q3", '#333333')
+        colorWrongAnswer("q4", '#333333')
+        //if one or more answers are wrong, raise alert box
+        alert('You have answered some of the questions wrong. Please try again.');
+        // go back to instructions
+        clickStart('page8', 'page2');
+        flag = 0;
+        
+    }
   }
+
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -425,6 +478,7 @@ function myfunc(inp) {
     if (inp == i) {
       //return output for that location plus normally distributed noise
       out = y[i] + myNorm() * 0.1;
+      out = Math.max(0., out)
       //collect corresponding location, it's only important for R to JS differences
       xcollect[subtask][trial] = x[i];
       //collect regrets
@@ -455,7 +509,7 @@ function myfunc(inp) {
   //display on screen
   change('outcome', "You just got " + outshow + " coins!");
   //set a time out, after 2 seconds start the next trial
-  setTimeout(function () { nexttrial(); }, 2000);
+  setTimeout(function () { nexttrial(); }, 500);
 }
 
 
@@ -526,6 +580,9 @@ function nexttrial() {
 
 //function to initialize next subtask
 function nextblock() {
+ if ((subtask+1) !=nSubtasksPerTask){
+  alert("Let's move to the next slot machine.")
+}
   //collect the used function number
   envscollect = envscollect.concat(jsonstring);
   //borders back to normal
