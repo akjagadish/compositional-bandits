@@ -52,14 +52,14 @@
 	  
 			<h4>Confidentiality</h4>
 			Your participation in this study will remain confidential.
-			Your MTurk worker ID will NOT be shared with anyone outside the research team.
+			Your Prolific ID will NOT be shared with anyone outside the research team.
 	  
 			<h4>Participation and withdrawal</h4>
 			Your participation in this study is completely voluntary and you may refuse to participate<br>
 			or you may choose to withdraw at any time.<br>
 			However, you will only be paid for the participation upon completion<br>
-			and if you enter the correct completion code to Mturk (provided at the end of the study).
-	  
+			and if you enter the correct completion code provided at the end of the study.
+	
 			<h4>How to contact the researchers?</h4>
 			If you have questions or concerns about your participation or payment
 			or want to request a summary of research findings,
@@ -123,7 +123,7 @@ inside of the Max Planck Society and affiliated research institutes, or at partn
 			<br>
 			<br>
 	
-			<button type="button" name="button" id="buttonConsentForm" onclick="clickStart('page1','page2');">I consent to participate</button><br><br>
+			<button type="button" name="button" id="buttonConsentForm" onclick="clickStart('page1','page12');">I consent to participate</button><br><br>
 
     </div>  
 
@@ -433,8 +433,8 @@ inside of the Max Planck Society and affiliated research institutes, or at partn
 	<div id="showperformance" style="display:none">
 		<center>
 			<h3><div id="numtasks"> Casino 0 out of 20 now visited! </div></h4>
-			<div id="percentreward" style="font-size:125%; text-align: center;"> You earned 0% of maximum possible BC coins in the last casino.</div><br>
-			<div id="realmoney"style="font-size:125%; text-align: center;"> Total money earned so far $ 0 </div>
+			<div style="font-size:125%; text-align: center;"> You earned <span id="percentreward" style="font-weight: bold;"> 0 </span><b>%</b> of maximum possible BC coins in the last casino.</div><br>
+			<div style="font-size:125%; text-align: center;"> Total money earned so far <b>$</b><span id="realmoney" style="font-weight: bold;"> 0 </span>.</div> <br>
 			<button type="button" name="button"; onclick="clickStart('showperformance','page10')"; >Next Casino</button>
 		</center>
 	</div>
@@ -482,8 +482,10 @@ inside of the Max Planck Society and affiliated research institutes, or at partn
 		<div id="money" style="text-align: center; font-size: 125%"> </div><br>
 		<p style="font-size:125%; text-align: center;">
 		Thank you very much for participating in our study.<br>
-		Your Mechanical Turk Password is:<br> <b>compbandits</b><br>
-		In case you have any questions, please contact us via our MTurk account or write an email to<br> <b>cpilab@tue.mpg.de</b>
+		Your Completion Code is:<br> <span id="completioncode" style="font-weight: bold;">compbandits</span><br>
+		In case you have any questions, please contact us via our Prolific account or write an email to<br> <b>cpilab@tue.mpg.de</b> <br><br>
+		
+		You can now safely close the window.
 		</p>
 	</div>
 </div>
