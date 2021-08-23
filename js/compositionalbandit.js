@@ -41,9 +41,12 @@ var myDataRef = [], //new Firebase('https://exampleoffirebase.firebaseio.com/'),
   perstruc = permute(['even', 'odd']),
   compositionalstruc = ['poseven', 'posodd', 'negeven', 'negodd'],
   nfuns = linstruc.length + perstruc.length,
-  fullurl = document.location.href
+  fullurl = document.location.href,
+  completion_code = "70E96E16",
+  money_coeffs = {'noncompositional': 0.0035, 'compositional': 0.0016, 'loocompositional': 0.0026},
+  coeff = money_coeffs[cond]
 
-const base_pay = 2.0
+const base_pay = 2.5
 
 var condition = [];
 if (cond == 'compositional') {
@@ -302,7 +305,34 @@ function turkGetParam(name) {
   }
  }
 }
-var turkid = turkGetParam('workerId');  
+
+function getQueryVariable(variable)
+{
+    var query = window.location.search.substring(1);
+    var vars = query.split("&");
+    for (var i=0;i<vars.length;i++) {
+        var pair = vars[i].split("=");
+        if(pair[0] == variable){return pair[1];}
+    }
+    return(false);
+}
+
+// get subject ID
+if (window.location.search.indexOf('PROLIFIC_PID') > -1) {
+  var subjectID = getQueryVariable('PROLIFIC_PID');
+}
+// If no ID is present, generate one using random numbers - this is useful for testing
+else {
+  var subjectID = 'test-' + Math.floor(Math.random() * (2000000 - 0 + 1)) + 0; 
+}
+// STUDY ID
+if (window.location.search.indexOf('STUDY_ID') > -1) {
+    var studyID = getQueryVariable('STUDY_ID');
+}
+else 
+{ var studyID = 'data'}
+
+
 var elem = document.documentElement;
 
 // View in fullscreen 
@@ -377,6 +407,8 @@ function instructioncheck() {
 ////////////////////////////////////////////////////////////////////////
 //Experiment
 ////////////////////////////////////////////////////////////////////////
+//var turkid = turkGetParam('workerId'); 
+change("completioncode", completion_code);
 
 //this function initializes a trial
 function begintrial() {
@@ -559,15 +591,15 @@ function nexttrial() {
       //" % of best total score. Please press return to continue with the next task.")
       // SUBPAGE METHOD
       const taskcomplete  = "Casino " + (task+1) + " out of " + nTasks + " now visited!" 
-      const rewardtext =  "You earned " + toFixed(overallpercentreward, 0) + "% of the maximum possible coins in the last casino.";
+      // const rewardtext =  "You earned " + toFixed(overallpercentreward, 0) + "% of the maximum possible coins in the last casino.";
       var moneynow = money_earned(base_pay, overallscore+totalscore);
-      const currentmoney = "Total money earned so far $" + toFixed(moneynow, 1);
+      // const currentmoney = "Total money earned so far $" + toFixed(moneynow, 1);
       clickStart('page10', 'showperformance');
       
       //show total score and num of tasks completed on screen
-      change('percentreward', rewardtext);
+      change('percentreward', toFixed(overallpercentreward, 0));
       change('numtasks', taskcomplete);
-      change('realmoney', currentmoney);
+      change('realmoney', toFixed(moneynow, 1));
     }
     //start next subtask
     nextblock();
@@ -580,7 +612,7 @@ function nexttrial() {
 
 //function to initialize next subtask
 function nextblock() {
- if ((subtask+1) !=nSubtasksPerTask){
+ if (((subtask+1) !=nSubtasksPerTask) && nSubtasksPerTask==3){
   alert("Let's move to the next slot machine.")
 }
   //collect the used function number
@@ -661,12 +693,12 @@ function setrecontact(x) {
 }
 
 function saveData(filedata){
-  var filename = "./data/" + turkid + ".json";  
+  var filename = "./data/" + subjectID + ".json";  
   $.post("save_data.php", {postresult: filedata + "\n", postfile: filename })
 }
 
 function money_earned(base, coins_earned)
-{ money = base + coins_earned*(0.012/nSubtasksPerTask);
+{ money = base + coins_earned*coeff //(0.012/nSubtasksPerTask);
   money = toFixed(money, 2)
   return (money)
 }
@@ -677,15 +709,15 @@ function mysubmit() {
   var presenttotal = 'You won a total of ' + toFixed(overallscore, 1) + ' BC coins.';
   //calculate money earned
   var moneyp = money_earned(base_pay, overallscore)
-  var presentmoney = 'This equals a total payment of $' + moneyp + '. The $2 for your participation will be paid immediately. The rest will be paid within the next few days.';
+  var presentmoney = 'This equals a total payment of £' + moneyp + '. The £2.5 for your participation will be paid as soon as possible. The rest will be paid within the next few days.';
   //show score and money
   change('result', presenttotal);
   change('money', presentmoney);
-  var experiment = "compbandits1";
+
   //create dictionary with keys values
   myDataRef = {"actions": xcollect, "rewards": ycollect, "times": timecollect, "condition": condition, 
     "envs": envscollect, "money": money, "age": age, "gender": gender, "hand": hand,
-    "experiment": cond, "instcounter": instcounter, "turkid": turkid, "eval": eval_condition};
+    "experiment": cond, "instcounter": instcounter, "subjectID": subjectID, "studyID": studyID, "eval": eval_condition};
   // save data as JSON
   saveData(JSON.stringify(myDataRef))
   //change page
