@@ -612,7 +612,7 @@ function nexttrial() {
 
 //function to initialize next subtask
 function nextblock() {
- if (((subtask+1) !=nSubtasksPerTask) && nSubtasksPerTask==3){
+ if (((subtask + 1) % nSubtasksPerTask != 0) && nSubtasksPerTask==3){
   alert("Let's move to the next slot machine.")
 }
   //collect the used function number
