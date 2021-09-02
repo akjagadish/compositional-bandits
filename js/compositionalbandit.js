@@ -129,7 +129,7 @@ function makeCompositionBlocks(functions, lin, per) {
 var features;
 var featureorder = Math.floor(Math.random() * 2);
 
-if (cond == 'compositional' || cond == 'loocompositional') {
+if ((cond == 'compositional') || (cond == 'loocompositional')) {
   if (featureorder == 0) {
     task_features = ['contextG/', 'contextR/', 'contextRG/'] 
   }
@@ -205,7 +205,7 @@ function clickStart(hide, show) {
 // 
 function ConditionSwitch(hide) {
   document.getElementById(hide).style.display = 'none';
-  if (cond == 'compositional' || cond == 'loocompositional'){
+  if ((cond == 'compositional') || (cond == 'loocompositional')){
     document.getElementById('page7a').style.display = 'block';
   } 
   if (cond == 'noncompositional'){
@@ -379,7 +379,7 @@ function instructioncheck() {
   change("check", "Continue")
 
   // page transition 
-  if (checksum === 4 && flag == 2) {
+  if ((checksum === 4) && (flag == 2)) {
     //if correct, continue 
     begintrial();
     clickStart('page8', 'page9');
@@ -428,37 +428,37 @@ function begintrial() {
     //   myfunc(0);
     // }
     //same spiel if key equals S      
-    if ((e.which == 115 || e.which == 83) & returnpressed == 0) {
+    if ((e.which == 115 || e.which == 83) && returnpressed == 0) {
       returnpressed = 1;
       timeInMs = Date.now() - timeInMs;
       myfunc(0);
     }
     //same spiel if key equals D      
-    if ((e.which == 100 || e.which == 68) & returnpressed == 0) {
+    if ((e.which == 100 || e.which == 68) && returnpressed == 0) {
       returnpressed = 1;
       timeInMs = Date.now() - timeInMs;
       myfunc(1);
     }
     //same spiel if key equals F       
-    if ((e.which == 102 || e.which == 70) & returnpressed == 0) {
+    if ((e.which == 102 || e.which == 70) && returnpressed == 0) {
       returnpressed = 1;
       timeInMs = Date.now() - timeInMs;
       myfunc(2);
     }
     //same spiel if key equals J
-    if ((e.which == 106 || e.which == 74) & returnpressed == 0) {
+    if ((e.which == 106 || e.which == 74) && returnpressed == 0) {
       returnpressed = 1;
       timeInMs = Date.now() - timeInMs;
       myfunc(3);
     }
     //same spiel if key equals K      
-    if ((e.which == 107 || e.which == 75) & returnpressed == 0) {
+    if ((e.which == 107 || e.which == 75) && returnpressed == 0) {
       returnpressed = 1;
       timeInMs = Date.now() - timeInMs;
       myfunc(4);
     }
     //same spiel if key equals L      
-    if ((e.which == 108 || e.which == 76) & returnpressed == 0) {
+    if ((e.which == 108 || e.which == 76) && returnpressed == 0) {
       returnpressed = 1;
       timeInMs = Date.now() - timeInMs;
       myfunc(5);
@@ -547,7 +547,7 @@ function myfunc(inp) {
 
 function nexttrial() {
   //check if trials are smaller than the maximum trial number
-  if (trial + 1 < ntrials) {
+  if ((trial + 1) < ntrials) {
     //set the borders back to normal
     borders = ['border="1">', 'border="1">', 'border="1">', 'border="1">', 'border="1">', 'border="1">', 'border="1">', 'border="1">'];
     //change the letters again
@@ -579,7 +579,7 @@ function nexttrial() {
     change('outcome', "Please choose an option!");
   }
   //if trial numbers exceed the total number, check if more blocks are available
-  else if (trial + 1 == ntrials & subtask + 1 < nSubtasks) {
+  else if (((trial + 1) == ntrials) && ((subtask + 1) < nSubtasks)) {
     totalscore = totalscore + out;
     //compute percent regret
     overallpercentreward = (percentrew/(ntrials*nSubtasksPerTask))*100
@@ -612,9 +612,6 @@ function nexttrial() {
 
 //function to initialize next subtask
 function nextblock() {
- if (((subtask + 1) % nSubtasksPerTask != 0) && nSubtasksPerTask==3){
-  alert("Let's move to the next slot machine.")
-}
   //collect the used function number
   envscollect = envscollect.concat(jsonstring);
   //borders back to normal
@@ -639,7 +636,8 @@ function nextblock() {
   //drawfeature();
   //set trial number back to 0
   trial = 0;
-  if ((subtask) % nSubtasksPerTask == 0) {
+  
+  if (subtask % nSubtasksPerTask == 0) {
     //update overall score
     overallscore = overallscore + totalscore;
     // percent reward set back to 0 
@@ -647,9 +645,7 @@ function nextblock() {
     //total score back to 0
     totalscore = 0;
     task++;
-    } else {
-      totalscore = totalscore + out; 
-  }
+    } 
   //get json of that environment
   jsonstring = "envs/" + condition[task][nSubtasksPerTask-1] + "/" + condition[task][subtask%nSubtasksPerTask] + gpn[task] + ".json";
   jqxhr = $.getJSON(jsonstring, function (data) {load_rewards(data)});
@@ -665,6 +661,12 @@ function nextblock() {
   change('remain', insertt);
   //ask them to choose an outcome
   change('outcome', "Please choose an option!");
+  // alert people about status in the task
+  if ((subtask % nSubtasksPerTask != 0) && nSubtasksPerTask==3){
+    alert("Let's move to the next slot machine.")
+  } else if (subtask % nSubtasksPerTask == 0) {
+    alert("You are done playing all slot machines in this casino!")
+  }
 }
 
 ////////////////////////////////////////////////////////////////////////
