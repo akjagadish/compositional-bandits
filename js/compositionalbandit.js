@@ -36,7 +36,7 @@ var myDataRef = [], //new Firebase('https://exampleoffirebase.firebaseio.com/'),
   x = [],//underlying position
   y = [],//underlying outcome
   timeInMs = 0,//reaction time
-  cond = permute(['loocompositional', 'compositional','noncompositional'])[0];
+  cond = 'noncompositional'//permute(['loocompositional', 'compositional','noncompositional'])[0];
   linstruc = permute(['pos', 'neg']),
   perstruc = permute(['even', 'odd']),
   compositionalstruc = ['poseven', 'posodd', 'negeven', 'negodd'],
@@ -116,8 +116,10 @@ if (cond == 'loocompositional') {
 const nSubtasks = nTasks * nSubtasksPerTask
 // casino_id
 change('q2icheck2', nSubtasksPerTask)
-
-//////// Generate blocks
+if (cond ==  'noncompositional'){
+    change('test_change', "")
+}
+////// Generate blocks
 function makeCompositionBlocks(functions, lin, per) {
   var linper = lin + per
   functions = functions.concat(lin);
@@ -371,7 +373,16 @@ function instructioncheck() {
   else{colorWrongAnswer("q4", 'red')}
   
   //are all of the correct
-  var checksum = ch1 + ch2 + ch3 + ch4;
+  if ((cond == 'compositional') || (cond == 'loocompositional')){
+    if (document.getElementById('icheck5').checked) { var ch5 = 1; color('q5icheck5', 'green') }
+    else{colorWrongAnswer("q5", 'red')}
+    var checksum = ch1 + ch2 + ch3 + ch4 + ch5;
+    var criterion = 5;
+  } else {
+    var checksum = ch1 + ch2 + ch3 + ch4;
+    var criterion = 4;
+  }
+  
 
   // indicate correct answers
   ++flag; 
@@ -379,7 +390,7 @@ function instructioncheck() {
   change("check", "Continue")
 
   // page transition 
-  if ((checksum === 4) && (flag == 2)) {
+  if ((checksum === criterion) && (flag == 2)) {
     //if correct, continue 
     begintrial();
     clickStart('page8', 'page9');
