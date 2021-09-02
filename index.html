@@ -123,7 +123,7 @@ inside of the Max Planck Society and affiliated research institutes, or at partn
 			<br>
 			<br>
 	
-			<button type="button" name="button" id="buttonConsentForm" onclick="clickStart('page1','page2');">I consent to participate</button><br><br>
+			<button type="button" name="button" id="buttonConsentForm" onclick="clickStart('page1','tutorial');">I consent to participate</button><br><br>
 
     </div>  
 
@@ -290,19 +290,55 @@ inside of the Max Planck Society and affiliated research institutes, or at partn
 		<p style="font-size:125%; text-align: center;">			
 			The casino owners recently noticed that a lot of people were doing well on the new slot machines. <br>
 			They now want to challenge their visitors. <br>
-			 <!-- as a test to see if people actually are exploiting the pattern individually -->
-			 So, once you finish playing against the two slot machines, they will connect the machines together and ask you to play against the connected slot machine. <br>
-			 The machines are connected such that pressing a button on one will result in pressing the <b>same button</b> on the other. <br>
-			 The options for such a connected machine will be <strong style="color: #50BF00;"> half-green </strong> and <strong style="color: #0090DF;"> half-blue </strong> as shown below. <br>
-			 <img src="figs/GW_buttons.png" width="600" ><br>
-			 The total coins you earn by choosing an option on the connected machine is the <b>sum</b> of the coins from the two slot machines. <br><br>
-			 Essentially, you will be playing <strong> three  slot machines </strong> (green, blue, and connected green-blue) in each casino today. <br>
-			 Hope you are up for the challenge! <br>
+			<!-- as a test to see if people actually are exploiting the pattern individually -->
+			So, once you finish playing against the two slot machines, they will connect the machines together and ask you to play against the connected slot machine. <br>
+			The machines are connected such that pressing a button on one will result in pressing the <b>same button</b> on the other. <br>
+			The options for such a connected machine will be <strong style="color: #50BF00;"> half-green </strong> and <strong style="color: #0090DF;"> half-blue </strong> as shown below. <br>
+			<img src="figs/GW_buttons.png" width="600" ><br>
+			The total coins you earn by choosing an option on the connected machine is the <b>sum</b> of the coins from the two slot machines. <br><br>
+			Essentially, you will be playing <strong> three  slot machines </strong> (green, blue, and connected green-blue) in each casino today. <br>
+			Before you start, a quick tutorial to get upto speed! <br>
+			<!-- Hope you are up for the challenge! <br> -->
 		<br>
 		<button type="button" name="button"; onclick="clickStart('page7a','page6')"; > Back </button>
-		<button type="button" name="button"; onclick="clickStart('page7a','page8')"; >Check Comprehension</button>
+		<button type="button" name="button"; onclick="clickStart('page7a','tutorial')"; >Next</button>
 		</p>
 	</div>
+		<!-- tutorial for compositional -->
+		<div id="tutorial" style="display:none">
+			<br>
+			<h2 style="text-align: center;">Trial run!</h2>
+			<p style="font-size:125%; text-align: center;">			
+
+				First, you play against the first slot machine in the casino which could be either from Blue Lagoons or Green Geeks. In this example, it is from Blue Lagoons. <br>
+				Let us say, you picked option <b>J</b> and got <b>0.3</b> coins as shown below. <br>
+				<img src="figs/BlueSlotMachinePressed.png" width="600"><br><br>
+				Next, you play against the second slot machine in the casino made by the other company, Green Geeks in this example. <br>
+				Let us say, you got <b>4.0</b> coins from option <b>J</b> on this slot machine as shown below. <br>
+				<img src="figs/GreenSlotMachinePressed.png" width="600"><br><br>
+				Finally, you play against the connected slot machine where an option results in sum of the coins for same option from the two slot machines you just played against. <br>
+				So, in this example, choosing option <b>J</b> would result in you getting <b> 4.0 + 0.3 = 4.3 </b> coins as shown below. <br>
+				<img src="figs/GreenBluePressed.png" width="600"><br><br>
+			<button type="button" name="button"; onclick="clickStart('tutorial','page7a')"; > Back </button>
+			<button type="button" name="button"; onclick="clickStart('tutorial','objective:compositional')"; >Next</button>
+			</p>
+		</div>
+		<div id="objective:compositional" style="display:none">
+			<br>
+			<h2 style="text-align: center;"> Task Summary</h2>
+			<p style="font-size:125%; text-align: center;">		
+
+				Your goal today is to earn as <b>many coins as possible</b> in every casino. <br>
+				You can use the insights from your friend to figure out <b>which company produces which patterns</b>. <br>
+				Note that a company either only produces rising/falling machines, or it only produces alternating machines. <br>
+				Once you figure out the pattern, you can just <b>add</b> them up in your head to know the coins you can earn from the connected slot machine. <br>
+				So, you can actually pick the most lucrative arm of the connected slot machine from the <b>first trail</b> onwards! <br><br>
+				<!-- Do we show an example summed up pattern? -->
+
+			<button type="button" name="button"; onclick="clickStart('objective:compositional','page7a')"; > Back </button>
+			<button type="button" name="button"; onclick="clickStart('objective:compositional','page8')"; >Check Comprehension</button>
+			</p>
+		</div>
 
 	<!--Condition based: Non-Compositional-->
 	<div id="page7b" style="display:none">
@@ -320,9 +356,25 @@ inside of the Max Planck Society and affiliated research institutes, or at partn
 			Hope you are up for the challenge!<br>
 		<br>			
 		<button type="button" name="button"; onclick="clickStart('page7b','page6')"; > Back </button>
-		<button type="button" name="button"; onclick="clickStart('page7b','page8')"; > Check Comprehension </button>
+		<button type="button" name="button"; onclick="clickStart('page7b','objective:noncompositionals')"; > Check Comprehension </button>
 		</p>
 	</div>
+		<!-- tutorial for noncompositional -->
+		<div id="objective:noncompositional" style="display:none">
+			<br>
+			<h2 style="text-align: center;"> Task Summary</h2>
+			<p style="font-size:125%; text-align: center;">		
+
+				Your goal today is to earn as <b>many coins as possible</b> in every casino. <br>
+				You can use the insight given by your friend about the possible patterns to earn a lot more coins. <br> 
+				Since you only play against the connected machine today, you could <b>sum</b> up the posssible patterns in your head. <br>
+				This gives you an idea of how many coins you could earn from the different options of the connected slot machine. <br>
+				<!-- Do we show an example summed up pattern? -->
+
+			<button type="button" name="button"; onclick="clickStart('objective:noncompositional','page7b')"; > Back </button>
+			<button type="button" name="button"; onclick="clickStart('objective:noncompositional','page8')"; >Check Comprehension</button>
+			</p>
+		</div>
 
 	<!--Comprehension check-->
 	<div id="page8" style="display:none">
@@ -374,6 +426,20 @@ inside of the Max Planck Society and affiliated research institutes, or at partn
 				<!-- <label for="q4l4" style="font-weight: normal;"><input type="radio" name="q4"> I do not know. </label><br> -->
 			<br>
 			</fieldset>
+			<fieldset id="test_change">
+					<!-- style="float:left;width:400px;margin:5px" -->
+					<b> What would be coins you can expect for <b>option S</b> in the connected slot machine 
+					if the same option had resulted in <b>5.0</b> and <b>1.3</b> coins on the other two slot machines in 
+						the same casino? </b><br>
+					<label for="q5l2" style="font-weight: normal;"><input type="radio" name="q5" id="icheck5"><span id="q5icheck5"> 
+						About 6.30 </span></label><br>
+					<label for="q5l3" style="font-weight: normal;"><input type="radio" name="q5" id='l3'><span id="q5l3"> 
+						About 5.0 </span></label><br>
+					<label for="q5l4" style="font-weight: normal;"><input type="radio" name="q5" id='l4'><span id="q5l4"> 
+						About 1.3 </span></label><br>
+					<label for="q5l1" style="font-weight: normal;"><input type="radio" name="q5" id='l2'><span id="q5l2"> 
+						Cannot say </span></label><br>
+				</fieldset>
 		</fieldset>
 		<br>
 		<button type="button" name="button"; onclick="clickStart('page8','page6')"; > Back </button>
