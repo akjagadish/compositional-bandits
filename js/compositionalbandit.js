@@ -36,7 +36,7 @@ var myDataRef = [], //new Firebase('https://exampleoffirebase.firebaseio.com/'),
   x = [],//underlying position
   y = [],//underlying outcome
   timeInMs = 0,//reaction time
-  cond = 'noncompositional'//permute(['loocompositional', 'compositional','noncompositional'])[0];
+  cond = permute(['loocompositional', 'compositional','noncompositional'])[0];
   linstruc = permute(['pos', 'neg']),
   perstruc = permute(['even', 'odd']),
   compositionalstruc = ['poseven', 'posodd', 'negeven', 'negodd'],
@@ -133,15 +133,18 @@ var featureorder = Math.floor(Math.random() * 2);
 
 if ((cond == 'compositional') || (cond == 'loocompositional')) {
   if (featureorder == 0) {
-    task_features = ['contextG/', 'contextR/', 'contextRG/'] 
+    task_features = ['contextG/', 'contextR/', 'contextRG/']; 
+    var company_names = ['Green Geeks', 'Blue Lagoons', 'Combined'];
   }
   if (featureorder == 1) {
-    task_features = ['contextR/', 'contextG/', 'contextRG/'] 
+    task_features = ['contextR/', 'contextG/', 'contextRG/'];
+    var company_names = ['Blue Lagoons', 'Green Geeks', 'Combined'];
   }
 }
 
 if (cond == 'noncompositional') {
   task_features = ['contextRG/', 'contextRG/', 'contextRG/'];
+  var company_names = ['Combined', 'Combined', 'Combined']
 }
 
 features = Array(nTasks).fill(task_features)
@@ -552,7 +555,7 @@ function myfunc(inp) {
   //display on screen
   change('outcome', "You just got " + outshow + " coins!");
   //set a time out, after 2 seconds start the next trial
-  setTimeout(function () { nexttrial(); }, 500);
+  setTimeout(function () { nexttrial(); }, 1000);
 }
 
 
@@ -611,6 +614,8 @@ function nexttrial() {
       change('percentreward', toFixed(overallpercentreward, 0));
       change('numtasks', taskcomplete);
       change('realmoney', toFixed(moneynow, 1));
+      const taskstatus = "Casino " + (task+2);
+      change('task_number', taskstatus)
     }
     //start next subtask
     nextblock();
@@ -674,7 +679,10 @@ function nextblock() {
   change('outcome', "Please choose an option!");
   // alert people about status in the task
   if ((subtask % nSubtasksPerTask != 0) && nSubtasksPerTask==3){
-    alert("Let's move to the next slot machine.")
+    if (subtask % nSubtasksPerTask == 1) {change('company1', company_names[0]);change('company2', company_names[1]); clickStart('page10', 'slotmachinechange')} 
+    else { clickStart('page10', 'composition_machine')}
+    
+    // alert("Let's move to the next slot machine.")
   } else if (subtask % nSubtasksPerTask == 0) {
     alert("You are done playing all slot machines in this casino!")
   }
