@@ -123,7 +123,7 @@ inside of the Max Planck Society and affiliated research institutes, or at partn
 			<br>
 			<br>
 	
-			<button type="button" name="button" id="buttonConsentForm" onclick="clickStart('page1','tutorial');">I consent to participate</button><br><br>
+			<button type="button" name="button" id="buttonConsentForm" onclick="clickStart('page1','page6');">I consent to participate</button><br><br>
 
     </div>  
 
@@ -304,41 +304,44 @@ inside of the Max Planck Society and affiliated research institutes, or at partn
 		<button type="button" name="button"; onclick="clickStart('page7a','tutorial')"; >Next</button>
 		</p>
 	</div>
-		<!-- tutorial for compositional -->
-		<div id="tutorial" style="display:none">
-			<br>
-			<h2 style="text-align: center;">Trial run!</h2>
-			<p style="font-size:125%; text-align: center;">			
+	<!-- tutorial for compositional -->
+	<div id="tutorial" style="display:none">
+		<br>
+		<h2 style="text-align: center;">Connected Machine</h2>
+		<p style="font-size:125%; text-align: center;">			
+		Imagine you enter a casino and start playing against the first slot machine. <br>
+		This machine could be either from Blue Lagoons or Green Geeks. In this casino, the first slot machine was made by Blue Lagoons. <br>
+		Let us say, you picked option <b>J</b> on one of the trials and got <b>0.3</b> coins as shown below. <br>
+		<img src="figs/BlueSlotMachinePressed.png" width="600"><br><br>
+		Once you finish five trials on the first slot machine, you move to the second slot machine in the same casino. <br>
+		The second slot machine is made by the other company, Green Geeks in this case. <br>
+		On this slot machine, assume you got <b>4.0</b> coins from option <b>J</b> on one of the trials as shown below. <br>
+		<img src="figs/GreenSlotMachinePressed.png" width="600"> <br><br> 
+		After playing your quota of trials on the second machine, the owners would connect the two slot machines together. <br>
+		If you then pick option <b>J</b> on this connected slot machine, you can expect to roughly get the sum of the coins, for option <b>J</b>, from the two slot machines you played earlier. <br> 
+		In this example, you would end up getting <b>4.0 + 0.3 = 4.3</b> coins as shown below. <br>
+		<img src="figs/GreenBluePressed.png" width="600"><br><br>
+		So, if you figure out the patterns in the two slot machines in a casino, you can <b>sum</b> up the coins, for all options, in your head to know the pattern for the connected slot machine. <br>
+		You can actually pick the most lucrative arm from the <b>first trail</b> onwards for these connected slot machines. <br><br>
+		<button type="button" name="button"; onclick="clickStart('tutorial','page7a')";> Back </button>
+		<button type="button" name="button"; onclick="clickStart('tutorial','page8')";>  Check Comprehension </button>
+		</p>
+	</div>
 
-				First, you play against the first slot machine in the casino which could be either from Blue Lagoons or Green Geeks. In this example, it is from Blue Lagoons. <br>
-				Let us say, you picked option <b>J</b> and got <b>0.3</b> coins as shown below. <br>
-				<img src="figs/BlueSlotMachinePressed.png" width="600"><br><br>
-				Next, you play against the second slot machine in the casino made by the other company, Green Geeks in this example. <br>
-				Let us say, you got <b>4.0</b> coins from option <b>J</b> on this slot machine as shown below. <br>
-				<img src="figs/GreenSlotMachinePressed.png" width="600"><br><br>
-				Finally, you play against the connected slot machine where an option results in sum of the coins for same option from the two slot machines you just played against. <br>
-				So, in this example, choosing option <b>J</b> would result in you getting <b> 4.0 + 0.3 = 4.3 </b> coins as shown below. <br>
-				<img src="figs/GreenBluePressed.png" width="600"><br><br>
-			<button type="button" name="button"; onclick="clickStart('tutorial','page7a')"; > Back </button>
-			<button type="button" name="button"; onclick="clickStart('tutorial','objective:compositional')"; >Next</button>
-			</p>
-		</div>
-		<div id="objective:compositional" style="display:none">
-			<br>
-			<h2 style="text-align: center;"> Task Summary</h2>
-			<p style="font-size:125%; text-align: center;">		
-
-				Your goal today is to earn as <b>many coins as possible</b> in every casino. <br>
-				You can use the insights from your friend to figure out <b>which company produces which patterns</b>. <br>
-				Note that a company either only produces rising/falling machines, or it only produces alternating machines. <br>
-				Once you figure out the pattern, you can just <b>add</b> them up in your head to know the coins you can earn from the connected slot machine. <br>
-				So, you can actually pick the most lucrative arm of the connected slot machine from the <b>first trail</b> onwards! <br><br>
-				<!-- Do we show an example summed up pattern? -->
-
-			<button type="button" name="button"; onclick="clickStart('objective:compositional','page7a')"; > Back </button>
-			<button type="button" name="button"; onclick="clickStart('objective:compositional','page8')"; >Check Comprehension</button>
-			</p>
-		</div>
+	<!-- <div id="objective:compositional" style="display:none">
+		<br>
+		<h2 style="text-align: center;"> Task Summary</h2>
+		<p style="font-size:125%; text-align: center;">		
+		Your goal today is to earn as <b>many coins as possible</b> in every casino. <br>
+		You can use the insights from your friend to figure out <b>which company produces which patterns</b>. <br>
+		Note that a company either only produces rising/falling machines, or it only produces alternating machines. <br>
+		Once you figure out the pattern for the individual slot machines, you can <b>add</b> them up in your head to know the pattern for the connected slot machine. <br>
+		So, you can actually pick the most lucrative arm of the connected slot machine from the <b>first trail</b> onwards! <br><br>
+		<!-- Do we show an example summed up pattern? -->
+		<!-- <button type="button" name="button"; onclick="clickStart('objective:compositional','page7a')"; > Back </button>
+		<button type="button" name="button"; onclick="clickStart('objective:compositional','page8')"; >Check Comprehension</button>
+		</p>
+	</div> --> 
 
 	<!--Condition based: Non-Compositional-->
 	<div id="page7b" style="display:none">
@@ -356,25 +359,24 @@ inside of the Max Planck Society and affiliated research institutes, or at partn
 			Hope you are up for the challenge!<br>
 		<br>			
 		<button type="button" name="button"; onclick="clickStart('page7b','page6')"; > Back </button>
-		<button type="button" name="button"; onclick="clickStart('page7b','objective:noncompositionals')"; > Check Comprehension </button>
+		<button type="button" name="button"; onclick="clickStart('page7b','page8')"; > Check Comprehension </button>
 		</p>
 	</div>
-		<!-- tutorial for noncompositional -->
-		<div id="objective:noncompositional" style="display:none">
-			<br>
-			<h2 style="text-align: center;"> Task Summary</h2>
-			<p style="font-size:125%; text-align: center;">		
 
-				Your goal today is to earn as <b>many coins as possible</b> in every casino. <br>
-				You can use the insight given by your friend about the possible patterns to earn a lot more coins. <br> 
-				Since you only play against the connected machine today, you could <b>sum</b> up the posssible patterns in your head. <br>
-				This gives you an idea of how many coins you could earn from the different options of the connected slot machine. <br>
-				<!-- Do we show an example summed up pattern? -->
-
-			<button type="button" name="button"; onclick="clickStart('objective:noncompositional','page7b')"; > Back </button>
-			<button type="button" name="button"; onclick="clickStart('objective:noncompositional','page8')"; >Check Comprehension</button>
-			</p>
-		</div>
+	<!-- tutorial for non-compositional
+	<div id="objective:noncompositional" style="display:none">
+		<br>
+		<h2 style="text-align: center;"> Task Summary</h2>
+		<p style="font-size:125%; text-align: center;">		
+			Your goal today is to earn as <b>many coins as possible</b> in every casino. <br>
+			You can use the insight given by your friend about the possible patterns to earn a lot more coins. <br> 
+			Since you only play against the connected machine today, you could <b>sum</b> up the patterns shown in your head. <br>
+			This would give you an idea of how many coins you could earn from the different options of the connected slot machine. <br>
+			<!-- Do we show an example summed up pattern? -->
+		<!-- <button type="button" name="button"; onclick="clickStart('objective:noncompositional','page7b')"; > Back </button>
+		<button type="button" name="button"; onclick="clickStart('objective:noncompositional','page8')"; >Check Comprehension</button>
+		</p>
+	</div> --> 
 
 	<!--Comprehension check-->
 	<div id="page8" style="display:none">
@@ -479,6 +481,7 @@ inside of the Max Planck Society and affiliated research institutes, or at partn
 		</div>
 		<div id="begintask" style="display:block">
 			<center>
+				<h1><div id="task_number" style="text-decoration: underline;"> Casino 1 </div></h1>
 				<b><h3><div id="remain">Number of trials left: 5</div></h3></b>
 				<b><h3><div id="score">Total Coins Earned: 0.0</div></h3></b></b>
 				<div id="feature"></div></b></b>
@@ -498,13 +501,28 @@ inside of the Max Planck Society and affiliated research institutes, or at partn
 	</div>
 	<div id="showperformance" style="display:none">
 		<center>
-			<h3><div id="numtasks"> Casino 0 out of 20 now visited! </div></h4>
+			<h3><div id="numtasks"> Casino 0 out of 20 now visited! </div></h3>
 			<div style="font-size:125%; text-align: center;"> You earned <span id="percentreward" style="font-weight: bold;"> 0 </span><b>%</b> of maximum possible BC coins in the last casino.</div><br>
-			<div style="font-size:125%; text-align: center;"> Total money earned so far <b>£</b><span id="realmoney" style="font-weight: bold;"> 0 </span>.</div> <br>
+			<div style="font-size:125%; text-align: center;"> Total money earned so far <b>£</b><span id="realmoney" style="font-weight: bold;"> 0 </span>.</div><br>
+			<!-- Remember that the pattern associated with a slot machine manufactured by a company remains as you move to the next casino.  -->
 			<button type="button" name="button"; onclick="clickStart('showperformance','page10')"; >Next Casino</button>
 		</center>
 	</div>
+	<div id="slotmachinechange" style="display:none">
+		<center>
+		<h4><div> Having finished playing a machine from <span id='company1' style="font-style: italic;"> Blue Lagoon</span>, 
+					now you play a slot machine from <span id='company2' style="font-style: italic;"> Blue Lagoon!</span></div></h4> <br>
+		<button type="button" name="button"; onclick="clickStart('slotmachinechange','page10')";> Next Slot Machine </button>
+		</center>   
 
+	</div>
+	<div id="composition_machine" style="display:none">
+		<center>
+			<h4><div> Now, you play the connected slot machine! </div></h4><br>
+			<button type="button" name="button"; onclick="clickStart('composition_machine','page10')"; >Connected Slot Machine</button>
+		</center>
+	</div>
+	
 	<!--demographics-->
 	<div id="page11" style="display:none">
 		<!-- <h1> <font size="4">Please tell us something about yourself.</font> </h1> -->
