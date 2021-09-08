@@ -362,6 +362,15 @@ function colorWrongAnswer(question, col){
     }
 }
 
+function checkOnPage(page){
+  if (document.getElementById(page).style.display == 'block'){return true}
+  else {return false}
+}
+
+function changeColor(element, color){
+  document.getElementById(element).style.color = color;
+}
+
 var flag = 0;
 function instructioncheck() {
 
@@ -554,6 +563,7 @@ function myfunc(inp) {
   var outshow = toFixed(out, 1);
   //display on screen
   change('outcome', "You just got " + outshow + " coins!");
+  changeColor('outcome', 'rgb(207, 177, 8)')
   //set a time out, after 2 seconds start the next trial
   setTimeout(function () { nexttrial(); }, 1000);
 }
@@ -590,6 +600,7 @@ function nexttrial() {
     //show on screen
     change('remain', insertt);
     //change ooutcome back to please choose an option
+    changeColor('outcome', 'black')
     change('outcome', "Please choose an option!");
   }
   //if trial numbers exceed the total number, check if more blocks are available
@@ -628,6 +639,18 @@ function nexttrial() {
 
 //function to initialize next subtask
 function nextblock() {
+  // alert people about status in the task
+  if (((subtask+1) % nSubtasksPerTask != 0) && nSubtasksPerTask==3){
+    if ((subtask+1) % nSubtasksPerTask == 1) {
+      change('company1', company_names[0]);
+      change('company2', company_names[1]+'!'); 
+      clickStart('page10', 'slotmachinechange')} 
+    else {clickStart('page10', 'composition_machine')}
+  // alert("Let's move to the next slot machine.")
+  }
+  //  else if ((subtask+1) % nSubtasksPerTask == 0) {
+  //   alert("You are done playing all slot machines in this casino!")
+  // }
   //collect the used function number
   envscollect = envscollect.concat(jsonstring);
   //borders back to normal
@@ -647,12 +670,9 @@ function nextblock() {
   //draw options
   drawletters();
   //begin a new trial
-  begintrial();
-  
   //drawfeature();
   //set trial number back to 0
   trial = 0;
-  
   if (subtask % nSubtasksPerTask == 0) {
     //update overall score
     overallscore = overallscore + totalscore;
@@ -677,15 +697,26 @@ function nextblock() {
   change('remain', insertt);
   //ask them to choose an outcome
   change('outcome', "Please choose an option!");
-  // alert people about status in the task
-  if ((subtask % nSubtasksPerTask != 0) && nSubtasksPerTask==3){
-    if (subtask % nSubtasksPerTask == 1) {change('company1', company_names[0]);change('company2', company_names[1]); clickStart('page10', 'slotmachinechange')} 
-    else { clickStart('page10', 'composition_machine')}
-    
-    // alert("Let's move to the next slot machine.")
-  } else if (subtask % nSubtasksPerTask == 0) {
-    alert("You are done playing all slot machines in this casino!")
+  changeColor('outcome', 'black')
+
+  if (((subtask) % nSubtasksPerTask != 0) && nSubtasksPerTask==3){
+    if ((subtask) % nSubtasksPerTask == 1) {
+      const mouseclicks = document.getElementById('secondsubtask')
+      mouseclicks.addEventListener('click', startSubTask);
+      } 
+    else {
+      const mouseclicks = document.getElementById('compositiontask')
+      mouseclicks.addEventListener('click', startSubTask);
+    }
+  } else {
+    const mouseclicks = document.getElementById('nextcasino')
+    mouseclicks.addEventListener('click', startSubTask);
   }
+
+}
+
+function startSubTask(){
+  if ((checkOnPage('page10')==true)){begintrial();}
 }
 
 ////////////////////////////////////////////////////////////////////////
