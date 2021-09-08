@@ -563,7 +563,7 @@ function myfunc(inp) {
   var outshow = toFixed(out, 1);
   //display on screen
   change('outcome', "You just got " + outshow + " coins!");
-  changeColor('outcome', 'rgb(207, 177, 8)')
+  changeColor('outcome', 'rgb(228, 196, 13)')//rgb(207, 177, 8)')
   //set a time out, after 2 seconds start the next trial
   setTimeout(function () { nexttrial(); }, 1000);
 }
