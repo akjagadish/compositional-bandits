@@ -123,7 +123,7 @@ inside of the Max Planck Society and affiliated research institutes, or at partn
 			<br>
 			<br>
 	
-			<button type="button" name="button" id="buttonConsentForm" onclick="clickStart('page1','page6');">I consent to participate</button><br><br>
+			<button type="button" name="button" id="buttonConsentForm" onclick="clickStart('page1','page2');">I consent to participate</button><br><br>
 
     </div>  
 
@@ -431,14 +431,14 @@ inside of the Max Planck Society and affiliated research institutes, or at partn
 			<fieldset id="test_change">
 					<!-- style="float:left;width:400px;margin:5px" -->
 					<b> What would be coins you can expect for <b>option S</b> in the connected slot machine 
-					if the same option had resulted in <b>5.0</b> and <b>1.3</b> coins on the other two slot machines in 
+					if the same option had resulted in <b>5.0</b> and <b>2.1</b> coins on the other two slot machines in 
 						the same casino? </b><br>
 					<label for="q5l2" style="font-weight: normal;"><input type="radio" name="q5" id="icheck5"><span id="q5icheck5"> 
-						About 6.30 </span></label><br>
+						Roughly 7.1 </span></label><br>
 					<label for="q5l3" style="font-weight: normal;"><input type="radio" name="q5" id='l3'><span id="q5l3"> 
-						About 5.0 </span></label><br>
+						Roughly 5.0 </span></label><br>
 					<label for="q5l4" style="font-weight: normal;"><input type="radio" name="q5" id='l4'><span id="q5l4"> 
-						About 1.3 </span></label><br>
+						Roughly 2.1 </span></label><br>
 					<label for="q5l1" style="font-weight: normal;"><input type="radio" name="q5" id='l2'><span id="q5l2"> 
 						Cannot say </span></label><br>
 				</fieldset>
@@ -494,7 +494,7 @@ inside of the Max Planck Society and affiliated research institutes, or at partn
 				<div id='arm7' style="display: inline"></div>
 				<div id='arm8' style="display: inline"></div><br>        
 				<div id="next" style="display: block">
-				<b><h3><div id="outcome">Please choose an option!</div></h3></b>
+				<b><h3><div id="outcome" style="color: black; font-weight: bold;">Please choose an option!</div></h3></b>
 				</div>
 			</center>   
 		</div>
@@ -505,21 +505,21 @@ inside of the Max Planck Society and affiliated research institutes, or at partn
 			<div style="font-size:125%; text-align: center;"> You earned <span id="percentreward" style="font-weight: bold;"> 0 </span><b>%</b> of maximum possible BC coins in the last casino.</div><br>
 			<div style="font-size:125%; text-align: center;"> Total money earned so far <b>£</b><span id="realmoney" style="font-weight: bold;"> 0 </span>.</div><br>
 			<!-- Remember that the pattern associated with a slot machine manufactured by a company remains as you move to the next casino.  -->
-			<button type="button" name="button"; onclick="clickStart('showperformance','page10')"; >Next Casino</button>
+			<button type="button" name="button"; onclick="clickStart('showperformance','page10')"; id='nextcasino'>Next Casino</button>
 		</center>
 	</div>
 	<div id="slotmachinechange" style="display:none">
 		<center>
 		<h4><div> Having finished playing a machine from <span id='company1' style="font-style: italic;"> Blue Lagoon</span>, 
-					now you play a slot machine from <span id='company2' style="font-style: italic;"> Blue Lagoon!</span></div></h4> <br>
-		<button type="button" name="button"; onclick="clickStart('slotmachinechange','page10')";> Next Slot Machine </button>
+					now you play a slot machine from <span id='company2' style="font-style: italic;"> Blue Lagoon!</span></div></h4><br>
+		<!-- <h5> Hope you are slowly being able to figure out the patterns for machines from each company ;) </h5> -->
+		<button type="button" name="button"; onclick="clickStart('slotmachinechange','page10')";  id="secondsubtask"> Next Slot Machine </button>
 		</center>   
-
 	</div>
 	<div id="composition_machine" style="display:none">
 		<center>
 			<h4><div> Now, you play the connected slot machine! </div></h4><br>
-			<button type="button" name="button"; onclick="clickStart('composition_machine','page10')"; >Connected Slot Machine</button>
+			<button type="button" name="button"; onclick="clickStart('composition_machine','page10')"; id="compositiontask" > Next Slot Machine</button>
 		</center>
 	</div>
 	
