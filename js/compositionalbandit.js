@@ -35,6 +35,8 @@ var myDataRef = [], //new Firebase('https://exampleoffirebase.firebaseio.com/'),
   fdata,//for loading gp samples
   x = [],//underlying position
   y = [],//underlying outcome
+  bestarmscollect = [], // collection best arms
+  maxrewardscollect = [], // collection max rewards
   timeInMs = 0,//reaction time
   cond = permute(['loocompositional', 'compositional','noncompositional'])[0];
   linstruc = permute(['pos', 'neg']),
@@ -427,6 +429,11 @@ function instructioncheck() {
 
 }
 
+// returns argmax of an array
+function argMax(array) {
+  return [].map.call(array, (x, i) => [x, i]).reduce((r, a) => (a[0] > r[0] ? a : r))[1];
+}
+
 ////////////////////////////////////////////////////////////////////////
 //Experiment
 ////////////////////////////////////////////////////////////////////////
@@ -542,6 +549,10 @@ function myfunc(inp) {
       percentrew = percentrew + y[i]/Math.max(...y);
     }
   }
+  // arm with best reward (arg max)
+  bestarmscollect[subtask] = argMax(y)
+  // collect max rewards
+  maxrewardscollect[subtask] = Math.max(...y)
   //collect returned value
   ycollect[subtask][trial] = out;
   //collect reaction time
@@ -769,8 +780,9 @@ function mysubmit() {
   //create dictionary with keys values
   myDataRef = {"actions": xcollect, "rewards": ycollect, "times": timecollect, "condition": condition, 
     "envs": envscollect, "money": money, "age": age, "gender": gender, "hand": hand,
-    "experiment": cond, "instcounter": instcounter, "subjectID": subjectID, "studyID": studyID, "eval": eval_condition};
-  // save data as JSON
+    "experiment": cond, "instcounter": instcounter, "subjectID": subjectID, "studyID": studyID, "eval": eval_condition,
+    "regrets": regretcollect, "maxrewards": maxrewardscollect, "bestoptions": bestarmscollect};
+  // save data as JSONs
   saveData(JSON.stringify(myDataRef))
   //change page
   clickStart('page11', 'page12');
