@@ -11,7 +11,8 @@
 //data storage ref
 var myDataRef = [], //new Firebase('https://exampleoffirebase.firebaseio.com/'),
   nReps = 4, // number of training repeats (of tasks)
-  ntrials = 5,//number of trials
+  matchTasks = false, 
+  ntrials = 2,//number of trials
   //nTasks = 3,// number of Tasks
   narms = 6, // number of arms
   trial = 0,//trial counter
@@ -38,7 +39,7 @@ var myDataRef = [], //new Firebase('https://exampleoffirebase.firebaseio.com/'),
   bestarmscollect = [], // collection best arms
   maxrewardscollect = [], // collection max rewards
   timeInMs = 0,//reaction time
-  cond = permute(['loocompositional', 'compositional','noncompositional'])[0];
+  cond = 'loocompositional', //permute(['compositional','noncompositional'])[0];// 'loocompositional'
   linstruc = permute(['pos', 'neg']),
   perstruc = permute(['even', 'odd']),
   compositionalstruc = ['poseven', 'posodd', 'negeven', 'negodd'],
@@ -111,6 +112,10 @@ if (cond == 'loocompositional') {
   // concat eval tasks
   var eval_condition = condition.slice(nTrain, nTasks)
   condition = permute(condition.slice(0, nTrain))
+  if ((matchTasks == true) && (nReps==6)){
+    extra_condition = condition[0];
+    condition.push(extra_condition);
+    nTasks = nTasks+1 }
   condition = condition.concat(eval_condition)
 }
 
@@ -576,7 +581,7 @@ function myfunc(inp) {
   change('outcome', "You just got " + outshow + " coins!");
   changeColor('outcome', 'rgb(228, 196, 13)')//rgb(207, 177, 8)')
   //set a time out, after 2 seconds start the next trial
-  setTimeout(function () { nexttrial(); }, 1000);
+  setTimeout(function () { nexttrial(); }, 500);
 }
 
 
@@ -778,6 +783,9 @@ function mysubmit() {
   change('money', presentmoney);
 
   //create dictionary with keys values
+  if ((cond == 'loocompositional') && (matchTasks==false)){
+  cond = 'loocompositional2'
+  }
   myDataRef = {"actions": xcollect, "rewards": ycollect, "times": timecollect, "condition": condition, 
     "envs": envscollect, "money": money, "age": age, "gender": gender, "hand": hand,
     "experiment": cond, "instcounter": instcounter, "subjectID": subjectID, "studyID": studyID, "eval": eval_condition,
