@@ -12,7 +12,7 @@
 var myDataRef = [], //new Firebase('https://exampleoffirebase.firebaseio.com/'),
   nReps = 4, // number of training repeats (of tasks)
   matchTasks = false, 
-  ntrials = 2,//number of trials
+  ntrials = 5,//number of trials
   //nTasks = 3,// number of Tasks
   narms = 6, // number of arms
   trial = 0,//trial counter
@@ -46,7 +46,11 @@ var myDataRef = [], //new Firebase('https://exampleoffirebase.firebaseio.com/'),
   nfuns = linstruc.length + perstruc.length,
   fullurl = document.location.href,
   completion_code = "70E96E16",
-  money_coeffs = {'noncompositional': 0.0035, 'compositional': 0.0016, 'loocompositional': 0.0026},
+  money_coeffs = {'noncompositional': 0.0035, 'compositional': 0.0016, 'loocompositional': 0.0026};
+  if ((cond == 'loocompositional') && (matchTasks==true)){
+    money_coeffs[cond] = money_coeffs[cond] - 0.001;
+    nReps = 6;
+  };
   coeff = money_coeffs[cond]
 
 const base_pay = 2.5
