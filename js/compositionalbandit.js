@@ -10,8 +10,9 @@
 
 //data storage ref
 var myDataRef = [], //new Firebase('https://exampleoffirebase.firebaseio.com/'),
+  rule = 'changepoint', // 'add' or 'changepoint' rule for compositions
   nReps = 4, // number of training repeats (of tasks)
-  matchTasks = false, 
+  matchTasks = true, // adjust paradigm for loo
   ntrials = 5,//number of trials
   //nTasks = 3,// number of Tasks
   narms = 6, // number of arms
@@ -39,14 +40,14 @@ var myDataRef = [], //new Firebase('https://exampleoffirebase.firebaseio.com/'),
   bestarmscollect = [], // collection best arms
   maxrewardscollect = [], // collection max rewards
   timeInMs = 0,//reaction time
-  cond = 'loocompositional', //permute(['compositional','noncompositional'])[0];// 'loocompositional'
+  cond = permute(['compositional','noncompositional', 'loocompositional'])[0];//
   linstruc = permute(['pos', 'neg']),
   perstruc = permute(['even', 'odd']),
   compositionalstruc = ['poseven', 'posodd', 'negeven', 'negodd'],
   nfuns = linstruc.length + perstruc.length,
   fullurl = document.location.href,
   completion_code = "70E96E16",
-  money_coeffs = {'noncompositional': 0.0035, 'compositional': 0.0016, 'loocompositional': 0.0026};
+  money_coeffs = {'noncompositional': 0.0030, 'compositional': 0.0010, 'loocompositional': 0.0020};
   if ((cond == 'loocompositional') && (matchTasks==true)){
     money_coeffs[cond] = money_coeffs[cond] - 0.001;
     nReps = 6;
@@ -144,25 +145,35 @@ var featureorder = Math.floor(Math.random() * 2);
 
 if ((cond == 'compositional') || (cond == 'loocompositional')) {
   if (featureorder == 0) {
-    task_features = ['contextG/', 'contextR/', 'contextRG/']; 
+    task_features = ['contextG/', 'contextB/', 'contextGB/']; 
     var company_names = ['Green Geeks', 'Blue Lagoons', 'Combined'];
   }
   if (featureorder == 1) {
-    task_features = ['contextR/', 'contextG/', 'contextRG/'];
+    task_features = ['contextB/', 'contextG/', 'contextBG/'];
     var company_names = ['Blue Lagoons', 'Green Geeks', 'Combined'];
+  }
+  if (rule=='add'){
+    task_features[2] = 'contextBandG/';
   }
 }
 
 if (cond == 'noncompositional') {
-  task_features = ['contextRG/', 'contextRG/', 'contextRG/'];
   var company_names = ['Combined', 'Combined', 'Combined']
+  if (rule=='add'){
+    task_features = ['contextBandG/', 'contextBandG/', 'contextBandG/'];}
+  else if (rule=='changepoint'){
+    if (featureorder == 0) {
+    task_features = ['contextGB/', 'contextGB/', 'contextGB/'];}
+    else if (featureorder == 1) {
+    task_features = ['contextBG/', 'contextBG/', 'contextBG/'];}
+  }
 }
 
 features = Array(nTasks).fill(task_features)
 
 // choosing functions for each subtask from stored functions
 var gpn = [];
-for (var i = 0; i <= 100; i++) {
+for (var i = 0; i < 100; i++) {
   gpn.push(i);
 }
 gpn = permute(gpn).slice(0, nSubtasks);
@@ -177,7 +188,7 @@ function load_rewards(fdata){
 var letters = '<input type="image" src="letters/',//the letter
   pspecs = '.png"  width="115" height="115"',//size of box
   //gpn=randomNum(1,100);//random function selection
-  jsonstring = "envs/" + condition[0][nSubtasksPerTask-1] + "/" + condition[0][subtask%nSubtasksPerTask] + gpn[task] + ".json";//get the string of uploaded json
+  jsonstring = "envs/" + rule + "/" + condition[0][nSubtasksPerTask-1] + "/" + condition[0][subtask%nSubtasksPerTask] + gpn[task] + ".json";//get the string of uploaded json
 
 var jqxhr = $.getJSON(jsonstring, function (data) {
   load_rewards(data)});
@@ -703,7 +714,7 @@ function nextblock() {
     task++;
     } 
   //get json of that environment
-  jsonstring = "envs/" + condition[task][nSubtasksPerTask-1] + "/" + condition[task][subtask%nSubtasksPerTask] + gpn[task] + ".json";
+  jsonstring = "envs/" + rule + "/" + condition[task][nSubtasksPerTask-1] + "/" + condition[task][subtask%nSubtasksPerTask] + gpn[task] + ".json";
   jqxhr = $.getJSON(jsonstring, function (data) {load_rewards(data)});
   // total score back to 0
   // totalscore = 0;
