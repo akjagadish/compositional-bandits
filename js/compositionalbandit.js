@@ -10,7 +10,7 @@
 
 //data storage ref
 var myDataRef = [], //new Firebase('https://exampleoffirebase.firebaseio.com/'),
-  rule = 'changepoint', // 'add' or 'changepoint' rule for compositions
+  rule = 'add', // 'add' or 'changepoint' rule for compositions
   nReps = 4, // number of training repeats (of tasks)
   matchTasks = true, // adjust paradigm for loo
   ntrials = 5,//number of trials
@@ -40,21 +40,21 @@ var myDataRef = [], //new Firebase('https://exampleoffirebase.firebaseio.com/'),
   bestarmscollect = [], // collection best arms
   maxrewardscollect = [], // collection max rewards
   timeInMs = 0,//reaction time
-  cond = permute(['compositional','noncompositional', 'loocompositional'])[0];//
+  cond = permute(['compositional','noncompositional', 'loocompositional'])[0], //permute(['compositional','noncompositional', 'loocompositional'])[0];
   linstruc = permute(['pos', 'neg']),
   perstruc = permute(['even', 'odd']),
   compositionalstruc = ['poseven', 'posodd', 'negeven', 'negodd'],
   nfuns = linstruc.length + perstruc.length,
   fullurl = document.location.href,
   completion_code = "70E96E16",
-  money_coeffs = {'noncompositional': 0.0030, 'compositional': 0.0010, 'loocompositional': 0.0020};
+  money_coeffs = {'noncompositional': 0.002, 'compositional': 0.0007, 'loocompositional': 0.0014};
   if ((cond == 'loocompositional') && (matchTasks==true)){
-    money_coeffs[cond] = money_coeffs[cond] - 0.001;
+    money_coeffs[cond] = money_coeffs[cond] - 0.0007;
     nReps = 6;
   };
   coeff = money_coeffs[cond]
 
-const base_pay = 2.5
+const base_pay = 2.
 
 var condition = [];
 if (cond == 'compositional') {
@@ -145,28 +145,18 @@ var featureorder = Math.floor(Math.random() * 2);
 
 if ((cond == 'compositional') || (cond == 'loocompositional')) {
   if (featureorder == 0) {
-    task_features = ['contextG/', 'contextB/', 'contextGB/']; 
+    task_features = ['contextG/', 'contextR/', 'contextRG/']; 
     var company_names = ['Green Geeks', 'Blue Lagoons', 'Combined'];
   }
   if (featureorder == 1) {
-    task_features = ['contextB/', 'contextG/', 'contextBG/'];
+    task_features = ['contextR/', 'contextG/', 'contextRG/'];
     var company_names = ['Blue Lagoons', 'Green Geeks', 'Combined'];
-  }
-  if (rule=='add'){
-    task_features[2] = 'contextBandG/';
   }
 }
 
 if (cond == 'noncompositional') {
+  task_features = ['contextRG/', 'contextRG/', 'contextRG/'];
   var company_names = ['Combined', 'Combined', 'Combined']
-  if (rule=='add'){
-    task_features = ['contextBandG/', 'contextBandG/', 'contextBandG/'];}
-  else if (rule=='changepoint'){
-    if (featureorder == 0) {
-    task_features = ['contextGB/', 'contextGB/', 'contextGB/'];}
-    else if (featureorder == 1) {
-    task_features = ['contextBG/', 'contextBG/', 'contextBG/'];}
-  }
 }
 
 features = Array(nTasks).fill(task_features)
@@ -792,7 +782,7 @@ function mysubmit() {
   var presenttotal = 'You won a total of ' + toFixed(overallscore, 1) + ' BC coins.';
   //calculate money earned
   var moneyp = money_earned(base_pay, overallscore)
-  var presentmoney = 'This equals a total payment of £' + moneyp + '. The £2.5 for your participation will be paid as soon as possible. The rest will be paid within the next few days.';
+  var presentmoney = 'This equals a total payment of £' + moneyp + '. The £' + base_pay +' for your participation will be paid as soon as possible. The rest will be paid within the next few days.';
   //show score and money
   change('result', presenttotal);
   change('money', presentmoney);
