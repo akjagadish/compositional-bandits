@@ -10,7 +10,7 @@
 
 //data storage ref
 var myDataRef = [], //new Firebase('https://exampleoffirebase.firebaseio.com/'),
-  rule = 'add', // 'add' or 'changepoint' rule for compositions
+  rule = 'changepoint', // 'add' or 'changepoint' rule for compositions
   nReps = 4, // number of training repeats (of tasks)
   matchTasks = true, // adjust paradigm for loo
   ntrials = 5,//number of trials
@@ -40,7 +40,7 @@ var myDataRef = [], //new Firebase('https://exampleoffirebase.firebaseio.com/'),
   bestarmscollect = [], // collection best arms
   maxrewardscollect = [], // collection max rewards
   timeInMs = 0,//reaction time
-  cond = permute(['compositional','noncompositional', 'loocompositional'])[0], //permute(['compositional','noncompositional', 'loocompositional'])[0];
+  cond = 'compositional', //permute(['compositional','noncompositional', 'loocompositional'])[0];//
   linstruc = permute(['pos', 'neg']),
   perstruc = permute(['even', 'odd']),
   compositionalstruc = ['poseven', 'posodd', 'negeven', 'negodd'],
@@ -55,6 +55,55 @@ var myDataRef = [], //new Firebase('https://exampleoffirebase.firebaseio.com/'),
   coeff = money_coeffs[cond]
 
 const base_pay = 2.
+
+
+var features;
+var featureorder = Math.floor(Math.random() * 2);
+
+if ((cond == 'compositional') || (cond == 'loocompositional')) {
+  if (featureorder == 0) {
+    task_features = ['contextG/', 'contextB/', 'contextGB/']; 
+    reverse_feature = ['contextBG/'];
+    var company_names = ['Green Geeks', 'Blue Lagoons', 'Combined'];
+  }
+  if (featureorder == 1) {
+    task_features = ['contextB/', 'contextG/', 'contextBG/'];
+    reverse_feature = ['contextGB/']
+    var company_names = ['Blue Lagoons', 'Green Geeks', 'Combined'];
+  }
+  // if (rule=='add'){
+  //   task_features[2] = 'contextBandG/';
+  // }
+}
+
+if (cond == 'noncompositional') {
+  var company_names = ['Combined', 'Combined', 'Combined']
+  // if (rule=='add'){
+  //   task_features = ['contextBandG/', 'contextBandG/', 'contextBandG/'];}
+  // else if (rule=='changepoint'){
+   if (featureorder == 0) {
+    task_features = ['contextGB/', 'contextGB/', 'contextGB/'];}
+    else if (featureorder == 1) {
+    task_features = ['contextBG/', 'contextBG/', 'contextBG/'];}
+}
+
+// if (rule=='changepoint'){
+//   features = []
+//   test = task_features.slice(0,2)
+//   for (var i = 0; i < nTasks; i++){
+//     featureorder = Math.floor(Math.random() * 2);
+//     if (featureorder == 0) {
+//      feat = test.concat('contextGB/');}
+//     else if (featureorder == 1) {
+//      feat = test.concat('contextBG/');}
+//     features.push(feat)
+//   }
+// }
+// else{
+// features = Array(nTasks).fill(task_features)
+// }
+
+features = []
 
 var condition = [];
 if (cond == 'compositional') {
@@ -75,8 +124,8 @@ if (cond == 'compositional') {
     }
   } 
   // concat eval tasks
-  var eval_condition = permute(condition.slice(nTrain, nTasks))
-  condition = permute(condition.slice(0, nTrain))
+  var eval_condition = condition.slice(nTrain, nTasks) //permute(condition.slice(nTrain, nTasks))
+  condition = condition.slice(0, nTrain) // permute(condition.slice(0, nTrain))
   condition = condition.concat(eval_condition)
 }
 
@@ -93,8 +142,8 @@ if (cond == 'noncompositional') {
     }
   }
   // concat eval tasks
-  var eval_condition = permute(condition.slice(nTrain, nTasks))
-  condition = permute(condition.slice(0, nTrain))
+  var eval_condition = condition.slice(nTrain, nTasks)
+  condition = condition.slice(0, nTrain) //permute(condition.slice(0, nTrain))
   condition = condition.concat(eval_condition)
 }
 
@@ -131,35 +180,26 @@ change('q2icheck2', nSubtasksPerTask)
 if (cond ==  'noncompositional'){
     change('test_change', "")
 }
+
 ////// Generate blocks
 function makeCompositionBlocks(functions, lin, per) {
-  var linper = lin + per
-  functions = functions.concat(lin);
-  functions = functions.concat(per);
-  functions = functions.concat(linper);
+  // if (rule=='changepoint'){
+    base_features = task_features.slice(0, 2)
+    featureorder = Math.floor(Math.random() * 2);
+    if (featureorder == 0) {
+      feat = base_features.concat(task_features[2]);
+      var linper = lin+per;}
+    else if (featureorder == 1) {
+    feat = base_features.concat(reverse_feature[0]);
+    var linper = per+lin;}
+    features.push(feat)
+  // }
+    functions = functions.concat(lin);
+    functions = functions.concat(per);
+    functions = functions.concat(linper);
   return functions
 }
 
-var features;
-var featureorder = Math.floor(Math.random() * 2);
-
-if ((cond == 'compositional') || (cond == 'loocompositional')) {
-  if (featureorder == 0) {
-    task_features = ['contextG/', 'contextR/', 'contextRG/']; 
-    var company_names = ['Green Geeks', 'Blue Lagoons', 'Combined'];
-  }
-  if (featureorder == 1) {
-    task_features = ['contextR/', 'contextG/', 'contextRG/'];
-    var company_names = ['Blue Lagoons', 'Green Geeks', 'Combined'];
-  }
-}
-
-if (cond == 'noncompositional') {
-  task_features = ['contextRG/', 'contextRG/', 'contextRG/'];
-  var company_names = ['Combined', 'Combined', 'Combined']
-}
-
-features = Array(nTasks).fill(task_features)
 
 // choosing functions for each subtask from stored functions
 var gpn = [];
@@ -393,18 +433,18 @@ function instructioncheck() {
   else{colorWrongAnswer("q2", 'red')}
   if (document.getElementById('icheck3').checked) { var ch3 = 1; color('q3icheck3', 'green') }
   else{colorWrongAnswer("q3", 'red')}
-  if (document.getElementById('icheck4').checked) { var ch4 = 1; color('q4icheck4', 'green') }
-  else{colorWrongAnswer("q4", 'red')}
+  // if (document.getElementById('icheck4').checked) { var ch4 = 1; color('q4icheck4', 'green') }
+  // else{colorWrongAnswer("q4", 'red')}
   
   //are all of the correct
   if ((cond == 'compositional') || (cond == 'loocompositional')){
     if (document.getElementById('icheck5').checked) { var ch5 = 1; color('q5icheck5', 'green') }
     else{colorWrongAnswer("q5", 'red')}
-    var checksum = ch1 + ch2 + ch3 + ch4 + ch5;
-    var criterion = 5;
-  } else {
-    var checksum = ch1 + ch2 + ch3 + ch4;
+    var checksum = ch1 + ch2 + ch3+ ch5; // + ch4 
     var criterion = 4;
+  } else {
+    var checksum = ch1 + ch2 + ch3; // + ch4;
+    var criterion = 3;
   }
   
 
@@ -433,10 +473,8 @@ function instructioncheck() {
         // go back to instructions
         clickStart('page8', 'page2');
         flag = 0;
-        
     }
   }
-
 }
 
 // returns argmax of an array
