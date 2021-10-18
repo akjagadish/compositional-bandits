@@ -40,13 +40,13 @@ var myDataRef = [], //new Firebase('https://exampleoffirebase.firebaseio.com/'),
   bestarmscollect = [], // collection best arms
   maxrewardscollect = [], // collection max rewards
   timeInMs = 0,//reaction time
-  cond = 'compositional', //permute(['compositional','noncompositional', 'loocompositional'])[0];//
+  cond = 'noncompositional', //permute(['compositional','noncompositional', 'loocompositional'])[0];//
   linstruc = permute(['pos', 'neg']),
   perstruc = permute(['even', 'odd']),
-  compositionalstruc = ['poseven', 'posodd', 'negeven', 'negodd'],
   nfuns = linstruc.length + perstruc.length,
   fullurl = document.location.href,
   completion_code = "70E96E16",
+  across_subject_shuffle=true,
   money_coeffs = {'noncompositional': 0.002, 'compositional': 0.0007, 'loocompositional': 0.0014};
   if ((cond == 'loocompositional') && (matchTasks==true)){
     money_coeffs[cond] = money_coeffs[cond] - 0.0007;
@@ -59,6 +59,7 @@ const base_pay = 2.
 
 var features;
 var featureorder = Math.floor(Math.random() * 2);
+var rewardorder = Math.floor(Math.random() * 2);
 
 if ((cond == 'compositional') || (cond == 'loocompositional')) {
   if (featureorder == 0) {
@@ -68,7 +69,7 @@ if ((cond == 'compositional') || (cond == 'loocompositional')) {
   }
   if (featureorder == 1) {
     task_features = ['contextB/', 'contextG/', 'contextBG/'];
-    reverse_feature = ['contextGB/']
+    reverse_feature = ['contextGB/'];
     var company_names = ['Blue Lagoons', 'Green Geeks', 'Combined'];
   }
   // if (rule=='add'){
@@ -82,9 +83,11 @@ if (cond == 'noncompositional') {
   //   task_features = ['contextBandG/', 'contextBandG/', 'contextBandG/'];}
   // else if (rule=='changepoint'){
    if (featureorder == 0) {
-    task_features = ['contextGB/', 'contextGB/', 'contextGB/'];}
+    task_features = ['contextGB/', 'contextGB/', 'contextGB/'];
+    reverse_feature = ['contextBG/'];}
     else if (featureorder == 1) {
-    task_features = ['contextBG/', 'contextBG/', 'contextBG/'];}
+    task_features = ['contextBG/', 'contextBG/', 'contextBG/'];
+    reverse_feature = ['contextGB/'];}
 }
 
 // if (rule=='changepoint'){
@@ -118,33 +121,38 @@ if (cond == 'compositional') {
       for (k = 0; k < perstruc.length; k++) {
         var per = perstruc[k];
         functions = []
-        functions = makeCompositionBlocks(functions, lin, per)
+        functions = makeCompositionBlocks(functions, lin, per, true)
         condition.push(functions)
       }
     }
   } 
   // concat eval tasks
-  var eval_condition = condition.slice(nTrain, nTasks) //permute(condition.slice(nTrain, nTasks))
-  condition = condition.slice(0, nTrain) // permute(condition.slice(0, nTrain))
-  condition = condition.concat(eval_condition)
+  var eval_condition = permute(condition.slice(nTrain, nTasks));
+  condition = permute(condition.slice(0, nTrain));
+  condition = condition.concat(eval_condition);
 }
 
 if (cond == 'noncompositional') {
   var nSubtasksPerTask = 1
-  const nTrain = nReps * nfuns 
+  const nTrain = nReps * nfuns
   const nEval = 1 * nfuns
   var nTasks = nTrain + nEval
-  for (i=0; i<(nReps+1); i++) {
-    for (j=0; j<nfuns; j++){
-      functions = []
-      functions.push(compositionalstruc[j]);
-      condition.push(functions);
+  // generate condition
+  for (i = 0; i < (nReps+1); i++) {
+    for (j = 0; j < linstruc.length; j++) {
+      var lin = linstruc[j];
+      for (k = 0; k < perstruc.length; k++) {
+        var per = perstruc[k];
+        functions = []
+        functions = makeCompositionBlocks(functions, lin, per, false)
+        condition.push(functions)
+      }
     }
-  }
+  } 
   // concat eval tasks
-  var eval_condition = condition.slice(nTrain, nTasks)
-  condition = condition.slice(0, nTrain) //permute(condition.slice(0, nTrain))
-  condition = condition.concat(eval_condition)
+  var eval_condition = permute(condition.slice(nTrain, nTasks));
+  condition = permute(condition.slice(0, nTrain)); //permute(condition.slice(0, nTrain))
+  condition = condition.concat(eval_condition);
 }
 
 if (cond == 'loocompositional') {
@@ -158,19 +166,19 @@ if (cond == 'loocompositional') {
       var per = perstruc[k];
         for (i = 0; i < nReps; i++) {
         functions = []
-        functions = makeCompositionBlocks(functions, lin, per)
+        functions = makeCompositionBlocks(functions, lin, per, true)
         condition.push(functions)
       }
     }
   }
   // concat eval tasks
-  var eval_condition = condition.slice(nTrain, nTasks)
+  var eval_condition = permute(condition.slice(nTrain, nTasks));
   condition = permute(condition.slice(0, nTrain))
   if ((matchTasks == true) && (nReps==6)){
     extra_condition = condition[0];
     condition.push(extra_condition);
     nTasks = nTasks+1 }
-  condition = condition.concat(eval_condition)
+  condition = condition.concat(eval_condition);
 }
 
 // total number of tasks
@@ -182,10 +190,16 @@ if (cond ==  'noncompositional'){
 }
 
 ////// Generate blocks
-function makeCompositionBlocks(functions, lin, per) {
+function makeCompositionBlocks(functions, lin, per, return_all) {
   // if (rule=='changepoint'){
-    base_features = task_features.slice(0, 2)
-    featureorder = Math.floor(Math.random() * 2);
+    if (return_all==true){
+    base_features = task_features.slice(0, 2);}
+    else {
+    base_features=[];}
+    if (across_subject_shuffle==true){
+      featureorder = rewardorder;
+    }else{
+      featureorder = Math.floor(Math.random() * 2);}
     if (featureorder == 0) {
       feat = base_features.concat(task_features[2]);
       var linper = lin+per;}
@@ -194,9 +208,13 @@ function makeCompositionBlocks(functions, lin, per) {
     var linper = per+lin;}
     features.push(feat)
   // }
+    if (return_all==true) {
     functions = functions.concat(lin);
     functions = functions.concat(per);
-    functions = functions.concat(linper);
+    functions = functions.concat(linper);}
+    else {
+      functions = functions.concat(linper);
+    }
   return functions
 }
 
