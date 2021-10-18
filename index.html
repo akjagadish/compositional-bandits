@@ -292,12 +292,13 @@ inside of the Max Planck Society and affiliated research institutes, or at partn
 			They now want to challenge their visitors. <br>
 			<!-- as a test to see if people actually are exploiting the pattern individually -->
 			So, once you finish playing against the two slot machines, they will connect the machines together and ask you to play against the connected slot machine. <br>
-			The machines are connected such that pressing a button on one will result in pressing the <b>same button</b> on the other. <br>
-			The options for such a connected machine will be <strong style="color: #50BF00;"> half-green </strong> and <strong style="color: #0090DF;"> half-blue </strong> as shown below. <br>
-			<img src="figs/GW_buttons.png" width="600" ><br>
-			The total coins you earn by choosing an option on the connected machine is the <b>sum</b> of the coins from the two slot machines. <br><br>
+			The machines are connected such that it has blocks of three contiguous keys (either <b>SDF</b> or <b>JKL</b>) from previously played slot machines. <br>
+			Three options for such a connected machine will be <strong style="color: #50BF00;"> green </strong> and the remaining in <strong style="color: #0090DF;"> blue </strong> indicating the slot machine they are from. <br>
+			They can also come in one of the two orders as shown below. <br>
+			<img src="figs/ChangePoint.png" width="600"><br>
+			The coins for an option is expected to be roughly equal to that of the same colored option previously seen in the casino. <br>
 			Essentially, you will be playing <strong> three  slot machines </strong> (green, blue, and connected green-blue) in each casino today. <br>
-			Before you start, a quick tutorial to get upto speed! <br>
+			Before you start, here is a quick tutorial to get you upto speed! <br>
 			<!-- Hope you are up for the challenge! <br> -->
 		<br>
 		<button type="button" name="button"; onclick="clickStart('page7a','page6')"; > Back </button>
@@ -305,6 +306,7 @@ inside of the Max Planck Society and affiliated research institutes, or at partn
 		</p>
 	</div>
 	<!-- tutorial for compositional -->
+	<!-- add
 	<div id="tutorial" style="display:none">
 		<br>
 		<h2 style="text-align: center;">Connected Machine</h2>
@@ -325,6 +327,30 @@ inside of the Max Planck Society and affiliated research institutes, or at partn
 		You can actually pick the most lucrative arm from the <b>first trail</b> onwards for these connected slot machines. <br><br>
 		<button type="button" name="button"; onclick="clickStart('tutorial','page7a')";> Back </button>
 		<button type="button" name="button"; onclick="clickStart('tutorial','page8')";>  Check Comprehension </button>
+		</p>
+	</div> -->
+	<!-- change point -->
+	<div id="tutorial" style="display:none">
+		<br>
+		<h2 style="text-align: center;">Connected Machine</h2>
+		<p style="font-size:125%; text-align: center;">			
+		Imagine you enter a casino and start playing against the first slot machine. <br>
+		This machine could be either from Blue Lagoons or Green Geeks. In this casino, the first slot machine was made by Blue Lagoons. <br>
+		Let us say, you picked option <b>D</b> on one of the trials and got <b>8.1</b> coins as shown below. <br>
+		<img src="figs/ChangeBD.png" width="500"><br>
+		Once you finish five trials on the first slot machine, you move to the second slot machine in the same casino. <br>
+		The second slot machine is made by the other company, Green Geeks in this case. <br>
+		On this slot machine, assume you got <b>4.3</b> coins from option <b>K</b> on one of the trials as shown below. <br>
+		<img src="figs/ChangeGK.png" width="500"> <br>
+		After playing your quota of trials on the second machine, the owners would connect the two slot machines together. <br>
+		The connected machine has blocks of three keys each from the first and the second slot machine as indicated by their color (shown below). <br>
+		If you pick option <b>D</b> in <strong style="color: #0090DF;"> blue </strong> , you get roughly the same number of coins as option <b>D</b> on the  <strong style="color: #0090DF;"> blue </strong>  slot machine. <br> 
+		Similarly, choosing option <b>K</b> in  <strong style="color: #50BF00;"> green </strong>  yields roughly the same number of coins as option on <b>K</b> the  <strong style="color: #50BF00;"> green </strong>  slot machine. <br>
+		<img src="figs/ChangeBGKD.png" width="800"> <br>
+		So, if you can figure out the patterns in the two slot machines in a casino, you would know the pattern for the connected slot machine. <br>
+		You can actually pick the most lucrative arm from the <b>first trail</b> onwards for these connected slot machines. <br><br>
+		<button type="button" name="button"; onclick="clickStart('tutorial','page7a')";> Back </button>
+		<button type="button" name="button"; onclick="clickStart('tutorial','page8')";> Check Comprehension </button>
 		</p>
 	</div>
 
@@ -350,13 +376,14 @@ inside of the Max Planck Society and affiliated research institutes, or at partn
 		<p style="font-size:125%; text-align: center;">			
 			The casino owners recently noticed that a lot of people were doing well on the new slot machines. <br>
 			They now want to challenge their visitors. <br>
-			So, they connected the machines together and asked people to play against the connected slot machine instead. <br>
-			The machines were connected such that pressing a button on one would result in pressing the  <b>same button</b> on the other. <br>
-			The options for such a connected machine will be <strong style="color: #50BF00;"> half-green </strong> and <strong style="color: #0090DF;"> half-blue </strong> as shown below. <br>
-			<img src="figs/GW_buttons.png" width="600" ><br>
-			The total coins you earn by choosing an option on such a machine is the <b>sum</b> of coins from the two slot machines. <br><br>
+			So, they connected the machines together and asked people to play only against the connected slot machine instead. <br>
+			The machines are connected such that it has blocks of three contiguous keys (either <b>SDF</b> or <b>JKL</b>) from the two slot machines in the casino. <br>
+			Three options for such a connected machine will be <strong style="color: #50BF00;"> green </strong> and the remaining in <strong style="color: #0090DF;"> blue </strong> indicating the slot machine they are from. <br>
+			They can also come in one of the two orders as shown below. <br>
+			<img src="figs/ChangePoint.png" width="600"><br>
+			The coins for an option of a specific color is equal to that you could have earned from the same colored slot machine in the casino. <br>
 			Essentially, you will be playing only <strong> one slot machine </strong> (connected green-blue) in each casino today. <br>
-			Hope you are up for the challenge!<br>
+			Hope you are up for the challenge! <br>
 		<br>			
 		<button type="button" name="button"; onclick="clickStart('page7b','page6')"; > Back </button>
 		<button type="button" name="button"; onclick="clickStart('page7b','page8')"; > Check Comprehension </button>
@@ -416,27 +443,27 @@ inside of the Max Planck Society and affiliated research institutes, or at partn
 					Either rising, falling or alternating, one needs to figure out which. </span></label><br>
 				<br>
 			</fieldset>
-			<fieldset>
+			<!-- <fieldset> -->
 			<!-- style="float:left;width:400px;margin:5px" -->
-				<b> What does pressing an option that is half-green and half-blue mean? </b><br>
+				<!-- <b> What does pressing an option that is green or blue mean? </b><br>
 				<label for="q4l2" style="font-weight: normal;"><input type="radio" name="q4" id="icheck4"><span id="q4icheck4"> 
 					Choosing the same option on both the machines in the casino simultaneously. </span></label><br>
-				<label for="q4l1" style="font-weight: normal;"><input type="radio" name="q4" id='l2'><span id="q4l2"> 
-					Choosing the option on either green or blue machine in the casino, you do not know which. </span></label><br>
+				<label for="q4l1" style="font-weight: normal;"><input type="radio" name="q4" id='l2'><span id="q4l2">  -->
+					<!-- Choosing the option on either green or blue machine in the casino, you do not know which. </span></label><br>
 				<label for="q4l3" style="font-weight: normal;"><input type="radio" name="q4" id='l3'><span id="q4l3"> 
 					Choosing the option on a new slot machine unrelated to other slot machines in the casino. </span></label><br>
 				<!-- <label for="q4l4" style="font-weight: normal;"><input type="radio" name="q4"> I do not know. </label><br> -->
-			<br>
-			</fieldset>
+			<!-- <br> -->
+			<!-- </fieldset> --> 
 			<fieldset id="test_change">
 					<!-- style="float:left;width:400px;margin:5px" -->
-					<b> What would be coins you can expect for <b>option S</b> in the connected slot machine 
-					if the same option had resulted in <b>5.0</b> and <b>2.1</b> coins on the other two slot machines in 
-						the same casino? </b><br>
+					<b> What would be the coins you can expect for <b>option S</b> in green on the connected slot machine 
+					    if the same option had resulted in <b>5.0</b> coins on the slot machine made by Green Geeks and <b>2.1</b> 
+						coins on the slot machine made by Blue Lagoons in the same casino? </b><br>
 					<label for="q5l2" style="font-weight: normal;"><input type="radio" name="q5" id="icheck5"><span id="q5icheck5"> 
-						Roughly 7.1 </span></label><br>
-					<label for="q5l3" style="font-weight: normal;"><input type="radio" name="q5" id='l3'><span id="q5l3"> 
 						Roughly 5.0 </span></label><br>
+					<label for="q5l3" style="font-weight: normal;"><input type="radio" name="q5" id='l3'><span id="q5l3"> 
+						Roughly 7.1 </span></label><br>
 					<label for="q5l4" style="font-weight: normal;"><input type="radio" name="q5" id='l4'><span id="q5l4"> 
 						Roughly 2.1 </span></label><br>
 					<label for="q5l1" style="font-weight: normal;"><input type="radio" name="q5" id='l2'><span id="q5l2"> 
