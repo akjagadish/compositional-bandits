@@ -40,7 +40,7 @@ var myDataRef = [], //new Firebase('https://exampleoffirebase.firebaseio.com/'),
   bestarmscollect = [], // collection best arms
   maxrewardscollect = [], // collection max rewards
   timeInMs = 0,//reaction time
-  cond = 'noncompositional', //permute(['compositional','noncompositional', 'loocompositional'])[0];//
+  cond = permute(['compositional','noncompositional', 'loocompositional'])[0];//
   linstruc = permute(['pos', 'neg']),
   perstruc = permute(['even', 'odd']),
   nfuns = linstruc.length + perstruc.length,
@@ -89,7 +89,10 @@ if (cond == 'noncompositional') {
     task_features = ['contextBG/', 'contextBG/', 'contextBG/'];
     reverse_feature = ['contextGB/'];}
 }
-
+if (task_features[2]=='contextGB/')
+{
+  document.getElementById('changepoint_condition').src = "figs/ChangePoint_GB.png"; 
+}
 // if (rule=='changepoint'){
 //   features = []
 //   test = task_features.slice(0,2)
