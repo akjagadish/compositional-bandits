@@ -89,10 +89,10 @@ if (cond == 'noncompositional') {
     task_features = ['contextBG/', 'contextBG/', 'contextBG/'];
     reverse_feature = ['contextGB/'];}
 }
-if (task_features[2]=='contextGB/')
-{
-  document.getElementById('changepoint_condition').src = "figs/ChangePoint_GB.png"; 
-}
+// if (task_features[2]=='contextGB/')
+// {
+//   document.getElementById('changepoint_condition').src = "figs/ChangePoint_GB.png"; 
+// }
 // if (rule=='changepoint'){
 //   features = []
 //   test = task_features.slice(0,2)
