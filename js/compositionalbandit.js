@@ -853,7 +853,7 @@ function mysubmit() {
   myDataRef = {"actions": xcollect, "rewards": ycollect, "times": timecollect, "condition": condition, 
     "envs": envscollect, "money": money, "age": age, "gender": gender, "hand": hand,
     "experiment": cond, "instcounter": instcounter, "subjectID": subjectID, "studyID": studyID, "eval": eval_condition,
-    "regrets": regretcollect, "maxrewards": maxrewardscollect, "bestoptions": bestarmscollect};
+    "regrets": regretcollect, "maxrewards": maxrewardscollect, "bestoptions": bestarmscollect, "rewardorder": rewardorder};
   // save data as JSONs
   saveData(JSON.stringify(myDataRef))
   //change page
