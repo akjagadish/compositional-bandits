@@ -5,6 +5,9 @@
  */
 
 /*! normalize.css v3.0.0 | MIT License | git.io/normalize */
+/* ul {
+  font: 25px "Helvetica Neue", Helvetica, Arial, sans-serif;
+  } */
 html {
   font-family: sans-serif;
   -webkit-text-size-adjust: 100%;
@@ -118,6 +121,12 @@ textarea {
 }
 button {
   overflow: visible;
+  /* position: relative;
+  margin: auto; */
+  /* margin:auto;
+  display:block; */
+  display: inline-block;
+  /* margin: 0 auto; */
 }
 button,
 select {
@@ -361,8 +370,15 @@ h6,
   font-family: inherit;
   font-weight: 500;
   line-height: 1.1;
+  /* color: #007; */
   color: inherit;
+
 }
+textarea {
+  font: 400 13.3333px monospace;
+}
+
+
 h1 small,
 h2 small,
 h3 small,

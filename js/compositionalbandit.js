@@ -10,8 +10,10 @@
 
 //data storage ref
 var myDataRef = [], //new Firebase('https://exampleoffirebase.firebaseio.com/'),
-  nReps = 1, // number of repeats (of tasks)
-  ntrials = 2,//number of trials
+  rule = 'add', // 'add' or 'changepoint' rule for compositions
+  nReps = 4, // number of training repeats (of tasks)
+  matchTasks = true, // adjust paradigm for loo
+  ntrials = 5,//number of trials
   //nTasks = 3,// number of Tasks
   narms = 6, // number of arms
   trial = 0,//trial counter
@@ -19,27 +21,40 @@ var myDataRef = [], //new Firebase('https://exampleoffirebase.firebaseio.com/'),
   task = 0, // task counter
   out = 0,//outcome
   totalscore = 0,//total score
+  percentrew = 0,//percent reward
   index = 0,//index
   age = 0,//age of participant
   gender = 0,//gender of particpant
   recontact = false,//do they want to be recontacted
   instcounter = 0,//instruction counter
   overallscore = 0,//overall score
+  overallpercentreward = 0, // overall percent reward
   xcollect = [],//collecting the selected position
   ycollect = [],//collecting the returned output
+  regretcollect = [],//collecting the regret
   timecollect = [],//collection the timestamps
-  numcollect = [],//collecting the chosen functions
+  envscollect = [],//collecting the chosen functions
   fdata,//for loading gp samples
   x = [],//underlying position
   y = [],//underlying outcome
+  bestarmscollect = [], // collection best arms
+  maxrewardscollect = [], // collection max rewards
   timeInMs = 0,//reaction time
-  cond = permute(['compositional'])[0],// 'compositional','noncompositional'])[0];
-  linstruc = ['pos', 'neg'],
-  perstruc = ['even', 'uneven'],
-  compositionalstruc = ['poseven', 'posuneven', 'negeven', 'neguneven'],
+  cond = permute(['compositional','noncompositional', 'loocompositional'])[0], //permute(['compositional','noncompositional', 'loocompositional'])[0];
+  linstruc = permute(['pos', 'neg']),
+  perstruc = permute(['even', 'odd']),
+  compositionalstruc = ['poseven', 'posodd', 'negeven', 'negodd'],
   nfuns = linstruc.length + perstruc.length,
-  fullurl = document.location.href
+  fullurl = document.location.href,
+  completion_code = "70E96E16",
+  money_coeffs = {'noncompositional': 0.002, 'compositional': 0.0007, 'loocompositional': 0.0014};
+  if ((cond == 'loocompositional') && (matchTasks==true)){
+    money_coeffs[cond] = money_coeffs[cond] - 0.0007;
+    nReps = 6;
+  };
+  coeff = money_coeffs[cond]
 
+const base_pay = 2.
 
 var condition = [];
 if (cond == 'compositional') {
@@ -102,13 +117,21 @@ if (cond == 'loocompositional') {
   // concat eval tasks
   var eval_condition = condition.slice(nTrain, nTasks)
   condition = permute(condition.slice(0, nTrain))
+  if ((matchTasks == true) && (nReps==6)){
+    extra_condition = condition[0];
+    condition.push(extra_condition);
+    nTasks = nTasks+1 }
   condition = condition.concat(eval_condition)
 }
 
 // total number of tasks
 const nSubtasks = nTasks * nSubtasksPerTask
-
-//////// Generate blocks
+// casino_id
+change('q2icheck2', nSubtasksPerTask)
+if (cond ==  'noncompositional'){
+    change('test_change', "")
+}
+////// Generate blocks
 function makeCompositionBlocks(functions, lin, per) {
   var linper = lin + per
   functions = functions.concat(lin);
@@ -120,48 +143,48 @@ function makeCompositionBlocks(functions, lin, per) {
 var features;
 var featureorder = Math.floor(Math.random() * 2);
 
-if (cond == 'compositional' || cond == 'loocompositional') {
+if ((cond == 'compositional') || (cond == 'loocompositional')) {
   if (featureorder == 0) {
-    task_features = ['square', 'triangle', 'both'] 
+    task_features = ['contextG/', 'contextR/', 'contextRG/']; 
+    var company_names = ['Green Geeks', 'Blue Lagoons', 'Combined'];
   }
   if (featureorder == 1) {
-    task_features = ['triangle', 'square', 'both'] 
+    task_features = ['contextR/', 'contextG/', 'contextRG/'];
+    var company_names = ['Blue Lagoons', 'Green Geeks', 'Combined'];
   }
 }
 
 if (cond == 'noncompositional') {
-  task_features = ['both', 'both', 'both'];
+  task_features = ['contextRG/', 'contextRG/', 'contextRG/'];
+  var company_names = ['Combined', 'Combined', 'Combined']
 }
 
 features = Array(nTasks).fill(task_features)
 
 // choosing functions for each subtask from stored functions
 var gpn = [];
-for (var i = 1; i <= 100; i++) {
+for (var i = 0; i < 100; i++) {
   gpn.push(i);
 }
 gpn = permute(gpn).slice(0, nSubtasks);
 
 function load_rewards(fdata){
-  for (i = 0; i < narms; i++) {
-    //x positions
-    x[i] = fdata[i].x;
-    //y outcomes
-    y[i] = fdata[i].y;
-}
+  //x positions
+  x = fdata.x;
+  //y outcomes
+  y = fdata.y;
 }
 
-
-var letter = '<input type="image" src="letters/',//the letter
-  pspecs = '.png"  width="120" height="120"',//size of box
+var letters = '<input type="image" src="letters/',//the letter
+  pspecs = '.png"  width="115" height="115"',//size of box
   //gpn=randomNum(1,100);//random function selection
-  jsonstring = "envs/" + condition[0][subtask] + gpn[subtask] + ".json";//get the string of uploaded json
+  jsonstring = "envs/" + rule + "/" + condition[0][nSubtasksPerTask-1] + "/" + condition[0][subtask%nSubtasksPerTask] + gpn[task] + ".json";//get the string of uploaded json
 
 var jqxhr = $.getJSON(jsonstring, function (data) {
   load_rewards(data)});
 //borders for selections
 var borders = ['border="1">', 'border="1">', 'border="1">', 'border="1">', 'border="1">', 'border="1">'];//, 'border="1">', 'border="1">'];
-
+letter = letters + features[task][subtask % nSubtasksPerTask]
 //leter boxes and their borders
 //var b1 = letter + 'A' + pspecs + borders[0],
 var b2 = letter + 'S' + pspecs + borders[0],
@@ -180,6 +203,8 @@ for (var i = 0; i < nSubtasks; i++) {
   ycollect[i] = Array.apply(null, Array(0)).map(Number.prototype.valueOf, -99);
   //timestamp collection
   timecollect[i] = Array.apply(null, Array(0)).map(Number.prototype.valueOf, -99);
+  //regrets from each trial
+  regretcollect[i] = Array.apply(null, Array(0)).map(Number.prototype.valueOf, -99);
 }
 
 
@@ -194,9 +219,27 @@ function clickStart(hide, show) {
   window.scrollTo(0, 0);
 }
 
+// 
+function ConditionSwitch(hide) {
+  document.getElementById(hide).style.display = 'none';
+  if ((cond == 'compositional') || (cond == 'loocompositional')){
+    document.getElementById('page7a').style.display = 'block';
+  } 
+  if (cond == 'noncompositional'){
+    document.getElementById('page7b').style.display = 'block';
+  }
+  window.scrollTo(0, 0);
+  
+}
+
 //changes inner HTML of div with ID=x to y
 function change(x, y) {
   document.getElementById(x).innerHTML = y;
+}
+
+// color text
+function color(id, col) {
+  document.getElementById(id).style.color = col;
 }
 
 //Hides div with id=x
@@ -279,35 +322,133 @@ function turkGetParam(name) {
   }
  }
 }
-var turkid = turkGetParam('workerId');  
 
-function instructioncheck() {
-  // begintrial();
-  // clickStart('page7', 'page8');
-  //check if correct answers are provided
-  if (document.getElementById('icheck1').checked) { var ch1 = 1 }
-  if (document.getElementById('icheck2').checked) { var ch2 = 1 }
-  if (document.getElementById('icheck3').checked) { var ch3 = 1 }
-  //are all of the correct
-  var checksum = 3; //ch1 + ch2 + ch3;
-  if (checksum === 3) {
-    //if correct, continue
-    begintrial();
-    clickStart('page7', 'page8');
-    //alert
-    alert('Great, you have answered all of the questions correctly. The study will now start.');
-  } else {
-    instcounter++;
-    //if one or more answers are wrong, raise alert box
-    alert('You have answered some of the questions wrong. Please try again.');
-    //go back to instructions
-    clickStart('page7', 'page4');
+function getQueryVariable(variable)
+{
+    var query = window.location.search.substring(1);
+    var vars = query.split("&");
+    for (var i=0;i<vars.length;i++) {
+        var pair = vars[i].split("=");
+        if(pair[0] == variable){return pair[1];}
+    }
+    return(false);
+}
+
+// get subject ID
+if (window.location.search.indexOf('PROLIFIC_PID') > -1) {
+  var subjectID = getQueryVariable('PROLIFIC_PID');
+}
+// If no ID is present, generate one using random numbers - this is useful for testing
+else {
+  var subjectID = 'test-' + Math.floor(Math.random() * (2000000 - 0 + 1)) + 0; 
+}
+// STUDY ID
+if (window.location.search.indexOf('STUDY_ID') > -1) {
+    var studyID = getQueryVariable('STUDY_ID');
+}
+else 
+{ var studyID = 'data'}
+
+
+var elem = document.documentElement;
+
+// View in fullscreen 
+function openFullscreen(start, landing) {
+  if (elem.requestFullscreen) {
+    elem.requestFullscreen();
+  } else if (elem.webkitRequestFullscreen) { /* Safari */
+    elem.webkitRequestFullscreen();
+  } else if (elem.msRequestFullscreen) { /* IE11 */
+    elem.msRequestFullscreen();
   }
+  clickStart(start, landing);
+}
+
+function colorWrongAnswer(question, col){
+  const rbs = document.querySelectorAll('input[name="'+question+'\"]');
+  for (const rb of rbs) {
+      if (rb.checked) {
+          color(question+rb.id, col) 
+          break;
+      }
+    }
+}
+
+function checkOnPage(page){
+  if (document.getElementById(page).style.display == 'block'){return true}
+  else {return false}
+}
+
+function changeColor(element, color){
+  document.getElementById(element).style.color = color;
+}
+
+var flag = 0;
+function instructioncheck() {
+
+  //check if correct answers are provided
+  if (document.getElementById('icheck1').checked) { var ch1 = 1; color('q1icheck1', 'green') } 
+  else{colorWrongAnswer("q1", 'red')}
+  if (document.getElementById('icheck2').checked) { var ch2 = 1; color('q2icheck2',  'green') }
+  else{colorWrongAnswer("q2", 'red')}
+  if (document.getElementById('icheck3').checked) { var ch3 = 1; color('q3icheck3', 'green') }
+  else{colorWrongAnswer("q3", 'red')}
+  if (document.getElementById('icheck4').checked) { var ch4 = 1; color('q4icheck4', 'green') }
+  else{colorWrongAnswer("q4", 'red')}
+  
+  //are all of the correct
+  if ((cond == 'compositional') || (cond == 'loocompositional')){
+    if (document.getElementById('icheck5').checked) { var ch5 = 1; color('q5icheck5', 'green') }
+    else{colorWrongAnswer("q5", 'red')}
+    var checksum = ch1 + ch2 + ch3 + ch4 + ch5;
+    var criterion = 5;
+  } else {
+    var checksum = ch1 + ch2 + ch3 + ch4;
+    var criterion = 4;
+  }
+  
+
+  // indicate correct answers
+  ++flag; 
+  clickStart('page8', 'page8');
+  change("check", "Continue")
+
+  // page transition 
+  if ((checksum === criterion) && (flag == 2)) {
+    //if correct, continue 
+    begintrial();
+    clickStart('page8', 'page9');
+    // alert
+    alert('Great, you have answered all of the questions correctly. The study will now start.');
+  } 
+  else { 
+      if (flag == 2) {
+        instcounter++;
+        colorWrongAnswer("q1", '#333333')
+        colorWrongAnswer("q2", '#333333')
+        colorWrongAnswer("q3", '#333333')
+        colorWrongAnswer("q4", '#333333')
+        //if one or more answers are wrong, raise alert box
+        alert('You have answered some of the questions wrong. Please try again.');
+        // go back to instructions
+        clickStart('page8', 'page2');
+        flag = 0;
+        
+    }
+  }
+
+}
+
+// returns argmax of an array
+function argMax(array) {
+  return [].map.call(array, (x, i) => [x, i]).reduce((r, a) => (a[0] > r[0] ? a : r))[1];
 }
 
 ////////////////////////////////////////////////////////////////////////
 //Experiment
 ////////////////////////////////////////////////////////////////////////
+//var turkid = turkGetParam('workerId'); 
+change("completioncode", completion_code);
 
 //this function initializes a trial
 function begintrial() {
@@ -327,37 +468,37 @@ function begintrial() {
     //   myfunc(0);
     // }
     //same spiel if key equals S      
-    if (e.which == 115 & returnpressed == 0) {
+    if ((e.which == 115 || e.which == 83) && returnpressed == 0) {
       returnpressed = 1;
       timeInMs = Date.now() - timeInMs;
       myfunc(0);
     }
     //same spiel if key equals D      
-    if (e.which == 100 & returnpressed == 0) {
+    if ((e.which == 100 || e.which == 68) && returnpressed == 0) {
       returnpressed = 1;
       timeInMs = Date.now() - timeInMs;
       myfunc(1);
     }
     //same spiel if key equals F       
-    if (e.which == 102 & returnpressed == 0) {
+    if ((e.which == 102 || e.which == 70) && returnpressed == 0) {
       returnpressed = 1;
       timeInMs = Date.now() - timeInMs;
       myfunc(2);
     }
     //same spiel if key equals J
-    if (e.which == 106 & returnpressed == 0) {
+    if ((e.which == 106 || e.which == 74) && returnpressed == 0) {
       returnpressed = 1;
       timeInMs = Date.now() - timeInMs;
       myfunc(3);
     }
     //same spiel if key equals K      
-    if (e.which == 107 & returnpressed == 0) {
+    if ((e.which == 107 || e.which == 75) && returnpressed == 0) {
       returnpressed = 1;
       timeInMs = Date.now() - timeInMs;
       myfunc(4);
     }
     //same spiel if key equals L      
-    if (e.which == 108 & returnpressed == 0) {
+    if ((e.which == 108 || e.which == 76) && returnpressed == 0) {
       returnpressed = 1;
       timeInMs = Date.now() - timeInMs;
       myfunc(5);
@@ -388,16 +529,17 @@ function drawletters() {
 drawletters();
 
 
-function drawfeature() {
-  const task = Math.floor((subtask)/nSubtasksPerTask)
-  if (features[task][subtask % nSubtasksPerTask] == 'both') { var spec = '.png"  width="240" height="120"' };
-  if (features[task][subtask % nSubtasksPerTask] != 'both') { var spec = '.png"  width="120" height="120"' };
-  var f = letter + features[task][subtask % nSubtasksPerTask] + spec + borders[0];
-  change('feature', f);
-}
+// function drawfeature() {
+//   // const task = Math.floor((subtask)/nSubtasksPerTask)
+//   if (features[task][subtask % nSubtasksPerTask] == 'both') { var spec = '.png"  width="230" height="115"' };
+//   if (features[task][subtask % nSubtasksPerTask] != 'both') { var spec = '.png"  width="115" height="115"' };
+//   var f = letter + features[task][subtask % nSubtasksPerTask] + spec + borders[0];
+//   change('feature', f);
+//   letter = letters + features[task][subtask % nSubtasksPerTask]
+// }
 
 //do this once at start
-drawfeature();
+//drawfeature();
 
 
 //funmction that exectutes the bandit
@@ -408,10 +550,19 @@ function myfunc(inp) {
     if (inp == i) {
       //return output for that location plus normally distributed noise
       out = y[i] + myNorm() * 0.1;
+      out = Math.max(0., out)
       //collect corresponding location, it's only important for R to JS differences
       xcollect[subtask][trial] = x[i];
+      //collect regrets
+      regretcollect[subtask][trial] = Math.max(...y) - y[i];
+      //percent rewards
+      percentrew = percentrew + y[i]/Math.max(...y);
     }
   }
+  // arm with best reward (arg max)
+  bestarmscollect[subtask] = argMax(y)
+  // collect max rewards
+  maxrewardscollect[subtask] = Math.max(...y)
   //collect returned value
   ycollect[subtask][trial] = out;
   //collect reaction time
@@ -432,15 +583,16 @@ function myfunc(inp) {
   //show rounded value
   var outshow = toFixed(out, 1);
   //display on screen
-  change('outcome', "Outcome: " + outshow);
+  change('outcome', "You just got " + outshow + " coins!");
+  changeColor('outcome', 'rgb(228, 196, 13)')//rgb(207, 177, 8)')
   //set a time out, after 2 seconds start the next trial
-  setTimeout(function () { nexttrial(); }, 2000);
+  setTimeout(function () { nexttrial(); }, 500);
 }
 
 
 function nexttrial() {
   //check if trials are smaller than the maximum trial number
-  if (trial + 1 < ntrials) {
+  if ((trial + 1) < ntrials) {
     //set the borders back to normal
     borders = ['border="1">', 'border="1">', 'border="1">', 'border="1">', 'border="1">', 'border="1">', 'border="1">', 'border="1">'];
     //change the letters again
@@ -459,7 +611,7 @@ function nexttrial() {
     //track total score
     totalscore = totalscore + out;
     //to be inserted total score
-    var inserts = 'Total Score: ' + toFixed(totalscore, 1);
+    var inserts = 'Total Coins Earned: ' + toFixed(totalscore, 1);
     //show total score on screen
     change('score', inserts);
     //increment trial number
@@ -469,32 +621,64 @@ function nexttrial() {
     //show on screen
     change('remain', insertt);
     //change ooutcome back to please choose an option
+    changeColor('outcome', 'black')
     change('outcome', "Please choose an option!");
   }
   //if trial numbers exceed the total number, check if more blocks are available
-  else if (trial + 1 == ntrials & subtask + 1 < nSubtasks) {
+  else if (((trial + 1) == ntrials) && ((subtask + 1) < nSubtasks)) {
     totalscore = totalscore + out;
+    //compute percent regret
+    overallpercentreward = (percentrew/(ntrials*nSubtasksPerTask))*100
     //tell them that this subtask is over
     if ((subtask + 1) % nSubtasksPerTask == 0) {
-      alert("You scored " + toFixed(totalscore, 1) + " in this task. Task " + (task+1) + " out of " + nTasks + " is over. Please press return to continue with the next task.")
+      // ALERT METHOD
+      //"You scored " + toFixed(totalscore, 1) + " in this task.
+      //alert("Task " + (task+1) + " out of " + nTasks + " is over. You achieved " + toFixed(overallpercentreward, 0) + 
+      //" % of best total score. Please press return to continue with the next task.")
+      // SUBPAGE METHOD
+      const taskcomplete  = "Casino " + (task+1) + " out of " + nTasks + " now visited!" 
+      // const rewardtext =  "You earned " + toFixed(overallpercentreward, 0) + "% of the maximum possible coins in the last casino.";
+      var moneynow = money_earned(base_pay, overallscore+totalscore);
+      // const currentmoney = "Total money earned so far $" + toFixed(moneynow, 1);
+      clickStart('page10', 'showperformance');
+      
+      //show total score and num of tasks completed on screen
+      change('percentreward', toFixed(overallpercentreward, 0));
+      change('numtasks', taskcomplete);
+      change('realmoney', toFixed(moneynow, 1));
+      const taskstatus = "Casino " + (task+2);
+      change('task_number', taskstatus)
     }
     //start next subtask
     nextblock();
   } else {
     //Otherwise --if blocks exceed total subtask number, then the experiment is over
     alert("The experiment is over. You will now be directed to the next page.")
-    clickStart('page8', 'page9');
+    clickStart('page10', 'page11');
   }
 }
 
 //function to initialize next subtask
 function nextblock() {
+  // alert people about status in the task
+  if (((subtask+1) % nSubtasksPerTask != 0) && nSubtasksPerTask==3){
+    if ((subtask+1) % nSubtasksPerTask == 1) {
+      change('company1', company_names[0]);
+      change('company2', company_names[1]+'!'); 
+      clickStart('page10', 'slotmachinechange')} 
+    else {clickStart('page10', 'composition_machine')}
+  // alert("Let's move to the next slot machine.")
+  }
+  //  else if ((subtask+1) % nSubtasksPerTask == 0) {
+  //   alert("You are done playing all slot machines in this casino!")
+  // }
   //collect the used function number
-  numcollect = numcollect.concat(gpn[subtask]);
-  //update overall score
-  overallscore = overallscore + totalscore;
+  envscollect = envscollect.concat(jsonstring);
   //borders back to normal
   borders = ['border="1">', 'border="1">', 'border="1">', 'border="1">', 'border="1">', 'border="1">', 'border="1">', 'border="1">'];
+  //increment subtask number
+  subtask++;
+  letter = letters + features[task][subtask % nSubtasksPerTask]
   //new letters and boxes
   // b1 = letter + 'A' + pspecs + borders[0];
   b2 = letter + 'S' + pspecs + borders[0];
@@ -503,30 +687,29 @@ function nextblock() {
   b5 = letter + 'J' + pspecs + borders[3];
   b6 = letter + 'K' + pspecs + borders[4];
   b7 = letter + 'L' + pspecs + borders[5];
-  //b8 = letter + ';' + pspecs + borders[7];
+  // b8 = letter + ';' + pspecs + borders[7];
   //draw options
   drawletters();
   //begin a new trial
-  begintrial();
-  //increment subtask number
-  subtask++;
-  drawfeature();
+  //drawfeature();
   //set trial number back to 0
   trial = 0;
-  if ((subtask) % nSubtasksPerTask == 0) {
+  if (subtask % nSubtasksPerTask == 0) {
+    //update overall score
+    overallscore = overallscore + totalscore;
+    // percent reward set back to 0 
+    percentrew = 0;
     //total score back to 0
     totalscore = 0;
     task++;
-    } else {
-      totalscore = totalscore + out; 
-  }
+    } 
   //get json of that environment
-  jsonstring = "envs/" + condition[task][subtask%nSubtasksPerTask] + gpn[task] + ".json";
+  jsonstring = "envs/" + rule + "/" + condition[task][nSubtasksPerTask-1] + "/" + condition[task][subtask%nSubtasksPerTask] + gpn[task] + ".json";
   jqxhr = $.getJSON(jsonstring, function (data) {load_rewards(data)});
-  // //total score back to 0
+  // total score back to 0
   // totalscore = 0;
   //insert total score
-  var inserts = 'Total Score: ' + toFixed(totalscore, 1);
+  var inserts = 'Total Coins Earned: ' + toFixed(totalscore, 1);
   //put on screen
   change('score', inserts);
   //number of trials left
@@ -535,6 +718,26 @@ function nextblock() {
   change('remain', insertt);
   //ask them to choose an outcome
   change('outcome', "Please choose an option!");
+  changeColor('outcome', 'black')
+
+  if (((subtask) % nSubtasksPerTask != 0) && nSubtasksPerTask==3){
+    if ((subtask) % nSubtasksPerTask == 1) {
+      const mouseclicks = document.getElementById('secondsubtask')
+      mouseclicks.addEventListener('click', startSubTask);
+      } 
+    else {
+      const mouseclicks = document.getElementById('compositiontask')
+      mouseclicks.addEventListener('click', startSubTask);
+    }
+  } else {
+    const mouseclicks = document.getElementById('nextcasino')
+    mouseclicks.addEventListener('click', startSubTask);
+  }
+
+}
+
+function startSubTask(){
+  if ((checkOnPage('page10')==true)){begintrial();}
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -552,38 +755,50 @@ function setage(x) {
   return (age)
 }
 
+function sethand(x) {
+  hand = x;
+  return (hand)
+}
+
 function setrecontact(x) {
   recontact = x;
   return (recontact)
 }
 
 function saveData(filedata){
-  var filename = "./data/" + turkid + ".json";  
+  var filename = "./data/" + subjectID + ".json";  
   $.post("save_data.php", {postresult: filedata + "\n", postfile: filename })
 }
 
+function money_earned(base, coins_earned)
+{ money = base + coins_earned*coeff //(0.012/nSubtasksPerTask);
+  money = toFixed(money, 2)
+  return (money)
+}
 function mysubmit() {
-  //add final numcollect
-  numcollect = numcollect.concat(gpn);
-  //change page
-  clickStart('page9', 'page10');
+  //add final envscollected
+  envscollect = envscollect.concat(jsonstring);
   //claculate number of mined emeralds overall
-  var presenttotal = 'You have gained a total score of ' + toFixed(overallscore, 1) + '.';
+  var presenttotal = 'You won a total of ' + toFixed(overallscore, 1) + ' BC coins.';
   //calculate money earned
-  var money = 2 + overallscore * 0.0001;
-  moneyp = toFixed(money, 2);
-  var presentmoney = 'This equals a total payment of $' + moneyp + '. The $2 for your participation will be paid immediately. The rest will be paid within the next few days.';
+  var moneyp = money_earned(base_pay, overallscore)
+  var presentmoney = 'This equals a total payment of £' + moneyp + '. The £' + base_pay +' for your participation will be paid as soon as possible. The rest will be paid within the next few days.';
   //show score and money
   change('result', presenttotal);
   change('money', presentmoney);
-  var experiment = "compbandits1";
+
   //create dictionary with keys values
-  myDataRef = {
-    "actions": xcollect, "rewards": ycollect, "times": timecollect, "condition": condition, 
-    "numcollect": numcollect, "money": money, "age": age, "gender": gender,
-    "experiment": experiment, "instcounter": instcounter, "turkid": turkid };
-  // save data as JSON
+  if ((cond == 'loocompositional') && (matchTasks==false)){
+  cond = 'loocompositional2'
+  }
+  myDataRef = {"actions": xcollect, "rewards": ycollect, "times": timecollect, "condition": condition, 
+    "envs": envscollect, "money": money, "age": age, "gender": gender, "hand": hand,
+    "experiment": cond, "instcounter": instcounter, "subjectID": subjectID, "studyID": studyID, "eval": eval_condition,
+    "regrets": regretcollect, "maxrewards": maxrewardscollect, "bestoptions": bestarmscollect};
+  // save data as JSONs
   saveData(JSON.stringify(myDataRef))
+  //change page
+  clickStart('page11', 'page12');
 }
 ////////////////////////////////////////////////////////////////////////
 //The END
