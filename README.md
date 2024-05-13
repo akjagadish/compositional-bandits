@@ -5,7 +5,7 @@
 Code to run the human experiment for "Zero-shot compositional reasoning in a reinforcement learning setting".
 
 <p align="center">
-  <img src="figures/Experiment.png" />
+  <img src="figs/BanditCity.png" />
 </p>
 
 ## Abstract
